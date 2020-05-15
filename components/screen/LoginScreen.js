@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput, Image} from 'react-native'
+import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput, Image, KeyboardAvoidingView} from 'react-native'
 import GlobalStyles from '../../constants/GlobalStyles';
 import { TextField} from 'react-native-material-textfield'
 import * as Animatable from 'react-native-animatable';
@@ -12,36 +12,47 @@ export default class LoginScreen extends Component {
         password: '',
     }
 
-    // componentDidMount = async () => {
-    //     const percent = await AsyncStorage.getItem('percent');
-    //     const subjects = await AsyncStorage.getItem('subjects');
-    //     if (subjects && subjects.length > 0) {
-    //         this.setState({
-    //             subjects: JSON.parse(subjects),
-    //             minPercent: JSON.parse(percent),
-    //         })
-    //     }
-    // }
+
+    requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    
+    componentDidMount = async () => {
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch("https://us-central1-memefier.cloudfunctions.net/helloWorld", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+
 
     render() {
         return (
             <SafeAreaView style = {GlobalStyles.AndroidSafeArea}>
+
                 <View style = {styles.container}>
                     <View style={styles.header}>
                         <Animatable.Image
                             animation="bounceIn"
-                            duration='1500'
+                            duration= {2000}
                             style={styles.logo}
-                            source={require('../../assets/logo3.png')}
+                            source={require('../../assets/logo.png')}
                             resizeMode="stretch"
                         />
 
                     </View>
+
                     <Animatable.View 
                         style = {styles.footer}
                         animation = "fadeInUpBig"
                         >
-                        <Text style={styles.title}>Welcome</Text>
+                    <KeyboardAvoidingView  style={{flex:1}} behavior='padding'>
+
+        <Text style={styles.title}>Welcome</Text>
                         <TextInput 
                                     placeholder="Username" 
                                     placeholderTextColor="#777"
@@ -57,6 +68,7 @@ export default class LoginScreen extends Component {
                                     onChangeText={ (password) => this.setState({password})  }
                                     value={this.state.password}
                         ></TextInput>
+
                         <View style={styles.rowContainer}>
                             <TouchableOpacity style = {styles.signUp}>
                                 <Text style = {[styles.btnText,{color: '#111'}]}>
@@ -69,8 +81,13 @@ export default class LoginScreen extends Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
+                        </KeyboardAvoidingView>
+
+
                     </Animatable.View>
+
                 </View>
+
             </SafeAreaView>
         
         )
@@ -95,9 +112,11 @@ const styles = StyleSheet.create({
         // alignContent: 'center',
         // textAlign: 'center',
         marginHorizontal: 5,
-        padding: 10,
+        padding: 7,
         flexDirection: "row",
         flex: 1,
+        maxHeight: 50,
+
     },
     signUp: {
         borderColor: "#2196f3",
@@ -105,9 +124,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         marginHorizontal: 5,
-        padding: 10,
+        padding: 7,
         flexDirection: "row",
         flex: 1,
+        maxHeight: 50,
+
     },
     inputBox: {
         backgroundColor: '#eee',
@@ -115,7 +136,8 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         margin: 1,
-        // maxHeight: 60,
+        minHeight: 70,
+        maxHeight: 70,
     },
     title: {
         fontWeight: 'bold',
