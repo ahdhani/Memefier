@@ -48,8 +48,11 @@ counterReducer.js
 <br><br>
 <i>Reducer Snippet</i>
 <pre>
-const initialState = {
+// import the reqeuired Action types
+import {} from './counterTypes.js'
 
+const initialState = {
+    // Create your store here
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -65,4 +68,61 @@ export default (state = initialState, { type, payload }) => {
         return state
     }
 }
+</pre>
+<br><br>counterReducer.js
+<pre>
+import {COUNTER_INCREMENT , COUNTER_DECREMENT} from './counterTypes.js'
+
+const initialState = {
+    // Create your store here
+    number : 10
+}
+
+export default (state = initialState, { type, payload }) => {
+    switch (type) {
+
+    case COUNTER_INCREMENT:
+        return { 
+            ...state, 
+            number : state.number + 1 
+        }
+    case COUNTER_DECREMENT:
+        return {
+            ...state ,
+            number : state.number - 1
+        }
+
+    default:
+        return state
+    }
+}
+</pre>
+
+
+counterActions.js
+<br><br>
+<i>Action Snippet</i>
+<pre>
+// Import thte required Action Types from counterActions
+import {} from './counterActions.js'
+
+export const actionName = (payload) => ({
+    type: type,
+    payload
+})
+</pre>
+<br><br>counterAction.js
+<pre>
+import {COUNTER_INCREMENT , COUNTER_DECREMENT} from './counterActions.js'
+
+export const incrementCounter = () => ({
+    type: COUNTER_INCREMENT ,
+    payload : {}
+})
+
+export const decrementCounter = () => ({
+    type: COUNTER_DECREMENT ,
+    payload : {}
+})
+
 </pre>
