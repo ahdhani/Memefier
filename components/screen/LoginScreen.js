@@ -22,6 +22,14 @@ export default class LoginScreen extends Component {
         .catch(error => console.log('error', error));
     }
 
+    onSignUpClick = () => {
+        let user = {
+            username: this.state.username,
+            password: this.state.password,
+        }
+        this.props.onSignUpClick(user)
+        
+    }
 
     render() {
         return (
@@ -44,7 +52,7 @@ export default class LoginScreen extends Component {
                         animation = "fadeInUpBig"
                         >
 
-                        <Text style={styles.title}>Welcome</Text>
+                        <Text style={styles.title}>Welcome </Text>
                         <TextInput 
                                     placeholder="Username" 
                                     placeholderTextColor="#777"
