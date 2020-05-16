@@ -38,7 +38,7 @@ counterTypes.js
 For all Action Types do : <br>
 export const ACTION_TYPE = 'ACTION_TYPE'
 <br><br>
-<b>counterActions.js</b>
+<b>counterTypes.js</b>
 <pre>
 export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
 export const COUNTER_DECREMENT = 'COUNTER_DECREMENT'
