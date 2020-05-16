@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput, Image, KeyboardAvoidingView} from 'react-native'
+import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput} from 'react-native'
 import GlobalStyles from '../../constants/GlobalStyles';
-import { TextField} from 'react-native-material-textfield'
 import * as Animatable from 'react-native-animatable';
 
 export default class LoginScreen extends Component {
@@ -11,12 +10,6 @@ export default class LoginScreen extends Component {
         username: '',
         password: '',
     }
-
-
-    requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
     
     componentDidMount = async () => {
         const requestOptions = {
@@ -38,7 +31,7 @@ export default class LoginScreen extends Component {
                     <View style={styles.header}>
                         <Animatable.Image
                             animation="bounceIn"
-                            duration= {2000}
+                            // duration= {2000}
                             style={styles.logo}
                             source={require('../../assets/logo.png')}
                             resizeMode="stretch"
@@ -50,9 +43,8 @@ export default class LoginScreen extends Component {
                         style = {styles.footer}
                         animation = "fadeInUpBig"
                         >
-                    <KeyboardAvoidingView  style={{flex:1}} behavior='padding'>
 
-        <Text style={styles.title}>Welcome</Text>
+                        <Text style={styles.title}>Welcome</Text>
                         <TextInput 
                                     placeholder="Username" 
                                     placeholderTextColor="#777"
@@ -81,8 +73,6 @@ export default class LoginScreen extends Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        </KeyboardAvoidingView>
-
 
                     </Animatable.View>
 
