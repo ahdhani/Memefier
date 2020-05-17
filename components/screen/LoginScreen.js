@@ -18,10 +18,7 @@ export default class LoginScreen extends Component {
             method: 'GET',
             redirect: 'follow'
         };
-        fetch("https://us-central1-memefier.cloudfunctions.net/helloWorld", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+
     }
 
 
