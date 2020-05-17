@@ -22,7 +22,8 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : true ,
-            user : payload
+            token : payload.token ,
+            user : payload.user
         }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:

@@ -3,6 +3,8 @@ import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput} fro
 import GlobalStyles from '../../constants/GlobalStyles';
 import * as Animatable from 'react-native-animatable';
 
+import {signIn} from '../../redux'
+
 export default class LoginScreen extends Component {
 
     state = {
