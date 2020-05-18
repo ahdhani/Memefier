@@ -67,7 +67,6 @@ export const loadUser = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 // logged in
-                console.log(user)
                 dispatch({
                     type: USER_LOADED,
                     payload: {
@@ -76,7 +75,6 @@ export const loadUser = () => {
                 })
             } else {
                 // no user
-                console.log("No user logged in")
                 dispatch({
                     type : AUTH_ERROR
                 })
