@@ -80,7 +80,25 @@ export const loadUser = () => {
 
         // const config = setupConfig(getState)
 
+        // For illustrating the time delay
+        setTimeout(function() {
+            dispatch({
+                type: USER_LOADED,
+                payload : {
+                    token : "token" ,
+                    user : {
+                        name : "user" ,
+                        username : "username" ,
+                        age : "21" ,
+                        gender : 1 ,
+                        followers : [] ,
+                        following : []
+                    }
+                }
+            })
+        } , 2000)
 
+/*
         dispatch({
             type: USER_LOADED,
             payload : {
@@ -95,7 +113,7 @@ export const loadUser = () => {
                 }
             }
         })
-
+*/
         // dispatch({
         //     type: AUTH_ERROR
         // })
