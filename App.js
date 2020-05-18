@@ -13,8 +13,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={GlobalStyles.container}>
-        <LoginScreen />
-        {/* <SignUpScreen /> */}
+        {/* <LoginScreen /> */}
+        <SignUpScreen />
         {/* <RootStack /> */}
       </View>
     </Provider>

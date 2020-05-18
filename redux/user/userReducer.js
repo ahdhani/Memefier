@@ -3,16 +3,7 @@ import {    LOGIN_SUCCESS,
 } from "./userType"
 
 const initialState = {
-    user: {
-        username: '',
-        password: '',
-        email: '',
-        phoneNum: '',
-        name: '',
-        age: null,
-        gender: '',
-    }
-
+    user: null,
 }
 
 export default (state = initialState, action) => {

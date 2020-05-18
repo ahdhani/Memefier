@@ -164,6 +164,8 @@ const styles = StyleSheet.create({
         left: 100,
         height: 200,
         width: 200,
+        alignSelf: 'center',
+
     },
     rowContainer: {
         flexDirection: 'row',
