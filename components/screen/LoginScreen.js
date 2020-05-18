@@ -21,6 +21,14 @@ export default class LoginScreen extends Component {
 
     }
 
+    onSignUpClick = () => {
+        let user = {
+            username: this.state.username,
+            password: this.state.password,
+        }
+        this.props.onSignUpClick(user)
+        
+    }
 
     render() {
         return (
@@ -43,7 +51,7 @@ export default class LoginScreen extends Component {
                         animation = "fadeInUpBig"
                         >
 
-                        <Text style={styles.title}>Welcome</Text>
+                        <Text style={styles.title}>Welcome </Text>
                         <TextInput 
                                     placeholder="Username" 
                                     placeholderTextColor="#777"
@@ -155,6 +163,8 @@ const styles = StyleSheet.create({
         left: 100,
         height: 200,
         width: 200,
+        alignSelf: 'center',
+
     },
     rowContainer: {
         flexDirection: 'row',

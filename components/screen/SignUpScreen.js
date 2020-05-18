@@ -1,86 +1,221 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput} from 'react-native'
+import {  StyleSheet, View} from 'react-native'
+import { Container , Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker} from 'native-base'
 import GlobalStyles from '../../constants/GlobalStyles';
 import * as Animatable from 'react-native-animatable';
+
+// const Items = Picker.Item;
+
+
 
 export default class SignUp extends Component {
 
     state = {
         username: '',
         password: '',
-        name: '',
-        age: '',
+        phone: null,
+        firstname: '',
+        lastname: '',
+        gender: 'M',
+        dob: new Date(),
+        usernameError: '',
+        passwordError: '',
+        firstNameError: false,
+        lastNameError: false,
+
     }
     
-    componentDidMount = async () => {
-        const requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-        fetch("https://us-central1-memefier.cloudfunctions.net/helloWorld", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    // componentDidMount = async () => {
+    //     const requestOptions = {
+    //         method: 'GET',
+    //         redirect: 'follow'
+    //     };
+    //     fetch("https://us-central1-memefier.cloudfunctions.net/helloWorld", requestOptions)
+    //     .then(response => response.text())
+    //     .then(result => console.log(result))
+    //     .catch(error => console.log('error', error));
+    // }
+
+    isValidUsername = () => {
+        if(this.state.username!='')
+        {
+            this.setState({
+                usernameError: false,
+            })
+            return true;
+        }
+        this.setState({
+            usernameError: 'Atleast 8 characters',
+        })
+        return false;
     }
 
+    isValidPassword = () => {
+        if(this.state.password.length >= 8)
+        {
+            this.setState({
+                passwordError: '',
+            })
+            return true;
+        }
+        this.setState({
+            passwordError: 'Atleast 8 characters',
+        })
+        return false;
+    }
+
+    isValidFirstName = () => {
+        if(this.state.firstname!='')
+        {
+            this.setState({
+                firstNameError: false,
+            })
+            return true;
+        }
+        this.setState({
+            firstNameError: true,
+        })
+        return false;
+    }
+
+    isValidLastName = () => {
+        if(this.state.lastname!='')
+        {
+            this.setState({
+                lastNameError: false,
+            })
+            return true;
+        }
+        this.setState({
+            lastNameError: true,
+        })
+        return false;
+    }
+
+    onSignUpClick = () => {
+        if(this.isValidUsername() && this.isValidPassword() &&
+         this.isValidFirstName() && this.isValidLastName())
+        {
+            let user = {
+                username: this.state.username,
+                password: this.state.password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                dob: this.state.dob,
+                phone: this.state.phone,
+                gender: this.state.gender,
+            }
+            alert(user);
+            console.log(user);
+        }
+            
+    }
 
     render() {
         return (
-            <SafeAreaView style = {GlobalStyles.AndroidSafeArea}>
 
-                <View style = {styles.container}>
-                    <View style={styles.header}>
-                        <Animatable.Image
+                <Container style={styles.container}>
+                    <Header>
+                        <Left style={{padding: 10}}>
+                            {/* <Icon name='left' /> */}
+                        </Left>
+                        <Body>
+                            <H2 style={{fontWeight: 'bold',}}>SignUp</H2>
+                            {/* <Text>SignUp</Text> */}
+                        </Body>
+                        <Right/>
+                    </Header>
+        
+                    <Content style={{bottom: 0,position: 'absolute',width: '100%',backgroundColor: "#05375a",}}>
+                    <Animatable.Image
                             animation="bounceIn"
                             // duration= {2000}
                             style={styles.logo}
                             source={require('../../assets/logo.png')}
                             resizeMode="stretch"
                         />
-
-                    </View>
-
-                    <Animatable.View 
+                    <Animatable.View
                         style = {styles.footer}
-                        animation = "fadeInUpBig"
-                        >
-
-                        <Text style={styles.title}>Welcome</Text>
-                        <TextInput 
-                                    placeholder="Username" 
-                                    placeholderTextColor="#777"
-                                    style = {styles.inputBox} 
-                                    //  underlineColorAndroid="transparent"
-                                    onChangeText={ (username) => this.setState({username})  }
-                                    value={this.state.username}
-                        ></TextInput>
-                        <TextInput 
-                                    placeholder="Password" 
-                                    placeholderTextColor="#777"
-                                    style = {styles.inputBox} 
-                                    onChangeText={ (password) => this.setState({password})  }
-                                    value={this.state.password}
-                        ></TextInput>
-
-                        <View style={styles.rowContainer}>
-                            <TouchableOpacity style = {styles.signUp}>
-                                <Text style = {[styles.btnText,{color: '#111'}]}>
-                                    SignUp
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style = {styles.signIn}>
-                                <Text style = {styles.btnText}>
-                                    SignIn
-                                </Text>
-                            </TouchableOpacity>
+                        animation = "fadeInUpBig">
+                    <Form>
+                        <Item stackedLabel error={this.state.usernameError!==''}>
+                            <Label>Username</Label>
+                            <Input keyboardType='email-address' error="#f99"
+                                onChangeText={(text) => this.setState({username: text})  }/>
+                        </Item>
+                        <Item stackedLabel error={this.state.passwordError!==''}>
+                            <Label>Password</Label>
+                            <Input onChangeText={(text) => this.setState({password: text})  }
+                                  error="#f99"  />
+                        </Item>
+                        <View style={{flexDirection:'row'}} >
+                            <Item stackedLabel style={{flex: 1}} error={this.state.firstNameError}>
+                                <Label>First Name</Label>
+                                <Input error="#f99" onChangeText={(text) => this.setState({firstname: text})  }/>
+                           </Item>
+                            <Item stackedLabel style={{flex: 1}} error={this.state.lastNameError}>
+                                <Label>Last Name</Label>
+                                <Input error="#f99" onChangeText={(text) => this.setState({lastname: text})  }/>
+                            </Item>
                         </View>
-
+                    
+                    
+                        <View style={{flexDirection:'row'}}>
+                            <Item stackedLabel style={{flex: 1}}>
+                                <Label>Date of Birth</Label>
+                                <DatePicker
+                                    defaultDate={new Date(2000, 1, 1)}
+                                    minimumDate={new Date(1940, 1, 1)}
+                                    maximumDate={new Date(2020, 12, 31)}
+                                    locale={"en"}
+                                    timeZoneOffsetInMinutes={undefined}
+                                    modalTransparent={false}
+                                    animationType={"fade"}
+                                    androidMode={"spinner"}
+                                    placeHolderText="Select"
+                                    // textStyle={{ color: "green" }}
+                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                    onDateChange={ (date) => this.setState({dob: date})  }
+                                    disabled={false}
+                                    />
+                            </Item>
+                            <Item stackedLabel style={{flex: 1}}>
+                                <Label>Gender</Label>
+                                <Picker
+                                    iosHeader="Select one"
+                                    mode="dropdown"
+                                    selectedValue={this.state.gender}
+                                    onValueChange={(itemValue,itemIndex) => this.setState({gender: itemValue})  }
+                                    >
+                                        <Picker.Item label="Male" value="M" />
+                                        <Picker.Item label="Female" value="F" />
+                                        <Picker.Item label="Other" value="O" />
+                                    </Picker>
+                            </Item>
+                        </View>
+                        <Item stackedLabel>
+                            <Label>Phone Number</Label>
+                            <Input placeholder='Optional' placeholderTextColor='#ccc' 
+                                    keyboardType='phone-pad'
+                                    onChangeText={(text) => this.setState({phone: text})  }/>
+                        </Item>
+                    </Form>
+                    <View style={{flexDirection: 'row',marginTop: 30,marginLeft: 10}}>
+                            <Left>
+                                <Text>Sign in with Google</Text>
+                            </Left>
+                            <Right>
+                                <Button info rounded block onPress ={() =>this.onSignUpClick()}>
+                                     <H3 style={{color: '#fff'}}>
+                                         Signup
+                                     </H3>
+                                </Button>
+                            </Right>
+                    </View>
+        {/* <Text>{this.state.usernameError}</Text> */}
                     </Animatable.View>
-
-                </View>
-
-            </SafeAreaView>
-        
+                    </Content>
+                </Container>
         )
     }
 
@@ -88,79 +223,19 @@ export default class SignUp extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
         backgroundColor: "#05375a",
-    },
-    btnText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: "#fff"
-    },
-    signIn: {
-        backgroundColor: "#2196f3",
-        borderRadius: 10,
-        justifyContent: 'center',
-        // alignContent: 'center',
-        // textAlign: 'center',
-        marginHorizontal: 5,
-        padding: 7,
-        flexDirection: "row",
-        flex: 1,
-        maxHeight: 50,
-
-    },
-    signUp: {
-        borderColor: "#2196f3",
-        borderWidth: 1,
-        borderRadius: 10,
-        justifyContent: 'center',
-        marginHorizontal: 5,
-        padding: 7,
-        flexDirection: "row",
-        flex: 1,
-        maxHeight: 50,
-
-    },
-    inputBox: {
-        backgroundColor: '#eee',
-        flexDirection: "row",
-        flex: 1,
-        padding: 10,
-        margin: 1,
-        minHeight: 70,
-        maxHeight: 70,
-    },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        // width: 300,
-        flex: 1,
-        padding: 10,
-        marginBottom: 10,
-    },
-    header: {
-        padding: 10,
-        flex: 3,
-        alignContent: 'center',
-        justifyContent: 'center',
-        // backgroundColor: 'blue',
     },
     footer: {
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         padding: 20,
-        flex: 2,
-        // marginBottom: 20,
     },
     logo: {
-        left: 100,
-        height: 200,
-        width: 200,
+        height: 100,
+        width: 100,
+        alignSelf: 'center',
+        margin: 40,
     },
-    rowContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        marginTop: 15,
-    }
 });

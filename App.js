@@ -43,9 +43,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={GlobalStyles.container}>
-        {/* <Text>Open up App.js to start working on your app!</Text> */}
-        <LoginScreen />
-        {/* <SignUpScreen /> */}
+        {/* <LoginScreen /> */}
+        <SignUpScreen />
         {/* <RootStack /> */}
       </View>
     </Provider>
