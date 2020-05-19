@@ -1,17 +1,18 @@
-import React, { useEffect ,Component } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './components/screen/LoginScreen'
 import SignUpScreen from './components/screen/SignUpScreen'
 import ProfileScreen from './components/screen/SignUpScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-
-import { Provider } from 'react-redux'
+import { Image } from 'native-base';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { Provider } from 'react-redux'
 import store from './redux/store'
+import { loadUser } from './redux'
 
 import * as firebase from 'firebase'
 
@@ -32,7 +33,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-import { loadUser } from './redux'
 
 
 RootStack = () => {
@@ -41,33 +41,33 @@ RootStack = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator 
+      <Stack.Navigator
         initialRouteName="LoginScreen"
         screenOptions={{
-        gestureEnabled: true
-      }}>
+          gestureEnabled: true
+        }}>
 
-          <Stack.Screen 
-            name="LoginScreen" 
-            component={LoginScreen}
-            options = {{
-              headerShown: false
-            }} 
-          />
-          <Stack.Screen 
-            name="SignUpScreen" 
-            component={SignUpScreen}
-            options = {{
-              headerShown: false
-            }} 
-          />
-          <Stack.Screen 
-            name="ProfileScreen" 
-            component={ProfileScreen}
-            options = {{
-              headerShown: false
-            }} 
-          />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{
+            headerShown: false
+          }}
+        />
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -80,37 +80,46 @@ export default class App extends Component {
     isReady: false,
   }
 
-      componentDidMount = async () => {
+  componentDidMount = async () => {
 
-        await Font.loadAsync({
-          Roboto: require('native-base/Fonts/Roboto.ttf'),
-          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-          ...Ionicons.font,
-        });
-        this.setState({ isReady: true });
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ isReady: true });
     store.dispatch(loadUser())
 
 
-  // // @Firebase create User Function
-  // firebase.auth().createUserWithEmailAndPassword("e2@e.com" , "1234567")
-  //  .then( user => console.log(user))
-  //  .catch(error => console.log("Can't create" , error.message))
-    
+    // // @Firebase create User Function
+    // firebase.auth().createUserWithEmailAndPassword("e2@e.com" , "1234567")
+    //  .then( user => console.log(user))
+    //  .catch(error => console.log("Can't create" , error.message))
 
-      }
 
-      render(){
-        if(this.state.isReady)
-          return (
-            <Provider store={store}>
-                <RootStack />
-            </Provider>
-          );
-        else
-            return (
-              <Text>akjfdb</Text>
-            )
-      }
+  }
+
+  render() {
+    if (this.state.isReady)
+      return (
+        <Provider store={store}>
+          <RootStack />
+        </Provider>
+      );
+    else
+      return (
+        <View>
+
+{/* SPLASH SCREEN */}
+
+          {/* <Image
+            style={styles.logo}
+            source={require('./assets/logo.png')}
+            resizeMode="stretch"
+          /> */}
+        </View>
+      )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -120,4 +129,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  }
+
 });

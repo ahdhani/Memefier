@@ -2,12 +2,6 @@ import React, { Component } from 'react'
 import {  StyleSheet, View} from 'react-native'
 import { Container , Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title} from 'native-base'
 import * as Animatable from 'react-native-animatable';
-// import * as Font from 'expo-font';
-// import { Ionicons } from '@expo/vector-icons';
-
-// const Items = Picker.Item;
-
-
 
 export default class SignUp extends Component {
 
@@ -25,16 +19,6 @@ export default class SignUp extends Component {
         lastNameError: false,
 
     }
-    
-    // componentDidMount = async () => {
-
-    //     await Font.loadAsync({
-    //       Roboto: require('native-base/Fonts/Roboto.ttf'),
-    //       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    //       ...Ionicons.font,
-    //     });
-    //     // this.setState({ isReady: true });
-    //   }
 
     isValidUsername = () => {
         if(this.state.username!='')
@@ -46,7 +30,11 @@ export default class SignUp extends Component {
         }
         this.setState({
             usernameError: 'Atleast 8 characters',
-        })
+        },() =>
+        Toast.show({
+            text: this.state.usernameError,
+            buttonText: 'Okay'
+          }))
         return false;
     }
 
@@ -60,7 +48,11 @@ export default class SignUp extends Component {
         }
         this.setState({
             passwordError: 'Atleast 8 characters',
-        })
+        },() =>
+        Toast.show({
+            text: this.state.passwordError,
+            buttonText: 'Okay'
+          }))
         return false;
     }
 
@@ -74,7 +66,11 @@ export default class SignUp extends Component {
         }
         this.setState({
             firstNameError: true,
-        })
+        },() =>
+        Toast.show({
+            text: this.state.firstNameError,
+            buttonText: 'Okay'
+          }))
         return false;
     }
 
@@ -88,7 +84,11 @@ export default class SignUp extends Component {
         }
         this.setState({
             lastNameError: true,
-        })
+        },() =>
+        Toast.show({
+            text: this.state.lastNameError,
+            buttonText: 'Okay'
+          }))
         return false;
     }
 

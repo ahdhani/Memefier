@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import {  View, StyleSheet} from 'react-native'
 import * as Animatable from 'react-native-animatable';
-import { Root,Container, Button,  Form, Label, Item, Input, Header, Content, Text,Left, Toast, Body, Right, H3, H2, Title } from 'native-base'
-
-// import * as Font from 'expo-font';
-// import { Ionicons } from '@expo/vector-icons';
+import { Root,Container, Button,  Form, Label, Item, Input, Header, Content, Text,Left, Toast, Body, Right, Title } from 'native-base'
 
 import { signIn } from '../../redux'
 
@@ -18,17 +15,6 @@ export default class LoginScreen extends Component {
         passwordError: '',
     }
 
-    // componentDidMount = async () => {
-
-    //     await Font.loadAsync({
-    //       Roboto: require('native-base/Fonts/Roboto.ttf'),
-    //       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    //       ...Ionicons.font,
-    //     });
-    //     // this.setState({ isReady: true });
-    //   }
-
-
     isValidUsername = () => {
         if (this.state.username != '') {
             this.setState({
@@ -38,11 +24,11 @@ export default class LoginScreen extends Component {
         }
         this.setState({
             usernameError: 'Atleast 8 characters',
-        })
+        },() =>
         Toast.show({
             text: this.state.usernameError,
             buttonText: 'Okay'
-          })
+          }))
         return false;
     }
 
@@ -55,11 +41,11 @@ export default class LoginScreen extends Component {
         }
         this.setState({
             passwordError: 'Atleast 8 characters',
-        })
+        },() =>
         Toast.show({
             text: this.state.passwordError,
             buttonText: 'Okay'
-          })
+          }))
         return false;
     }
 
@@ -144,67 +130,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#05375a",
     },
-    btnText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: "#fff"
-    },
-    signIn: {
-        backgroundColor: "#2196f3",
-        borderRadius: 10,
-        justifyContent: 'center',
-        // alignContent: 'center',
-        // textAlign: 'center',
-        marginHorizontal: 5,
-        padding: 7,
-        flexDirection: "row",
-        flex: 1,
-        maxHeight: 50,
-
-    },
-    signUp: {
-        borderColor: "#2196f3",
-        borderWidth: 1,
-        borderRadius: 10,
-        justifyContent: 'center',
-        marginHorizontal: 5,
-        padding: 7,
-        flexDirection: "row",
-        flex: 1,
-        maxHeight: 50,
-
-    },
-    inputBox: {
-        backgroundColor: '#eee',
-        flexDirection: "row",
-        flex: 1,
-        padding: 10,
-        margin: 1,
-        minHeight: 70,
-        maxHeight: 70,
-    },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        // width: 300,
-        flex: 1,
-        padding: 10,
-        marginBottom: 10,
-    },
-    header: {
-        padding: 10,
-        flex: 3,
-        alignContent: 'center',
-        justifyContent: 'center',
-        // backgroundColor: 'blue',
-    },
     footer: {
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         padding: 20,
-        flex: 2,
-        // marginBottom: 20,
     },
     logo: {
         height: 200,
@@ -212,9 +142,4 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
 
     },
-    rowContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        marginTop: 15,
-    }
 });
