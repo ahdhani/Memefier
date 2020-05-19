@@ -5,29 +5,6 @@ import ProfileScreen from './screen/ProfileScreen'
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// const StackNavigator = CreateStackNavigator({
-//     LoginScreen: {
-//         screen: LoginScreen,
-//         navigationOptions: {
-//             headerShown: false
-//         }
-//     },
-//     SignUpScreen: {
-//         screen: SignUpScreen,
-//         navigationOptions: {
-//             headerShown: false
-//         }
-//     },
-//     ProfileScreen: {
-//         screen: ProfileScreen,
-//         navigationOptions: {
-//             headerShown: false
-//         }
-//     },
-// })
-
-// export default createAppContainer(StackNavigator);
-
 const Stack = createStackNavigator();
 
 export default RootStack = () => {

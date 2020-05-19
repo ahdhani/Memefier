@@ -4,6 +4,8 @@ import GlobalStyles from './constants/GlobalStyles'
 import LoginScreen from './components/screen/LoginScreen'
 import SignUpScreen from './components/screen/SignUpScreen'
 import { Provider } from 'react-redux'
+// import RootStack from './components/RootStack';
+
 import store from './redux/store'
 
 import * as firebase from 'firebase'
@@ -27,7 +29,6 @@ if (!firebase.apps.length) {
 
 import { loadUser } from './redux'
 
-// import RootStack from './components/RootStack';
 
 export default function App() {
   useEffect(() => {
