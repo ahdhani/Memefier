@@ -5,6 +5,7 @@ import SignUpScreen from './components/screen/SignUpScreen'
 import ProfileScreen from './components/screen/ProfileScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import {AppLoading} from "expo";
 import { Image } from 'native-base';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -108,16 +109,7 @@ export default class App extends Component {
       );
     else
       return (
-        <View>
-
-{/* SPLASH SCREEN */}
-
-          {/* <Image
-            style={styles.logo}
-            source={require('./assets/logo.png')}
-            resizeMode="stretch"
-          /> */}
-        </View>
+        <AppLoading />
       )
   }
 }
