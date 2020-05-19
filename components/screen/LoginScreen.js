@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet , SafeAreaView, TouchableOpacity, TextInput} from 'react-native'
-import GlobalStyles from '../../constants/GlobalStyles';
+import {  View, StyleSheet} from 'react-native'
 import * as Animatable from 'react-native-animatable';
+import { Root,Container, Button,  Form, Label, Item, Input, Header, Content, Text,Left, Toast, Body, Right, H3, H2, Title } from 'native-base'
 
-import {signIn} from '../../redux'
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+
+import { signIn } from '../../redux'
 
 export default class LoginScreen extends Component {
 
@@ -11,82 +14,126 @@ export default class LoginScreen extends Component {
         isLogin: false,
         username: '',
         password: '',
+        usernameError: '',
+        passwordError: '',
     }
-    
-    componentDidMount = async () => {
-        const requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
 
+    componentDidMount = async () => {
+
+        await Font.loadAsync({
+          Roboto: require('native-base/Fonts/Roboto.ttf'),
+          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+          ...Ionicons.font,
+        });
+        // this.setState({ isReady: true });
+      }
+
+
+    isValidUsername = () => {
+        if (this.state.username != '') {
+            this.setState({
+                usernameError: false,
+            })
+            return true;
+        }
+        this.setState({
+            usernameError: 'Atleast 8 characters',
+        })
+        Toast.show({
+            text: this.state.usernameError,
+            buttonText: 'Okay'
+          })
+        return false;
+    }
+
+    isValidPassword = () => {
+        if (this.state.password.length >= 8) {
+            this.setState({
+                passwordError: '',
+            })
+            return true;
+        }
+        this.setState({
+            passwordError: 'Atleast 8 characters',
+        })
+        Toast.show({
+            text: this.state.passwordError,
+            buttonText: 'Okay'
+          })
+        return false;
+    }
+
+    onSignInClick = () => {
+        if (this.isValidUsername() && this.isValidPassword()) {
+            let user = {
+                username: this.state.username,
+                password: this.state.password,
+            }
+            // alert(user);
+            console.log(user);
+            this.props.navigation.navigate('ProfileScreen');
+        }
     }
 
     onSignUpClick = () => {
-        let user = {
-            username: this.state.username,
-            password: this.state.password,
-        }
-        this.props.onSignUpClick(user)
-        
+        this.props.navigation.navigate('SignUpScreen');
     }
 
     render() {
         return (
-            <SafeAreaView style = {GlobalStyles.AndroidSafeArea}>
+            <Root>
+            <Container style={styles.container}>
+                <Header>
+                    <Left />
+                    <Body>
+                        <Title>Login</Title>
+                    </Body>
+                    <Right />
+                </Header>
 
-                <View style = {styles.container}>
-                    <View style={styles.header}>
-                        <Animatable.Image
-                            animation="bounceIn"
-                            // duration= {2000}
-                            style={styles.logo}
-                            source={require('../../assets/logo.png')}
-                            resizeMode="stretch"
-                        />
-
-                    </View>
-
-                    <Animatable.View 
-                        style = {styles.footer}
-                        animation = "fadeInUpBig"
-                        >
-
-                        <Text style={styles.title}>Welcome </Text>
-                        <TextInput 
-                                    placeholder="Username" 
-                                    placeholderTextColor="#777"
-                                    style = {styles.inputBox} 
-                                    //  underlineColorAndroid="transparent"
-                                    onChangeText={ (username) => this.setState({username})  }
-                                    value={this.state.username}
-                        ></TextInput>
-                        <TextInput 
-                                    placeholder="Password" 
-                                    placeholderTextColor="#777"
-                                    style = {styles.inputBox} 
-                                    onChangeText={ (password) => this.setState({password})  }
-                                    value={this.state.password}
-                        ></TextInput>
-
-                        <View style={styles.rowContainer}>
-                            <TouchableOpacity style = {styles.signUp}>
-                                <Text style = {[styles.btnText,{color: '#111'}]}>
-                                    SignUp
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style = {styles.signIn}>
-                                <Text style = {styles.btnText}>
-                                    SignIn
-                                </Text>
-                            </TouchableOpacity>
+                <Content style={{ bottom: 0, position: 'absolute', width: '100%', backgroundColor: "#05375a", }}>
+                    <Animatable.Image
+                        animation="bounceIn"
+                        // duration= {2000}
+                        style={styles.logo}
+                        source={require('../../assets/logo.png')}
+                        resizeMode="stretch"
+                    />
+                    <Animatable.View
+                        style={styles.footer}
+                        animation="fadeInUpBig">
+                        <Form>
+                            <Item stackedLabel error={this.state.usernameError !== ''}>
+                                <Label>Username</Label>
+                                <Input keyboardType='email-address' error="#f99"
+                                    onChangeText={(text) => this.setState({ username: text })} />
+                            </Item>
+                            <Item stackedLabel error={this.state.passwordError !== ''}>
+                                <Label>Password</Label>
+                                <Input onChangeText={(text) => this.setState({ password: text })}
+                                    error="#f99" />
+                            </Item>
+                        </Form>
+                        <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
+                            <Left>
+                                <Button style={{margin: 10}}
+                                info rounded bordered block onPress={() => this.onSignUpClick()}>
+                                    <Text>SignUp</Text>
+                                </Button>
+                            </Left>
+                            {/* <Body /> */}
+                            <Right>
+                                <Button style={{margin: 10}}
+                                info rounded block onPress={() => this.onSignInClick()}>
+                                    <Text>SignIn</Text>
+                                </Button>
+                            </Right>
                         </View>
-
                     </Animatable.View>
+                </Content>
+            </Container>
+            </Root>
 
-                </View>
-
-            </SafeAreaView>
-        
         )
     }
 
@@ -160,7 +207,6 @@ const styles = StyleSheet.create({
         // marginBottom: 20,
     },
     logo: {
-        left: 100,
         height: 200,
         width: 200,
         alignSelf: 'center',

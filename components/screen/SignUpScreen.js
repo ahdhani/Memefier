@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {  StyleSheet, View} from 'react-native'
-import { Container , Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker} from 'native-base'
-import GlobalStyles from '../../constants/GlobalStyles';
+import { Container , Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title} from 'native-base'
 import * as Animatable from 'react-native-animatable';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 // const Items = Picker.Item;
 
@@ -25,16 +26,15 @@ export default class SignUp extends Component {
 
     }
     
-    // componentDidMount = async () => {
-    //     const requestOptions = {
-    //         method: 'GET',
-    //         redirect: 'follow'
-    //     };
-    //     fetch("https://us-central1-memefier.cloudfunctions.net/helloWorld", requestOptions)
-    //     .then(response => response.text())
-    //     .then(result => console.log(result))
-    //     .catch(error => console.log('error', error));
-    // }
+    componentDidMount = async () => {
+
+        await Font.loadAsync({
+          Roboto: require('native-base/Fonts/Roboto.ttf'),
+          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+          ...Ionicons.font,
+        });
+        // this.setState({ isReady: true });
+      }
 
     isValidUsername = () => {
         if(this.state.username!='')
@@ -107,6 +107,7 @@ export default class SignUp extends Component {
             }
             alert(user);
             console.log(user);
+            this.props.navigation.navigate('LoginScreen');
         }
             
     }
@@ -117,11 +118,12 @@ export default class SignUp extends Component {
                 <Container style={styles.container}>
                     <Header>
                         <Left style={{padding: 10}}>
-                            {/* <Icon name='left' /> */}
+                            <Button transparent onPress ={()=> this.props.navigation.navigate('LoginScreen')}>
+                            <Icon name='arrow-back' />
+                            </Button>
                         </Left>
                         <Body>
-                            <H2 style={{fontWeight: 'bold',}}>SignUp</H2>
-                            {/* <Text>SignUp</Text> */}
+                            <Title>SignUp</Title>
                         </Body>
                         <Right/>
                     </Header>
@@ -206,9 +208,7 @@ export default class SignUp extends Component {
                             </Left>
                             <Right>
                                 <Button info rounded block onPress ={() =>this.onSignUpClick()}>
-                                     <H3 style={{color: '#fff'}}>
-                                         Signup
-                                     </H3>
+                                    <Text>SignIUp</Text>
                                 </Button>
                             </Right>
                     </View>
@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     logo: {
-        height: 100,
-        width: 100,
+        height: 150,
+        width: 150,
         alignSelf: 'center',
         margin: 40,
     },

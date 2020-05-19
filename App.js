@@ -3,8 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import GlobalStyles from './constants/GlobalStyles'
 import LoginScreen from './components/screen/LoginScreen'
 import SignUpScreen from './components/screen/SignUpScreen'
+import ProfileScreen from './components/screen/SignUpScreen'
+
 import { Provider } from 'react-redux'
 // import RootStack from './components/RootStack';
+
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import store from './redux/store'
 
@@ -30,6 +35,45 @@ if (!firebase.apps.length) {
 import { loadUser } from './redux'
 
 
+RootStack = () => {
+
+  const Stack = createStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator 
+        initialRouteName="LoginScreen"
+        screenOptions={{
+        gestureEnabled: true
+      }}>
+
+          <Stack.Screen 
+            name="LoginScreen" 
+            component={LoginScreen}
+            options = {{
+              headerShown: false
+            }} 
+          />
+          <Stack.Screen 
+            name="SignUpScreen" 
+            component={SignUpScreen}
+            options = {{
+              headerShown: false
+            }} 
+          />
+          <Stack.Screen 
+            name="ProfileScreen" 
+            component={ProfileScreen}
+            options = {{
+              headerShown: false
+            }} 
+          />
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 export default function App() {
   useEffect(() => {
     store.dispatch(loadUser())
@@ -41,13 +85,10 @@ export default function App() {
     
     
   } , [])
+
   return (
     <Provider store={store}>
-      <View style={GlobalStyles.container}>
-        {/* <LoginScreen /> */}
-        <SignUpScreen />
-        {/* <RootStack /> */}
-      </View>
+        <RootStack />
     </Provider>
   );
 }
