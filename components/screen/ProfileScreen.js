@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, SafeAreaView} from 'react-native'
-import GlobalStyles from '../../constants/GlobalStyles';
+import { Text, View, StyleSheet} from 'react-native'
 
 export default class ProfileScreen extends Component {
 
-    // componentDidMount = async () => {
-    //     }
-
     render() {
         return (
-            <View style = {GlobalStyles.container}>
+            <View style = {styles.container}>
                 <Text>Profile</Text>
             </View>
         )
@@ -18,11 +14,11 @@ export default class ProfileScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    // container: {
-    //    flex: 1,
-    //    backgroundColor: '#aaa',
-    //    alignItems: 'center',
-    //    justifyContent: 'center',
-    //    width: '100%',
-    // },
+    container: {
+       flex: 1,
+       backgroundColor: '#aaa',
+       alignItems: 'center',
+       justifyContent: 'center',
+       width: '100%',
+    },
 });

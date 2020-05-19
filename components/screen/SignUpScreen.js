@@ -12,7 +12,7 @@ export default class SignUp extends Component {
         firstname: '',
         lastname: '',
         gender: 'M',
-        dob: new Date(),
+        dob: '2000-01-01',
         usernameError: '',
         passwordError: '',
         firstNameError: false,
@@ -162,7 +162,7 @@ export default class SignUp extends Component {
                         </View>
                     
                     
-                        <View style={{flexDirection:'row'}}>
+                        {/* <View style={{flexDirection:'row'}}>
                             <Item stackedLabel style={{flex: 1}}>
                                 <Label>Date of Birth</Label>
                                 <DatePicker
@@ -194,7 +194,7 @@ export default class SignUp extends Component {
                                         <Picker.Item label="Other" value="O" />
                                     </Picker>
                             </Item>
-                        </View>
+                        </View> */}
                         <Item stackedLabel>
                             <Label>Phone Number</Label>
                             <Input placeholder='Optional' placeholderTextColor='#ccc' 
