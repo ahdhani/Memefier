@@ -19,7 +19,11 @@ var firebaseConfig = {
   measurementId: "G-EXC4QJ3P8R"
 };
 
-firebase.initializeApp(firebaseConfig);
+// @bug Firebase App named '[DEFAULT]' already exists (app/duplicate-app)
+// @fixed
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 import { loadUser } from './redux'
 
@@ -28,15 +32,11 @@ import { loadUser } from './redux'
 export default function App() {
   useEffect(() => {
     store.dispatch(loadUser())
-    firebase.auth().onAuthStateChanged(function( user ){
-      if(user) {
-        // logged in
-        console.log(user)
-      } else {
-        // no user
-        console.log("No user logged in")
-      }
-    })
+
+  // // @Firebase create User Function
+  // firebase.auth().createUserWithEmailAndPassword("e2@e.com" , "1234567")
+  //  .then( user => console.log(user))
+  //  .catch(error => console.log("Can't create" , error.message))
     
     
   } , [])

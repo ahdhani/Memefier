@@ -6,7 +6,7 @@ const initialState = {
     isLoading : false ,
     isAuthenticated : null ,
     // Take token from local storage CODE
-    token : null,
+    // token : null,
     // token : localStorage.getItem('token') ,
     user : null
 }
@@ -22,7 +22,6 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : true ,
-            token : payload.token ,
             user : payload.user
         }
     case LOGIN_SUCCESS:
@@ -32,8 +31,7 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : true ,
-            user : payload.user ,
-            token : payload.token
+            user : payload.user 
         }
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
@@ -44,8 +42,7 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : false ,
-            user : null ,
-            token : null
+            user : null 
         }
     default:
         return state
