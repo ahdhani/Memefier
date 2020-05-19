@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import {  StyleSheet, View} from 'react-native'
 import { Container , Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title} from 'native-base'
 import * as Animatable from 'react-native-animatable';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+// import * as Font from 'expo-font';
+// import { Ionicons } from '@expo/vector-icons';
 
 // const Items = Picker.Item;
 
@@ -26,15 +26,15 @@ export default class SignUp extends Component {
 
     }
     
-    componentDidMount = async () => {
+    // componentDidMount = async () => {
 
-        await Font.loadAsync({
-          Roboto: require('native-base/Fonts/Roboto.ttf'),
-          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-          ...Ionicons.font,
-        });
-        // this.setState({ isReady: true });
-      }
+    //     await Font.loadAsync({
+    //       Roboto: require('native-base/Fonts/Roboto.ttf'),
+    //       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    //       ...Ionicons.font,
+    //     });
+    //     // this.setState({ isReady: true });
+    //   }
 
     isValidUsername = () => {
         if(this.state.username!='')

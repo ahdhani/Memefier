@@ -3,8 +3,8 @@ import {  View, StyleSheet} from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root,Container, Button,  Form, Label, Item, Input, Header, Content, Text,Left, Toast, Body, Right, H3, H2, Title } from 'native-base'
 
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+// import * as Font from 'expo-font';
+// import { Ionicons } from '@expo/vector-icons';
 
 import { signIn } from '../../redux'
 
@@ -18,15 +18,15 @@ export default class LoginScreen extends Component {
         passwordError: '',
     }
 
-    componentDidMount = async () => {
+    // componentDidMount = async () => {
 
-        await Font.loadAsync({
-          Roboto: require('native-base/Fonts/Roboto.ttf'),
-          Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-          ...Ionicons.font,
-        });
-        // this.setState({ isReady: true });
-      }
+    //     await Font.loadAsync({
+    //       Roboto: require('native-base/Fonts/Roboto.ttf'),
+    //       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    //       ...Ionicons.font,
+    //     });
+    //     // this.setState({ isReady: true });
+    //   }
 
 
     isValidUsername = () => {
