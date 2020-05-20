@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title } from 'native-base'
+import MainScreen from './MainScreen'
 
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
-import MainScreen from './MainScreen';
 
 class LoginScreen extends Component {
 
@@ -112,6 +112,7 @@ class LoginScreen extends Component {
                                             <Text>SignUp</Text>
                                         </Button>
                                     </Left>
+                                    {/* <Body /> */}
                                     <Right>
                                         <Button style={{ margin: 10 }}
                                             info rounded block onPress={() => this.onSignInClick()}>
