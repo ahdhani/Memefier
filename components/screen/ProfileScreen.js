@@ -3,9 +3,11 @@ import { View, StyleSheet, Image } from 'react-native'
 // import PhotoUpload from 'react-native-photo-upload'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import * as Animatable from 'react-native-animatable';
+// imports for state management
+import { connect } from 'react-redux';
+import { logoutUser } from '../../redux';
 
-
-export default class ProfileScreen extends Component {
+class ProfileScreen extends Component {
 
     state = {
         user: {
@@ -20,26 +22,31 @@ export default class ProfileScreen extends Component {
     }
 
     signOutClicked = () => {
-
+        this.props.logoutUser()
     }
 
     render() {
-        return (
-            <Container>
-                <Header>
-                    <Left />
-                    <Body>
-                        <Title>Profile</Title>
-                    </Body>
-                    <Right>
-                        <Button info onPress={() => this.signOutClicked()}>
-                            <Text>SignOut</Text>
-                        </Button>
-                    </Right>
-                </Header>
-                <Content>
+        // Condition : !this.props.isAuthenticated
+        if (false) {
+            // GOTO SignIn
+        }
+        else
+            return (
+                <Container>
+                    <Header>
+                        <Left />
+                        <Body>
+                            <Title>Profile</Title>
+                        </Body>
+                        <Right>
+                            <Button info onPress={() => this.signOutClicked()}>
+                                <Text>SignOut</Text>
+                            </Button>
+                        </Right>
+                    </Header>
+                    <Content>
 
-                    {/* <PhotoUpload
+                        {/* <PhotoUpload
                         onPhotoSelect={avatar => {
                             if (avatar) {
                                 console.log('Image base64 string: ', avatar)
@@ -57,77 +64,77 @@ export default class ProfileScreen extends Component {
                             resizeMode='cover'
                             source={require('../../assets/profile.jpeg')}
                         />
-                    {/* </PhotoUpload> */}
+                        {/* </PhotoUpload> */}
 
-                    {/* <Thumbnail circular large source={require('../../assets/profile.jpeg')} style={styles.logo}/> */}
-                    <ListItem icon>
-                        <Left>
-                            <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="airplane" />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Text>Name</Text>
-                        </Body>
-                        <Right>
-                            <Text>{this.state.user.firstname}</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem icon>
-                        <Left>
-                            <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="airplane" />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Text>Email</Text>
-                        </Body>
-                        <Right>
-                            <Text>{this.state.user.username}</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem icon>
-                        <Left>
-                            <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="airplane" />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Text>Phone Number</Text>
-                        </Body>
-                        <Right>
-                            <Text>{this.state.user.phone}</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem icon>
-                        <Left>
-                            <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="airplane" />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Text>Date of Birth</Text>
-                        </Body>
-                        <Right>
-                            <Text>{this.state.user.dob}</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem icon>
-                        <Left>
-                            <Button style={{ backgroundColor: "#FF9501" }}>
-                                <Icon active name="airplane" />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Text>Gender</Text>
-                        </Body>
-                        <Right>
-                            <Text>{this.state.user.gender}</Text>
-                        </Right>
-                    </ListItem>
-                </Content>
-            </Container>
-        )
+                        {/* <Thumbnail circular large source={require('../../assets/profile.jpeg')} style={styles.logo}/> */}
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Name</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.userDetails.firstname}</Text>
+                            </Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Email</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.userDetails.lastname}</Text>
+                            </Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Phone Number</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.userDetails.phone}</Text>
+                            </Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Date of Birth</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.userDetails.dob}</Text>
+                            </Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Gender</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.userDetails.gender}</Text>
+                            </Right>
+                        </ListItem>
+                    </Content>
+                </Container>
+            )
     }
 
 }
@@ -147,3 +154,17 @@ const styles = StyleSheet.create({
         margin: 40,
     },
 });
+
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    userDetails: state.auth.userDetails
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logoutUser: () => dispatch(logoutUser())
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
