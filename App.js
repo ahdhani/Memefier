@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './components/screen/LoginScreen'
 import SignUpScreen from './components/screen/SignUpScreen'
-import ProfileScreen from './components/screen/ProfileScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import {AppLoading} from "expo";
+import { AppLoading } from "expo";
 import MainScreen from './components/screen/MainScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -78,18 +77,24 @@ export default class App extends Component {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
-    this.setState({ isReady: true });
     store.dispatch(loadUser())
-
+    this.setState({ isReady: true })
   }
 
   render() {
-    if (this.state.isReady)
-      return (
-        <Provider store={store}>
-          <RootStack />
-        </Provider>
-      );
+    if (this.state.isReady && true)  //Change true to this.props.isAuthenticated!=null
+    {
+      if (false) {  //Change false to this.props.isAuthenticated
+        return <MainScreen />
+      }
+      else {
+        return (
+          <Provider store={store}>
+            <RootStack />
+          </Provider>
+        );
+      }
+    }
     else
       return (
         <AppLoading />
