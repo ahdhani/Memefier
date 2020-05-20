@@ -57,7 +57,7 @@ export default class LoginScreen extends Component {
             }
             // alert(user);
             console.log(user);
-            this.props.navigation.navigate('ProfileScreen');
+            this.props.navigation.navigate('MainScreen');
         }
     }
 

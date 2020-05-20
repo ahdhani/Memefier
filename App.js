@@ -6,7 +6,7 @@ import ProfileScreen from './components/screen/ProfileScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import {AppLoading} from "expo";
-import { Image } from 'native-base';
+import MainScreen from './components/screen/MainScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -33,8 +33,6 @@ var firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-
-
 
 RootStack = () => {
 
@@ -63,8 +61,8 @@ RootStack = () => {
           }}
         />
         <Stack.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
+          name="MainScreen"
+          component={MainScreen}
           options={{
             headerShown: false
           }}

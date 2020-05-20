@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title } from 'native-base'
+import { View, StyleSheet, Image } from 'react-native'
+// import PhotoUpload from 'react-native-photo-upload'
+import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import * as Animatable from 'react-native-animatable';
 
 
@@ -38,13 +39,26 @@ export default class ProfileScreen extends Component {
                 </Header>
                 <Content>
 
-                    <Animatable.Image
-                            animation="bounceIn"
-                            // duration= {2000}
-                            style={styles.logo}
-                            source={require('../../assets/splash.png')}
-                            resizeMode="stretch"
+                    {/* <PhotoUpload
+                        onPhotoSelect={avatar => {
+                            if (avatar) {
+                                console.log('Image base64 string: ', avatar)
+                            }
+                        }}
+                    > */}
+                        <Image
+                            style={{
+                                paddingVertical: 30,
+                                width: 150,
+                                height: 150,
+                                borderRadius: 75
+                            }}
+                            resizeMode='cover'
+                            source={require('../../assets/profile.jpeg')}
                         />
+                    {/* </PhotoUpload> */}
+
+                    {/* <Thumbnail circular large source={require('../../assets/profile.jpeg')} style={styles.logo}/> */}
                     <ListItem icon>
                         <Left>
                             <Button style={{ backgroundColor: "#FF9501" }}>
@@ -126,8 +140,8 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     logo: {
-        height: 150,
-        width: 150,
+        // height: 150,
+        // width: 150,
         alignSelf: 'center',
         margin: 40,
     },
