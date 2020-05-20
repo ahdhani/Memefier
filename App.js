@@ -88,14 +88,6 @@ export default class App extends Component {
     });
     this.setState({ isReady: true });
     store.dispatch(loadUser())
-
-
-    // // @Firebase create User Function
-    // firebase.auth().createUserWithEmailAndPassword("e2@e.com" , "1234567")
-    //  .then( user => console.log(user))
-    //  .catch(error => console.log("Can't create" , error.message))
-
-
   }
 
   render() {

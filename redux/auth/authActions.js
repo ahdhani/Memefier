@@ -3,7 +3,7 @@
  * 
  * loadUser :
  *  asynchronous action
- *  fetches the user from `~/ai/auth/user` and headers : { x_auth : token }
+ *  fetches the user from firebase
  *      
  *      
  */
@@ -25,13 +25,13 @@ export const createUser = (user) => {
         if (getState().auth.isAuthenticated) return dispatch({
             type: REGISTER_FAIL
         })
-        firebase.auth().createUserWithEmailAndPassword(user.email , user.password)
-            .then( user => dispatch({
-                type : REGISTER_SUCCESS ,
-                payload : {user}
+        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+            .then(user => dispatch({
+                type: REGISTER_SUCCESS,
+                payload: { user }
             }))
-            .catch( error => dispatch({
-                type : REGISTER_FAIL
+            .catch(error => dispatch({
+                type: REGISTER_FAIL
             }))
     }
 }
@@ -44,15 +44,15 @@ export const loginUser = ({ email, password }) => {
 
         // var config = setupConfig(getState)
 
-        firebase.auth().signInWithEmailAndPassword(email , password)
-            .then( user => dispatch({
-                type : LOGIN_SUCCESS ,
-                payload : {
-                    user 
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(user => dispatch({
+                type: LOGIN_SUCCESS,
+                payload: {
+                    user
                 }
             }))
-            .catch( error => dispatch({
-                type : LOGIN_FAIL
+            .catch(error => dispatch({
+                type: LOGIN_FAIL
             }))
     }
 }
@@ -70,36 +70,18 @@ export const loadUser = () => {
                 dispatch({
                     type: USER_LOADED,
                     payload: {
-                        user 
+                        user
                     }
                 })
+
+                console.log("User loaded : " , JSON.stringify(user))
             } else {
                 // no user
                 dispatch({
-                    type : AUTH_ERROR
+                    type: AUTH_ERROR
                 })
+                console.log("No user logged in")
             }
         })
     }
 }
-
-
-/*
-// Don't edit the below code
-
-const setupConfig = (getState) => {
-    var config = {
-        headers: {
-            "Content-type": "application/json"
-        }
-    }
-
-    var token = getState().auth.token
-
-    if (token) {
-        config.headers['x_auth'] = "token"
-    }
-
-    return config
-}
-*/
