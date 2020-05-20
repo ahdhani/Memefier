@@ -52,13 +52,13 @@ RootStack = () => {
             headerShown: false
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MainScreen"
           component={MainScreen}
           options={{
             headerShown: false
           }}
-        />
+        /> */}
 
       </Stack.Navigator>
     </NavigationContainer>

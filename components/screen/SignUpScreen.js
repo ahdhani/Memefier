@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title } from 'native-base'
 import * as Animatable from 'react-native-animatable';
+import MainScreen from './MainScreen'
 // imports for state management
 import { connect } from 'react-redux';
 import { createUser } from '../../redux';
@@ -105,18 +106,16 @@ class SignUp extends Component {
                 phone: this.state.phone,
                 gender: this.state.gender,
             }
-            // alert(user);
-            // console.log(user);
+            console.log(user);
             this.props.SignUpUser(user)
-            this.props.navigation.navigate('LoginScreen');
+            // this.props.navigation.navigate('LoginScreen');
         }
 
     }
 
     render() {
-        // Condition : this.props.isAuthenticated
-        if (false) {
-            // GOTO Dashboard
+        if (this.props.isAuthenticated) {
+            return <MainScreen />
         }
         else
             return (

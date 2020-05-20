@@ -5,6 +5,7 @@ import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Tex
 
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
+import MainScreen from './MainScreen';
 
 class LoginScreen extends Component {
 
@@ -56,14 +57,9 @@ class LoginScreen extends Component {
                 email: this.state.username,
                 password: this.state.password,
             }
-            // alert(user);
             console.log(user);
-            // this.props.navigation.navigate('MainScreen');
             this.props.signInUser(user)
         }
-    }
-    dashboard = () => {
-        this.props.navigation.navigate('MainScreen');
     }
 
     onSignUpClick = () => {
@@ -71,10 +67,8 @@ class LoginScreen extends Component {
     }
 
     render() {
-        // Condition : this.props.isAuthenticated
-
-        if (false) {
-            // GOTO Dashboard
+        if (this.props.isAuthenticated) {
+            return <MainScreen />
         }
         else
             return (
@@ -118,17 +112,10 @@ class LoginScreen extends Component {
                                             <Text>SignUp</Text>
                                         </Button>
                                     </Left>
-                                    {/* <Body /> */}
                                     <Right>
                                         <Button style={{ margin: 10 }}
                                             info rounded block onPress={() => this.onSignInClick()}>
                                             <Text>SignIn</Text>
-                                        </Button>
-                                    </Right>
-                                    <Right>
-                                        <Button style={{ margin: 10 }}
-                                            info rounded block onPress={() => this.dashboard()}>
-                                            <Text>Dashboard</Text>
                                         </Button>
                                     </Right>
                                 </View>
