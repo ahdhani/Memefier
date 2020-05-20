@@ -3,7 +3,7 @@ import { View, StyleSheet, Image } from 'react-native'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 
 
-export default class ProfileScreen extends Component {
+export default class CommunityScreen extends Component {
 
     render() {
         return (
@@ -11,12 +11,12 @@ export default class ProfileScreen extends Component {
                 <Header>
                     <Left />
                     <Body>
-                        <Title>Feed</Title>
+                        <Title>Community</Title>
                     </Body>
                     <Right />
                 </Header>
                 <Content>
-                    <Text>Feed</Text>
+                    <Text>Community</Text>
                 </Content>
             </Container>
         )
