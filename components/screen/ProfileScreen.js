@@ -51,6 +51,7 @@ export default class ProfileScreen extends Component {
                                 paddingVertical: 30,
                                 width: 150,
                                 height: 150,
+                                alignSelf: 'center',
                                 borderRadius: 75
                             }}
                             resizeMode='cover'
