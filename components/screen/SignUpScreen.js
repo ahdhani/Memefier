@@ -115,7 +115,7 @@ class SignUp extends Component {
 
     render() {
         // Condition : this.props.isAuthenticated
-        if (fasle) {
+        if (false) {
             // GOTO Dashboard
         }
         else
@@ -214,7 +214,7 @@ class SignUp extends Component {
                                 </Left>
                                 <Right>
                                     <Button info rounded block onPress={() => this.onSignUpClick()}>
-                                        <Text>SignIUp</Text>
+                                        <Text>SignUp</Text>
                                     </Button>
                                 </Right>
                             </View>
