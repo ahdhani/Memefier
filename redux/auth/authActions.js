@@ -1,35 +1,53 @@
-/**
- * @docs
- * 
- * loadUser :
- *  asynchronous action
- *  fetches the user from firebase
- *      
- *      
- */
-
-// import axios from 'axios'
 import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS } from './authTypes'
-import * as firebase from 'firebase'
+import { auth, db } from '../../config'
 
-export const logoutUser = () => ({
-    type: LOGOUT_SUCCESS
-})
+export const logoutUser = () => {
+    return function (dispatch, getState) {
 
+        auth.signOut()
+            .then(user => {
+                console.log("LOGGED OUT SUCCESS")
+
+                return dispatch({
+                    type: LOGOUT_SUCCESS
+                })
+            })
+            .catch(error => console.log("Cannot Logout , ", error.message))
+    }
+}
 
 export const createUser = (user) => {
 
     return function (dispatch, getState) {
-        // Checking if user already logged in
-
         if (getState().auth.isAuthenticated) return dispatch({
             type: REGISTER_FAIL
         })
-        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
-            .then(user => dispatch({
-                type: REGISTER_SUCCESS,
-                payload: { user }
-            }))
+        auth.createUserWithEmailAndPassword(user.email, user.password)
+            .then(cred => {
+                console.log("USER CREATED SUCCESS")
+
+
+                var userDetails = {
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    gender: user.gender,
+                    dob: user.dob,
+                    phone: user.phone
+                }
+
+                db.collection("userDetails").doc(cred.user.uid).set(userDetails)
+                    .then(() => {
+                        console.log("USER DETAILS PUSHED")
+                        dispatch({
+                            type: REGISTER_SUCCESS,
+                            payload: {
+                                user, userDetails
+                            }
+                        })
+                    })
+                    .catch(error => console.log("User Details can't be added!!"))
+
+            })
             .catch(error => dispatch({
                 type: REGISTER_FAIL
             }))
@@ -44,13 +62,29 @@ export const loginUser = ({ email, password }) => {
 
         // var config = setupConfig(getState)
 
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(user => dispatch({
-                type: LOGIN_SUCCESS,
-                payload: {
-                    user
-                }
-            }))
+        auth.signInWithEmailAndPassword(email, password)
+            .then(user => {
+                console.log("LOGIN SUCCESS")
+                db.collection("userDetails").doc(user.uid).get()
+                    .then(snapshot => {
+                        // console.log("USER DETAILS")
+                        // console.log(snapshot.data())
+                        console.log("USER DATA LOADED")
+
+                        dispatch({
+                            type: LOGIN_SUCCESS,
+                            payload: {
+                                user,
+                                userDetails: snapshot.data()
+                            }
+                        })
+
+                        // console.log(getState().auth)
+                    })
+                    .catch(error => {
+                        console.log("CANNOT LOAD USER DATA")
+                    })
+            })
             .catch(error => dispatch({
                 type: LOGIN_FAIL
             }))
@@ -64,23 +98,37 @@ export const loadUser = () => {
             type: USER_LOADING
         })
 
-        firebase.auth().onAuthStateChanged(function (user) {
+        auth.onAuthStateChanged(function (user) {
             if (user) {
-                // logged in
-                dispatch({
-                    type: USER_LOADED,
-                    payload: {
-                        user
-                    }
-                })
+                db.collection("userDetails").doc(user.uid).get()
+                    .then(snapshot => {
+                        // console.log("USER DETAILS")
+                        // console.log(snapshot.data())
+                        console.log("USER LOADED")
 
-                console.log("User loaded : " , JSON.stringify(user))
+                        dispatch({
+                            type: USER_LOADED,
+                            payload: {
+                                user,
+                                userDetails: snapshot.data()
+                            }
+                        })
+
+                        // console.log(getState().auth)
+                    })
+                    .catch(error => {
+                        console.log("AUTH ERROR")
+                        dispatch({
+                            type: AUTH_ERROR
+                        })
+                    })
+
             } else {
                 // no user
                 dispatch({
                     type: AUTH_ERROR
                 })
-                console.log("No user logged in")
+                console.log("AUTH ERROR")
             }
         })
     }

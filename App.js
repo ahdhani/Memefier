@@ -15,24 +15,16 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import { loadUser } from './redux'
 
-import * as firebase from 'firebase'
+import { YellowBox } from 'react-native';
+import _ from 'lodash';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDWLAkacPdjO2GljpHpLfww81KeU7W4e04",
-  authDomain: "memefier-rest-api.firebaseapp.com",
-  databaseURL: "https://memefier-rest-api.firebaseio.com",
-  projectId: "memefier-rest-api",
-  storageBucket: "memefier-rest-api.appspot.com",
-  messagingSenderId: "347817083363",
-  appId: "1:347817083363:web:e9cbf869abe7e8c35120d6",
-  measurementId: "G-EXC4QJ3P8R"
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = message => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
 };
-
-// @bug Firebase App named '[DEFAULT]' already exists (app/duplicate-app)
-// @fixed
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
 RootStack = () => {
 
@@ -88,6 +80,7 @@ export default class App extends Component {
     });
     this.setState({ isReady: true });
     store.dispatch(loadUser())
+
   }
 
   render() {

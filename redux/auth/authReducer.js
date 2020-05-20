@@ -8,7 +8,8 @@ const initialState = {
     // Take token from local storage CODE
     // token : null,
     // token : localStorage.getItem('token') ,
-    user : null
+    user : null ,
+    userDetails : null
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -22,7 +23,8 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : true ,
-            user : payload.user
+            user : payload.user ,
+            userDetails : payload.userDetails
         }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -31,7 +33,8 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : true ,
-            user : payload.user 
+            user : payload.user ,
+            userDetails : payload.userDetails
         }
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
@@ -42,7 +45,8 @@ export default (state = initialState, { type, payload }) => {
         return { ...state, 
             isLoading : false ,
             isAuthenticated : false ,
-            user : null 
+            user : null ,
+            userDetails : null
         }
     default:
         return state
