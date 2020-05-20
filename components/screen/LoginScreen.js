@@ -11,8 +11,8 @@ export default class LoginScreen extends Component {
         isLogin: false,
         username: '',
         password: '',
-        usernameError: '',
-        passwordError: '',
+        usernameError: false,
+        passwordError: false,
     }
 
     isValidUsername = () => {
@@ -23,27 +23,27 @@ export default class LoginScreen extends Component {
             return true;
         }
         this.setState({
-            usernameError: 'Atleast 8 characters',
+            usernameError: true,
         },() =>
         Toast.show({
-            text: this.state.usernameError,
+            text: "Type username",
             buttonText: 'Okay'
           }))
         return false;
     }
 
     isValidPassword = () => {
-        if (this.state.password.length >= 8) {
+        if (this.state.password != '') {
             this.setState({
-                passwordError: '',
+                passwordError: false,
             })
             return true;
         }
         this.setState({
-            passwordError: 'Atleast 8 characters',
+            passwordError: true,
         },() =>
         Toast.show({
-            text: this.state.passwordError,
+            text: "Type Password",
             buttonText: 'Okay'
           }))
         return false;
@@ -89,12 +89,12 @@ export default class LoginScreen extends Component {
                         style={styles.footer}
                         animation="fadeInUpBig">
                         <Form>
-                            <Item stackedLabel error={this.state.usernameError !== ''}>
+                            <Item stackedLabel error={this.state.usernameError}>
                                 <Label>Username</Label>
                                 <Input keyboardType='email-address' error="#f99"
                                     onChangeText={(text) => this.setState({ username: text })} />
                             </Item>
-                            <Item stackedLabel error={this.state.passwordError !== ''}>
+                            <Item stackedLabel error={this.state.passwordError}>
                                 <Label>Password</Label>
                                 <Input onChangeText={(text) => this.setState({ password: text })}
                                     error="#f99" />
