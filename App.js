@@ -79,7 +79,7 @@ export default class App extends Component {
       ...Ionicons.font,
     });
     this.setState({ isReady: true });
-    await store.dispatch(loadUser());
+    store.dispatch(loadUser())
   }
 
   render() {
