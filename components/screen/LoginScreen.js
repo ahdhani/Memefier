@@ -27,11 +27,7 @@ class LoginScreen extends Component {
         }
         this.setState({
             usernameError: true,
-        }, () =>
-            Toast.show({
-                text: "Type username",
-                buttonText: 'Okay'
-            }))
+        })
         return false;
     }
 
@@ -44,16 +40,12 @@ class LoginScreen extends Component {
         }
         this.setState({
             passwordError: true,
-        }, () =>
-            Toast.show({
-                text: "Type Password",
-                buttonText: 'Okay'
-            }))
+        })
         return false;
     }
 
     onSignInClick = () => {
-        if (true) {
+        if (this.isValidUsername() && this.isValidPassword()) {
             let user = {
                 email: this.state.username,
                 password: this.state.password,
@@ -75,7 +67,7 @@ class LoginScreen extends Component {
             return <AppLoading />
         else
             return (
-                <Root>
+                // <Root>
                     <Container style={styles.container}>
                         <Header>
                             <Left />
@@ -126,7 +118,7 @@ class LoginScreen extends Component {
                             </Animatable.View>
                         </Content>
                     </Container>
-                </Root>
+                // </Root>
 
             )
     }
