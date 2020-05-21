@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title } from 'native-base'
 import MainScreen from './MainScreen'
+import {AppLoading} from "expo";
 
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
@@ -70,6 +71,8 @@ class LoginScreen extends Component {
         if (this.props.isAuthenticated) {
             return <MainScreen />
         }
+        else if(this.props.isAuthenticated==null)
+            return <AppLoading />
         else
             return (
                 <Root>

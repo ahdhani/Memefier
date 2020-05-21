@@ -78,13 +78,13 @@ export default class App extends Component {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
-    store.dispatch(loadUser())
-      this.setState({ isReady: true });
+    await store.dispatch(loadUser());
+    this.setState({ isReady: true });
 
   }
 
   render() {
-    if (store.getState().auth.isAuthenticated!=null && this.state.isReady)
+    if (this.state.isReady)
       return (
         <Provider store={store}>
           <RootStack />
