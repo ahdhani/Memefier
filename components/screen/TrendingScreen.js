@@ -11,12 +11,12 @@ export default class TrendingScreen extends Component {
                 <Header>
                     <Left />
                     <Body>
-                        <Title>Trending</Title>
+                        <Title>Discover</Title>
                     </Body>
                     <Right />
                 </Header>
                 <Content>
-                    <Text>Trending</Text>
+                    <Text>Discover</Text>
                 </Content>
             </Container>
         )

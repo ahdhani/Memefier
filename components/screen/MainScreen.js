@@ -48,7 +48,7 @@ function MainScreen() {
                 name="Trending"
                 component={TrendingScreen}
                 options={{
-                    tabBarLabel: 'Trending',
+                    tabBarLabel: 'Discover',
                     tabBarIcon: ({ color,focused }) => (
                         <MaterialCommunityIcons name="magnify" color={color} size={focused?28:26} />
                     ),
