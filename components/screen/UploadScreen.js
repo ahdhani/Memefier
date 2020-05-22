@@ -6,9 +6,11 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { storage } from '../../config'
+import { addPost } from '../../redux';
+import {connect} from 'react-redux'
+import uuid from 'react-uuid'
 
-
-export default class UploadScreen extends Component {
+class UploadScreen extends Component {
     state = {
         image: null,
     };
@@ -87,7 +89,7 @@ export default class UploadScreen extends Component {
                 this.setState({ image: result.uri });
             }
 
-            console.log(result);
+            // console.log(result);
         } catch (E) {
             console.log(E);
         }
@@ -95,17 +97,32 @@ export default class UploadScreen extends Component {
 
     onPost = async () => {
         if (this.state.image != null) {
-            console.log("Image present and upload clicked")
+            // console.log("Image present and upload clicked")
             // Hard Coded post description and image_name
-            const imageName = "picture_000"
+            const imageName = uuid()
             var post_desc = "Hi all! good morning"
-            console.log("IMAGE_URI : ", this.state.image)
+            // console.log("IMAGE_URI : ", this.state.image)
             try {
                 const response = await fetch(this.state.image);
                 const blob = await response.blob();
                 
-                var ref = storage.ref().child("memes/" + imageName);
-                ref.put(blob);
+                const uploadTask  = storage.ref().child("memes/" + imageName).put(blob);
+
+                uploadTask.on('state_changed' , 
+                (snapshot) => {
+                    // Progress function
+                    var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                    console.log("Progress : " , progress)
+                } ,
+                (error) => {
+                    console.error(error.message);
+                } , 
+                () => {
+                    storage.ref('memes').child(imageName).getDownloadURL().then( url => {
+                        // console.log(url);
+                        this.props.addPost(url , post_desc)
+                    })
+                })
             } catch (error) {
                 // Make a state variable error and append the `error.message` from here to it
                 console.log(error.message);
@@ -119,3 +136,12 @@ export default class UploadScreen extends Component {
 
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addPost: (img_url , caption) => dispatch(addPost(img_url , caption))
+    }
+}
+
+
+export default connect(null, mapDispatchToProps)(UploadScreen)
