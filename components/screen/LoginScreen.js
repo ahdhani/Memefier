@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import { View, StyleSheet } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title } from 'native-base'
 import MainScreen from './MainScreen'
-import {AppLoading} from "expo";
+import { AppLoading } from "expo";
 
+
+import AnimateLoadingButton from 'react-native-animate-loading-button';
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
 
@@ -44,7 +46,18 @@ class LoginScreen extends Component {
         return false;
     }
 
-    onSignInClick = () => {
+    // onSignInClick = () => {
+    //     if (this.isValidUsername() && this.isValidPassword()) {
+    //         let user = {
+    //             email: this.state.username,
+    //             password: this.state.password,
+    //         }
+    //         console.log(user);
+    //         this.props.signInUser(user)
+    //     }
+    // }
+    onSignInClick() {
+        this.loadingButton.showLoading(true);
         if (this.isValidUsername() && this.isValidPassword()) {
             let user = {
                 email: this.state.username,
@@ -53,7 +66,10 @@ class LoginScreen extends Component {
             console.log(user);
             this.props.signInUser(user)
         }
-    }
+        if (!this.props.isAuthenticated) {
+            this.loadingButton.showLoading(false);
+        }
+      }
 
     onSignUpClick = () => {
         this.props.navigation.navigate('SignUpScreen');
@@ -63,61 +79,72 @@ class LoginScreen extends Component {
         if (this.props.isAuthenticated) {
             return <MainScreen />
         }
-        else if(this.props.isAuthenticated==null)
+        else if (this.props.isAuthenticated == null)
             return <AppLoading />
         else
             return (
                 // <Root>
-                    <Container style={styles.container}>
-                        <Header>
-                            <Left />
-                            <Body>
-                                <Title>Login</Title>
-                            </Body>
-                            <Right />
-                        </Header>
+                <Container style={styles.container}>
+                    <Header>
+                        <Left />
+                        <Body>
+                            <Title>Login</Title>
+                        </Body>
+                        <Right />
+                    </Header>
 
-                        <Content style={{ bottom: 0, position: 'absolute', width: '100%', backgroundColor: "#05375a", }}>
-                            <Animatable.Image
-                                animation="bounceIn"
-                                // duration= {2000}
-                                style={styles.logo}
-                                source={require('../../assets/logo.png')}
-                                resizeMode="stretch"
-                            />
-                            <Animatable.View
-                                style={styles.footer}
-                                animation="fadeInUpBig">
-                                <Form>
-                                    <Item stackedLabel error={this.state.usernameError}>
-                                        <Label>Username</Label>
-                                        <Input keyboardType='email-address' error="#f99"
-                                            onChangeText={(text) => this.setState({ username: text })} />
-                                    </Item>
-                                    <Item stackedLabel error={this.state.passwordError}>
-                                        <Label>Password</Label>
-                                        <Input onChangeText={(text) => this.setState({ password: text })}
-                                            error="#f99" />
-                                    </Item>
-                                </Form>
-                                <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
-                                    <Left>
-                                        <Button style={{ margin: 10 }}
-                                            info rounded bordered block onPress={() => this.onSignUpClick()}>
-                                            <Text>SignUp</Text>
-                                        </Button>
-                                    </Left>
-                                    {/* <Body /> */}
-                                    <Right>
-                                        <Button style={{ margin: 10 }}
-                                            info rounded block onPress={() => this.onSignInClick()}>
-                                            <Text>SignIn</Text>
-                                        </Button>
-                                    </Right>
-                                </View>
-                            </Animatable.View>
-                        </Content>
-                    </Container>
+                    <Content style={{ bottom: 0, position: 'absolute', width: '100%', backgroundColor: "#05375a", }}>
+                        <Animatable.Image
+                            animation="bounceIn"
+                            // duration= {2000}
+                            style={styles.logo}
+                            source={require('../../assets/logo.png')}
+                            resizeMode="stretch"
+                        />
+                        <Animatable.View
+                            style={styles.footer}
+                            animation="fadeInUpBig">
+                            <Form>
+                                <Item stackedLabel error={this.state.usernameError}>
+                                    <Label>Username</Label>
+                                    <Input keyboardType='email-address' error="#f99"
+                                        onChangeText={(text) => this.setState({ username: text })} />
+                                </Item>
+                                <Item stackedLabel error={this.state.passwordError}>
+                                    <Label>Password</Label>
+                                    <Input onChangeText={(text) => this.setState({ password: text })}
+                                        error="#f99" />
+                                </Item>
+                            </Form>
+                            <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
+                                <Left>
+                                    <Button style={{ margin: 10 }}
+                                        info rounded bordered block onPress={() => this.onSignUpClick()}>
+                                        <Text>SignUp</Text>
+                                    </Button>
+                                </Left>
+                                {/* <Body /> */}
+                                <Right>
+                                    {/* <Button style={{ margin: 10 }}
+                                        info rounded block onPress={() => this.onSignInClick()}>
+                                        <Text>SignIn</Text>
+                                    </Button> */}
+                                    <AnimateLoadingButton
+                                        ref={c => (this.loadingButton = c)}
+                                        width={150}
+                                        height={50}
+                                        title="SIGNIN"
+                                        titleFontSize={16}
+                                        titleColor="rgb(255,255,255)"
+                                        backgroundColor="rgb(29,18,121)"
+                                        borderRadius={25}
+                                        onPress={this.onSignInClick.bind(this)}
+                                    />
+                                </Right>
+                            </View>
+                        </Animatable.View>
+                    </Content>
+                </Container>
                 // </Root>
 
             )
