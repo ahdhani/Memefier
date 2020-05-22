@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
 import { Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { storage } from '../../config'
 
 
 export default class UploadScreen extends Component {
@@ -42,7 +43,7 @@ export default class UploadScreen extends Component {
                                 </Body>
                             </Left>
                             <Right>
-                                <Button transparent>
+                                <Button transparent onPress={this.onPost}>
                                     <Text>Post</Text>
                                 </Button>
 
@@ -91,4 +92,30 @@ export default class UploadScreen extends Component {
             console.log(E);
         }
     };
+
+    onPost = async () => {
+        if (this.state.image != null) {
+            console.log("Image present and upload clicked")
+            // Hard Coded post description and image_name
+            const imageName = "picture_000"
+            var post_desc = "Hi all! good morning"
+            console.log("IMAGE_URI : ", this.state.image)
+            try {
+                const response = await fetch(this.state.image);
+                const blob = await response.blob();
+                
+                var ref = storage.ref().child("memes/" + imageName);
+                ref.put(blob);
+            } catch (error) {
+                // Make a state variable error and append the `error.message` from here to it
+                console.log(error.message);
+            }
+
+            // return ref.put(response)
+
+        } else {
+            console.log("Image uri not present Raise Error")
+        }
+
+    }
 }
