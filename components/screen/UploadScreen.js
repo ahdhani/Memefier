@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
 import { Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { storage } from '../../config'
+import { addPost } from '../../redux';
+import {connect} from 'react-redux'
+import uuid from 'react-uuid'
 
-
-export default class UploadScreen extends Component {
+class UploadScreen extends Component {
     state = {
         image: null,
     };
@@ -42,7 +45,7 @@ export default class UploadScreen extends Component {
                                 </Body>
                             </Left>
                             <Right>
-                                <Button transparent>
+                                <Button transparent onPress={this.onPost}>
                                     <Text>Post</Text>
                                 </Button>
 
@@ -86,9 +89,59 @@ export default class UploadScreen extends Component {
                 this.setState({ image: result.uri });
             }
 
-            console.log(result);
+            // console.log(result);
         } catch (E) {
             console.log(E);
         }
     };
+
+    onPost = async () => {
+        if (this.state.image != null) {
+            // console.log("Image present and upload clicked")
+            // Hard Coded post description and image_name
+            const imageName = uuid()
+            var post_desc = "Hi all! good morning"
+            // console.log("IMAGE_URI : ", this.state.image)
+            try {
+                const response = await fetch(this.state.image);
+                const blob = await response.blob();
+                
+                const uploadTask  = storage.ref().child("memes/" + imageName).put(blob);
+
+                uploadTask.on('state_changed' , 
+                (snapshot) => {
+                    // Progress function
+                    var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                    console.log("Progress : " , progress)
+                } ,
+                (error) => {
+                    console.error(error.message);
+                } , 
+                () => {
+                    storage.ref('memes').child(imageName).getDownloadURL().then( url => {
+                        // console.log(url);
+                        this.props.addPost(url , post_desc)
+                    })
+                })
+            } catch (error) {
+                // Make a state variable error and append the `error.message` from here to it
+                console.log(error.message);
+            }
+
+            // return ref.put(response)
+
+        } else {
+            console.log("Image uri not present Raise Error")
+        }
+
+    }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addPost: (img_url , caption) => dispatch(addPost(img_url , caption))
+    }
+}
+
+
+export default connect(null, mapDispatchToProps)(UploadScreen)

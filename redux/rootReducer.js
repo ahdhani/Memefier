@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux'
-import testReducer from './test/testReducer'
 import authReducer from './auth/authReducer'
+import memeReducer from './meme/memeReducer'
 
 const rootReducer = combineReducers({
-    test : testReducer,
-    auth : authReducer
+    auth : authReducer,
+    post : memeReducer
 })
 
 export default rootReducer
