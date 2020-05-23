@@ -136,7 +136,7 @@ class LoginScreen extends Component {
                                         title="SIGNIN"
                                         titleFontSize={16}
                                         titleColor="rgb(255,255,255)"
-                                        backgroundColor="rgb(29,18,121)"
+                                        backgroundColor='#62B1F6'
                                         borderRadius={25}
                                         onPress={this.onSignInClick.bind(this)}
                                     />
