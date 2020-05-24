@@ -13,13 +13,36 @@ import uuid from 'react-uuid'
 class UploadScreen extends Component {
     state = {
         image: null,
-    };
+        postOnProgress: false,
+        description: "Hi all! good morning",
 
-    // componentDidMount = () => {
-    //     this.setState({
-    //         image: 'null'
-    //     })
-    // }
+        post: {                 // NEED TO BE CHANGED TO THIS STATE FROM ABOVE
+            id: 0,
+            username: '@arjyou',
+            profileImage: null,
+            category: 'Fukru Roasting',
+            memeImage: null,
+            error: '',
+            likes: 3,
+            dislikes: 4,
+            about: 'Pwoli Saanam',
+            comment: '2',
+            isReactions: false,
+            reactions: [
+                {
+                    index: 0,
+                    Reactioncount: 1,
+                },
+                {
+                    index: 1,
+                    Reactioncount: 1,
+                },
+            ],
+            hashtags: [
+
+            ]
+        },
+    };
 
     render() {
         let { image } = this.state;
@@ -45,7 +68,7 @@ class UploadScreen extends Component {
                                 </Body>
                             </Left>
                             <Right>
-                                <Button transparent onPress={this.onPost}>
+                                <Button transparent onPress={this.onPost} disabled={this.state.postOnProgress}>
                                     <Text>Post</Text>
                                 </Button>
 
@@ -96,11 +119,16 @@ class UploadScreen extends Component {
     };
 
     onPost = async () => {
+        
         if (this.state.image != null) {
+            this.setState({             //Code added by Hani
+                ...this.state,
+                postOnProgress: true,
+            })
             // console.log("Image present and upload clicked")
             // Hard Coded post description and image_name
             const imageName = uuid()
-            var post_desc = "Hi all! good morning"
+            var post_desc = this.state.description
             // console.log("IMAGE_URI : ", this.state.image)
             try {
                 const response = await fetch(this.state.image);
@@ -113,6 +141,12 @@ class UploadScreen extends Component {
                     // Progress function
                     var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
                     console.log("Progress : " , progress)
+                    if(progress==100)  //Code added by Hani  //////
+                    this.setState({
+                        ...this.state,
+                        image: null,
+                        postOnProgress: false,
+                    })
                 } ,
                 (error) => {
                     console.error(error.message);
@@ -121,6 +155,7 @@ class UploadScreen extends Component {
                     storage.ref('memes').child(imageName).getDownloadURL().then( url => {
                         // console.log(url);
                         this.props.addPost(url , post_desc)
+                        
                     })
                 })
             } catch (error) {
@@ -133,7 +168,6 @@ class UploadScreen extends Component {
         } else {
             console.log("Image uri not present Raise Error")
         }
-
     }
 }
 

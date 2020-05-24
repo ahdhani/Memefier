@@ -4,24 +4,24 @@ import { Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 RenderReactions = (props) => {
-    if (props.isReactions) {
-        return (
-            <CardItem style={{ justifyContent: 'space-around' }}>
-                <TouchableOpacity style={{ flex: 1 }} >
-                    <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ flex: 1 }} >
-                    <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ flex: 1 }} >
-                    <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ flex: 1 }} >
-                    <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-                </TouchableOpacity>
-            </CardItem>
-        );
-    }
+    // if (props.isReactions) {
+    return (
+        <CardItem style={{ justifyContent: 'space-around' }}>
+            <TouchableOpacity style={{ flex: 1 }} >
+                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flex: 1 }} >
+                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flex: 1 }} >
+                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flex: 1 }} >
+                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+            </TouchableOpacity>
+        </CardItem>
+    );
+    // }
 }
 
 
@@ -39,14 +39,16 @@ const FeedCards = (props) => {
                     </Body>
                 </Left>
                 <Right>
-                    <Icon active name="menu" />
+                    <Button transparent>
+                        <Icon active name="menu" />
+                    </Button>
                 </Right>
             </CardItem>
             <CardItem cardBody>
                 <Image resizeMode='contain' source={require('../assets/profile.jpeg')} style={{ height: 350, flex: 1 }} />
             </CardItem>
 
-            <RenderReactions isReactions={props.post.isReactions}/>
+            {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />}
 
             <CardItem>
                 <Left>
@@ -68,12 +70,17 @@ const FeedCards = (props) => {
                     </Button>
                 </Right>
             </CardItem>
-            <CardItem>
-                <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
-                <Text>{props.post.about}</Text>
+            <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10 , paddingBottom: 20}}>
+                <Text>
+                    <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
+                    {props.post.about}
+                </Text>
+                <Text>
+                    <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
+                    {props.post.comment}
+                </Text>
             </CardItem>
-            <Text style={{ fontWeight: 'bold', marginHorizontal: 15 }}> Comment : </Text>
-            <Text>{props.post.comment}</Text>
+
         </Card>
     )
 }
