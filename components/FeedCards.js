@@ -43,7 +43,9 @@ const FeedCards = (props) => {
                 </Right>
             </CardItem>
             <CardItem cardBody>
-                <Image resizeMode='contain' source={fetch(props.post.img)} style={{ height: 350, flex: 1 }} />
+                <Image resizeMode='contain' 
+                source={{uri: props.post.img }}
+                style={{ height: 350, flex: 1 }} />
             </CardItem>
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}

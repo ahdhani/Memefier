@@ -34,8 +34,6 @@ class FeedScreen extends Component {
 
 
     state = {
-        post_old: [{id : 1} , {id : 2} , {id : 3} 
-        ],
         posts : [] 
         // condition : "NOT FETCHED"
     }
