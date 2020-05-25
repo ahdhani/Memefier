@@ -34,11 +34,22 @@ class FeedScreen extends Component {
 
 
     state = {
-        posts : [] 
-        // condition : "NOT FETCHED"
+        posts : [] ,
+        isRefreshing: false,
     }
 
+    onEndReached = ({ distanceFromEnd }) => {
+    }
 
+    onRefresh = () => {
+        this.setState({isRefreshing: true});
+
+        // fetch next batch CODE HERE
+        console.log("Refreshing")
+        setTimeout(() => {
+          this.setState({isRefreshing: false});
+        }, 2000);
+      }
 
     render() {
         return (
@@ -65,6 +76,24 @@ class FeedScreen extends Component {
                         decelerationRate={'fast'}
                         snapToAlignment={'top'} 
                         viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
+                        // contentContainerStyle={{height: 700}}
+                        // refreshControl={
+                        //   <RefreshControl
+                        //     refreshing = {this.state.refreshing}
+                        //     onRefresh = {()=>this._onRefresh()}
+                        //   />
+                        // }
+                        // curent value for debug is 0.5
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={() => this.onRefresh()}
+                        onEndReachedThreshold={0.5} // Tried 0, 0.01, 0.1, 0.7, 50, 100, 700
+                  
+                        onEndReached = {({distanceFromEnd})=>{ // problem
+                          console.log(distanceFromEnd) // 607, 878 
+                          console.log('reached'); // once, and if I scroll about 14% of the screen, 
+                                               //it prints reached AGAIN. 
+                        //   this.onEndReached()
+                        }}
                     />
                 </View>
             </Container>
