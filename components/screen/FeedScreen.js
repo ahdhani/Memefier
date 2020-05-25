@@ -54,16 +54,16 @@ class FeedScreen extends Component {
     render() {
         return (
             <Container>
-                <Header>
+                {/* <Header>
                     <Left />
                     <Body>
                         <Title>Feed</Title>
                     </Body>
                     <Right />
-                </Header>
-                <Text>
+                </Header> */}
+                {/* <Text>
                     {this.state.condition}
-                </Text>
+                </Text> */}
                 <View style={{ flex: 1 }}>
                     <FlatList
                         data={this.state.posts}
@@ -77,21 +77,13 @@ class FeedScreen extends Component {
                         snapToAlignment={'top'} 
                         viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
                         // contentContainerStyle={{height: 700}}
-                        // refreshControl={
-                        //   <RefreshControl
-                        //     refreshing = {this.state.refreshing}
-                        //     onRefresh = {()=>this._onRefresh()}
-                        //   />
-                        // }
-                        // curent value for debug is 0.5
                         refreshing={this.state.isRefreshing}
                         onRefresh={() => this.onRefresh()}
-                        onEndReachedThreshold={0.5} // Tried 0, 0.01, 0.1, 0.7, 50, 100, 700
+                        onEndReachedThreshold={0.5}
                   
-                        onEndReached = {({distanceFromEnd})=>{ // problem
-                          console.log(distanceFromEnd) // 607, 878 
-                          console.log('reached'); // once, and if I scroll about 14% of the screen, 
-                                               //it prints reached AGAIN. 
+                        onEndReached = {({distanceFromEnd})=>{
+                          console.log(distanceFromEnd) 
+                          console.log('reached');
                         //   this.onEndReached()
                         }}
                     />

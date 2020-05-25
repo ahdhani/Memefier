@@ -1,7 +1,12 @@
 import React from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail } from 'native-base'
-import { Image } from 'react-native'
+import { Image, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+
+const tabHeight = (Platform.OS === 'ios') ? 55 : 60;
+const cardHeight = Dimensions.get('window').height - tabHeight - 10;
+
+(Platform.OS === 'ios') ? 55 : 60
 
 RenderReactions = (props) => {
     return (
@@ -27,7 +32,7 @@ RenderReactions = (props) => {
 const FeedCards = (props) => {
 
     return (
-        <Card>
+        <Card style={{height: cardHeight}}>
             <CardItem>
                 <Left>
                     <Thumbnail source={require('../assets/profile.jpeg')} />
