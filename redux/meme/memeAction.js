@@ -34,3 +34,27 @@ export const addPost = (img_url , caption) => {
         });
     }
 }
+
+// Fetch posts for a user
+export const fetchPosts = () => {
+    return function (dispatch, getState) {
+        console.log(getState().post);
+
+        db.collection('posts')
+            .get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    dispatch({
+                        type : ADD_POST_SUCCESS ,
+                        payload : {
+                            new_meme : doc
+                        }
+                    })
+                }
+                )
+
+                
+            }).
+            catch(error => console.log("ERR : " , error.message))
+    }
+}

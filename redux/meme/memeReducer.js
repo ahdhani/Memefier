@@ -2,7 +2,7 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, FETCH_POST_REQUES
 
 
 const initialState = {
-    memes : null ,
+    posts : null ,
     loading : false ,
     error : null
 }
@@ -20,7 +20,7 @@ export default (state = initialState, { type, payload }) => {
         return {
             ...state ,
             loading : false ,
-            memes : [payload.new_meme , state.memes] ,
+            posts : [payload.new_meme , state.posts] ,
             error : null
         }
     case ADD_POST_FAILURE :
@@ -39,7 +39,7 @@ export default (state = initialState, { type, payload }) => {
         return {
             ...state ,
             loading : false ,
-            memes : [payload.memes] ,
+            posts : [payload.posts] ,
             error : null
         }
     case FETCH_POST_FAILURE :
@@ -54,13 +54,13 @@ export default (state = initialState, { type, payload }) => {
             loading : true ,
             error : null 
         }
-    // Not completed -- To complete memes = filter. blah blah....
+    // Not completed -- To complete posts = filter. blah blah....
     case DELETE_POST_SUCCESS :
         return {
             ...state ,
             loading : false ,
             error : null ,
-            memes : []
+            posts : []
         }
     case DELETE_POST_FAILURE :
         return {

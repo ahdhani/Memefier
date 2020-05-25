@@ -32,8 +32,8 @@ const FeedCards = (props) => {
                 <Left>
                     <Thumbnail source={require('../assets/profile.jpeg')} />
                     <Body>
-                        <Text>{props.post.username}</Text>
-                        <Text note>{props.post.category}</Text>
+                        <Text>{props.post.created_by}</Text>
+                        <Text note>category</Text>
                     </Body>
                 </Left>
                 <Right>
@@ -43,16 +43,16 @@ const FeedCards = (props) => {
                 </Right>
             </CardItem>
             <CardItem cardBody>
-                <Image resizeMode='contain' source={require('../assets/profile.jpeg')} style={{ height: 350, flex: 1 }} />
+                <Image resizeMode='contain' source={fetch(props.post.img)} style={{ height: 350, flex: 1 }} />
             </CardItem>
 
-            {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />}
+            {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
             <CardItem>
                 <Left>
                     <Button transparent>
                         <Icon active name="thumbs-up" />
-                        <Text>{props.post.dislikes} Dislikes</Text>
+                        <Text>0 Dislikes</Text>
                     </Button>
                 </Left>
                 <Body>
@@ -64,18 +64,18 @@ const FeedCards = (props) => {
                 <Right>
                     <Button transparent>
                         <Icon active name="thumbs-up" />
-                        <Text>{props.post.likes} Likes</Text>
+                        <Text>0 Likes</Text>
                     </Button>
                 </Right>
             </CardItem>
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10 , paddingBottom: 20}}>
                 <Text>
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
-                    {props.post.about}
+                    {props.post.caption}
                 </Text>
                 <Text>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    {props.post.comment}
+                    0
                 </Text>
             </CardItem>
 
