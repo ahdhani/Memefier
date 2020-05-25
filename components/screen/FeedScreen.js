@@ -77,7 +77,13 @@ export default class FeedScreen extends Component {
                     <FlatList
                         data={this.state.post}
                         renderItem={({ item }) => <FeedCards post={item} />}
-                        keyExtractor={item => item.id}
+                        // keyExtractor={item => item.id}
+                        keyExtractor={(item,index) => `id_${index}`}
+                        initialNumToRender={2} 
+                        pagingEnabled={true} 
+                        decelerationRate={'fast'}
+                        snapToAlignment={'top'} 
+                        viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
                     />
                 </View>
             </Container>
