@@ -60,6 +60,13 @@ class FeedScreen extends Component {
                         data={this.state.posts}
                         renderItem={({ item }) => <FeedCards post={item} />}
                         // keyExtractor={item => uuid()}
+                        // keyExtractor={item => item.id}
+                        keyExtractor={(item,index) => `id_${index}`}
+                        initialNumToRender={2} 
+                        pagingEnabled={true} 
+                        decelerationRate={'fast'}
+                        snapToAlignment={'top'} 
+                        viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
                     />
                 </View>
             </Container>

@@ -4,7 +4,6 @@ import { Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 RenderReactions = (props) => {
-    // if (props.isReactions) {
     return (
         <CardItem style={{ justifyContent: 'space-around' }}>
             <TouchableOpacity style={{ flex: 1 }} >
@@ -21,7 +20,6 @@ RenderReactions = (props) => {
             </TouchableOpacity>
         </CardItem>
     );
-    // }
 }
 
 
