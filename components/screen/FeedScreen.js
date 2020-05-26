@@ -39,12 +39,13 @@ class FeedScreen extends Component {
     }
 
     onEndReached = ({ distanceFromEnd }) => {
+        // fetch next batch CODE HERE
     }
 
     onRefresh = () => {
         this.setState({isRefreshing: true});
 
-        // fetch next batch CODE HERE
+        // refreshed fetch CODE HERE
         console.log("Refreshing")
         setTimeout(() => {
           this.setState({isRefreshing: false});
@@ -61,9 +62,6 @@ class FeedScreen extends Component {
                     </Body>
                     <Right />
                 </Header> */}
-                {/* <Text>
-                    {this.state.condition}
-                </Text> */}
                 <View style={{ flex: 1 }}>
                     <FlatList
                         data={this.state.posts}
@@ -76,7 +74,6 @@ class FeedScreen extends Component {
                         decelerationRate={'fast'}
                         snapToAlignment={'top'} 
                         viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
-                        // contentContainerStyle={{height: 700}}
                         refreshing={this.state.isRefreshing}
                         onRefresh={() => this.onRefresh()}
                         onEndReachedThreshold={0.5}
@@ -93,9 +90,9 @@ class FeedScreen extends Component {
     }
 
 }
-const mapStateToProps = (state) => ({
-    posts : state.post.posts
-})
+// const mapStateToProps = (state) => ({
+//     posts : state.post.posts
+// })
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPosts: () => dispatch(fetchPosts())
