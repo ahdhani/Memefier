@@ -23,7 +23,7 @@ class FeedScreen extends Component {
                 }
                 )
 
-                console.log(this.state.posts);
+                // console.log(this.state.posts);
                 // this.state.condition = "FETCHED"
                 // console.log(this.state.condition)
             }).

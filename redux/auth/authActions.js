@@ -1,4 +1,4 @@
-import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS } from './authTypes'
+import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER } from './authTypes'
 import { auth, db } from '../../config'
 
 export const logoutUser = () => {
@@ -32,16 +32,19 @@ export const createUser = (user) => {
                     lastname: user.lastname,
                     gender: user.gender,
                     dob: user.dob,
-                    phone: user.phone
+                    phone: user.phone,
+                    followers: 0,
+                    following: 0
                 }
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
                     .then(() => {
-                        console.log("USER DETAILS PUSHED")
+                        console.log("USER DETAILS PUSHED");
+
                         dispatch({
                             type: REGISTER_SUCCESS,
                             payload: {
-                                user, userDetails
+                                user, userDetails, following: []
                             }
                         })
                     })
@@ -71,13 +74,23 @@ export const loginUser = ({ email, password }) => {
                         // console.log(snapshot.data())
                         console.log("USER DATA LOADED")
 
-                        dispatch({
-                            type: LOGIN_SUCCESS,
-                            payload: {
-                                user,
-                                userDetails: snapshot.data()
-                            }
-                        })
+                        db.collection("followers").where('followed_by', '==', user.uid)
+                            .get().
+                            then(snapshot_followers => {
+                                console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
+                                // console.log(snapshot_followers.data())
+                                console.log(snapshot_followers.docs);
+
+                                dispatch({
+                                    type: LOGIN_SUCCESS,
+                                    payload: {
+                                        user,
+                                        userDetails: snapshot.data(),
+                                        following: []
+                                        // following: snapshot_followers.data()
+                                    }
+                                })
+                            })
 
                         // console.log(getState().auth)
                     })
@@ -106,18 +119,38 @@ export const loadUser = () => {
                         // console.log(snapshot.data())
                         console.log("USER LOADED")
 
-                        dispatch({
-                            type: USER_LOADED,
-                            payload: {
-                                user,
-                                userDetails: snapshot.data()
-                            }
-                        })
+                        db.collection("followers").where('followed_by', '==', user.uid)
+                            .get()
+                            .then(snapshot_followers => {
+                                console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
+                                // console.log(snapshot_followers.data())
+                                console.log(snapshot_followers.docs);
+                                let arr = []
+                                snapshot_followers.docs.forEach(item => {
+                                    arr = [...arr , item.data().following]
+                                })
+
+                                console.log(arr)
+
+                                dispatch({
+                                    type: USER_LOADED,
+                                    payload: {
+                                        user,
+                                        userDetails: snapshot.data(),
+                                        following: arr
+                                        // following: snapshot_followers.data()
+                                    }
+                                })
+
+                                console.log("FOLLOWING LOADED")
+                                console.log(getState().auth.following)
+                            })
+
 
                         // console.log(getState().auth)
                     })
                     .catch(error => {
-                        console.log("AUTH ERROR")
+                        console.log("AUTH ERROR", error.message)
                         dispatch({
                             type: AUTH_ERROR
                         })
@@ -131,5 +164,51 @@ export const loadUser = () => {
                 console.log("AUTH ERROR")
             }
         })
+    }
+}
+
+export const follow_user = (user_uid) => { // user_uid is the id of the user to be followed
+    return function (dispatch, getState) {
+        var doc_name = getState().auth.user.uid + '_' + user_uid
+        db.collection("followers").doc(doc_name).set({
+            followed_by: getState().auth.user.uid,
+            following: user_uid
+        }).then(() => {
+            console.log("Promise data returned :");
+            // console.log(ref)
+
+            dispatch({
+                type: FOLLOW_USER,
+                payload: {
+                    user_followed: user_uid
+                }
+            });
+
+            console.log("FOLLOW USER SUCCESS");
+
+            console.log(getState().auth.following);
+
+        }).catch(error => console.log("CANT FOLLOW", error.message))
+    }
+}
+
+export const unfollow_user = (user_uid) => { // user_uid is the id of the user to be followed
+    return function (dispatch, getState) {
+        let query = db.collection('followers').where('followed_by', '==', getState().auth.user.uid).where('following', '==', user_uid);
+        query.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                doc.ref.delete();
+            });
+
+            dispatch({
+                type: UNFOLLOW_USER,
+                payload: {
+                    user_unfollow: user_uid
+                }
+            })
+
+            console.log("UNFOLLOW USER SUCCESS");
+            console.log(getState().auth.following);
+        });
     }
 }

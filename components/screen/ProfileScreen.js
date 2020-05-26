@@ -5,7 +5,7 @@ import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, 
 import * as Animatable from 'react-native-animatable';
 // imports for state management
 import { connect } from 'react-redux';
-import { logoutUser } from '../../redux';
+import { logoutUser, unfollow_user, follow_user } from '../../redux';
 
 class ProfileScreen extends Component {
 
@@ -23,6 +23,18 @@ class ProfileScreen extends Component {
 
     signOutClicked = () => {
         this.props.logoutUser()
+    }
+
+    // Sarath uid : hxvrXBCpjXY1H7NvdHqZQEohH7o2
+
+    followUser = () => {
+        console.log("Follow user clicked");
+        this.props.follow("hxvrXBCpjXY1H7NvdHqZQEohH7o2");
+    }
+
+    unfollowUser = () => {
+        console.log("Unfollow clicked");
+        this.props.unfollow("hxvrXBCpjXY1H7NvdHqZQEohH7o2");
     }
 
     render() {
@@ -132,6 +144,26 @@ class ProfileScreen extends Component {
                                 <Text>{this.props.userDetails.gender}</Text>
                             </Right>
                         </ListItem>
+                        <ListItem icon>
+                            <Left>
+                                <Button style={{ backgroundColor: "#FF9501" }}>
+                                    <Icon active name="airplane" />
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>Following</Text>
+                            </Body>
+                            <Right>
+                                <Text>{this.props.following}</Text>
+                            </Right>
+                        </ListItem>
+
+                        <Button info onPress={() => this.followUser()}>
+                            <Text>Follow SARATH</Text>
+                        </Button>
+                        <Button info onPress={() => this.unfollowUser()}>
+                            <Text>Unfollow SARATH</Text>
+                        </Button>
                     </Content>
                 </Container>
             )
@@ -157,12 +189,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    userDetails: state.auth.userDetails
+    userDetails: state.auth.userDetails , 
+    following : state.auth.following
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logoutUser: () => dispatch(logoutUser())
+        logoutUser: () => dispatch(logoutUser()) ,
+        unfollow : (user_id) => dispatch(unfollow_user(user_id)) ,
+        follow : (user_id) => dispatch(follow_user(user_id))
     }
 }
 
