@@ -42,7 +42,7 @@ class CommunityScreen extends Component {
     }
 
     toggleFollow = (uid) => {
-        if (uid in this.props.following) {
+        if (this.props.following.includes(uid)) {
             this.unfollowUser(uid)
         } else {
             this.followUser(uid)
