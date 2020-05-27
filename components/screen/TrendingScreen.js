@@ -72,11 +72,12 @@ export default class TrendingScreen extends Component {
     }
 
     toggleFollow = (index) => {
-        // let trendingPosts= this.state.trendingPosts;
-        // trendingPosts[index].isFollow = !trendingPosts[index].isFollow;
-        // this.setState({
-        //     trendingPosts: trendingPosts,
-        // })
+        let trendingPosts = this.state.trendingPosts;
+        console.log(index)
+        trendingPosts[index].isFollow = !trendingPosts[0].isFollow;
+        this.setState({
+            trendingPosts: trendingPosts,
+        })
     }
     render() {
         return (
@@ -111,12 +112,13 @@ export default class TrendingScreen extends Component {
                     />
                     <FlatList
                         data={this.state.trendingPosts}
-                        renderItem={({ item }) => (
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item,index}) => (
                             <Item>
                                 <ImageBackground resizeMode='contain' source={require('../../assets/profile.jpeg')}
                                     style={{ width: 200, height: 250 }}>
-                                    {/* <View style={{ flexDirection: 'row', top: 200 }}> */}
-                                        {/* <Left>
+                                    <View style={{ flexDirection: 'row', top: 200 }}>
+                                        <Left>
                                             <Text style={{
                                                 margin: 20, color: '#fff',
                                                 shadowColor: '#111', textShadowColor: '#111',
@@ -125,23 +127,22 @@ export default class TrendingScreen extends Component {
                                         </Left>
                                         <Right>
                                             <TouchableOpacity 
-                                            onPress={(index) => this.toggleFollow(index)}
+                                            onPress={({index}) => this.toggleFollow(index)}
                                             >
                                                 <Text style={{
                                                     margin: 20, color: '#fff',
                                                     shadowColor: '#111', textShadowColor: '#111',
-                                                    textShadowRadius: 10, fontWeight: '800',
-                                                }}>{this.state.isFollow ? 'Follow' : 'Unfollow'}</Text>
+                                                    textShadowRadius: 5, fontWeight: '600',fontSize: 12,
+                                                }}>{item.isFollow ? 'Follow' : 'Unfollow'}</Text>
                                             </TouchableOpacity>
 
-                                        </Right> */}
-                                    {/* </View> */}
+                                        </Right>
+                                    </View>
                                 </ImageBackground>
                             </Item>
                         )}
                         numColumns={2}
                         // enableEmptySections={true}
-                        keyExtractor={(item, index) => index.toString()}
                     />
 
 
