@@ -9,27 +9,31 @@ import {uuid} from 'react-uuid'
 
 class FeedScreen extends Component {
 
-    componentDidMount = async () => {
-        console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
-        // this.props.fetchPosts();
+    fetchPosts = async () => {
+        var arr = []
         await db.collection('posts')
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
-                    this.setState({
-                        posts : [...this.state.posts , doc.data()]
-                    })
+                    arr = [doc.data() , ...arr]
                     // this.state.posts = [...this.state.posts , doc.data()]
-                }
-                )
+                })
 
-                console.log(this.state.posts);
+                this.setState({
+                    posts : arr
+                })
+
+                // console.log(this.state.posts);
                 // this.state.condition = "FETCHED"
                 // console.log(this.state.condition)
             }).
             catch(error => console.log("ERR : " , error.message))
+    }
 
-
+    componentDidMount = () => {
+        console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
+        // this.props.fetchPosts();
+        this.fetchPosts()
     }
 
 
@@ -45,8 +49,14 @@ class FeedScreen extends Component {
     onRefresh = () => {
         this.setState({isRefreshing: true});
 
+
+        // fetch next batch CODE HERE
+        // console.log("Refreshing")
+        this.fetchPosts()
+
         // refreshed fetch CODE HERE
         console.log("Refreshing")
+
         setTimeout(() => {
           this.setState({isRefreshing: false});
         }, 2000);
@@ -95,7 +105,7 @@ class FeedScreen extends Component {
 // })
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchPosts: () => dispatch(fetchPosts())
+        fetchPosts_: () => dispatch(fetchPosts())
     }
 }
 

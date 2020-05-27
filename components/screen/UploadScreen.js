@@ -63,7 +63,7 @@ class UploadScreen extends Component {
                             <Left>
                                 <Thumbnail source={require('../../assets/profile.jpeg')} />
                                 <Body>
-                                    <Text>@arjyou</Text>
+                                    <Text>{this.props.userDetails.firstname} {this.props.userDetails.lastname}</Text>
                                     <Text note>Roasting fukru</Text>
                                 </Body>
                             </Left>
@@ -177,5 +177,11 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+const mapStateToProps = (state) => ({
+    userDetails: state.auth.userDetails , 
+    following : state.auth.following
+})
 
-export default connect(null, mapDispatchToProps)(UploadScreen)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadScreen)
