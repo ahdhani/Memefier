@@ -27,8 +27,10 @@ class CommunityScreen extends Component {
                     // if (user.id in this.props.following) {
                     //     isFollow = true
                     // }
-                
-                    user_list = [{...user.data() , uid : user.id} , ...user_list]
+                    if(user.id != this.props.user.uid) {
+                        user_list = [{...user.data() , uid : user.id} , ...user_list]
+                    }
+
                 })
 
                 console.log(user_list)
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
+    user : state.auth.user ,
     userDetails: state.auth.userDetails , 
     following : state.auth.following
 })
