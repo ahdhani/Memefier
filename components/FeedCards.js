@@ -7,8 +7,6 @@ import { db } from '../config';
 const tabHeight = (Platform.OS === 'ios') ? 55 : 60;
 const cardHeight = Dimensions.get('window').height - tabHeight - 10;
 
-(Platform.OS === 'ios') ? 55 : 60
-
 RenderReactions = (props) => {
     return (
         <CardItem style={{ justifyContent: 'space-around' }}>
@@ -68,7 +66,7 @@ const FeedCards = (props) => {
 
                 <Image resizeMode='contain' 
                 source={{uri: props.post.img }}
-                style={{ height: '', flex: 1 }} />
+                style={{ height: 350, flex: 1 }} />
 
             </CardItem>
 
