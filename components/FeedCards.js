@@ -5,7 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { db } from '../config';
 
 const tabHeight = (Platform.OS === 'ios') ? 55 : 60;
+
+const screenWidth = Dimensions.get('window').width;
 const cardHeight = Dimensions.get('window').height - tabHeight - 10;
+const postHeight = screenWidth * 1.25;
 
 RenderReactions = (props) => {
     return (
@@ -66,7 +69,7 @@ const FeedCards = (props) => {
 
                 <Image resizeMode='contain' 
                 source={{uri: props.post.img }}
-                style={{ height: 350, flex: 1 }} />
+                style={{ width: screenWidth,height: postHeight}} />
 
             </CardItem>
 

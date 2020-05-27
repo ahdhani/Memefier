@@ -79,7 +79,7 @@ class FeedScreen extends Component {
                         // keyExtractor={item => uuid()}
                         // keyExtractor={item => item.id}
                         keyExtractor={(item,index) => `id_${index}`}
-                        initialNumToRender={2} 
+                        // initialNumToRender={2} 
                         pagingEnabled={true} 
                         decelerationRate={'fast'}
                         snapToAlignment={'top'} 
