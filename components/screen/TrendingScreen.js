@@ -98,7 +98,7 @@ export default class TrendingScreen extends Component {
                             <Icon name="ios-people" />
                         </Item>
                     </Body>
-                </Header>
+                </Header> 
                 <Content>
                     <FlatList
                         data={this.state.searchResult}

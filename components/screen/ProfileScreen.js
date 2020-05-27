@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image ,TouchableOpacity} from 'react-native'
 // import PhotoUpload from 'react-native-photo-upload'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import * as Animatable from 'react-native-animatable';
@@ -18,11 +18,12 @@ class ProfileScreen extends Component {
             lastname: 'kasn',
             gender: 'M',
             dob: '2000-01-01',
+            avatar: null,
         }
     }
 
     signOutClicked = () => {
-        this.props.logoutUser()
+        this.props.logoutUser() 
     }
 
     // Sarath uid : hxvrXBCpjXY1H7NvdHqZQEohH7o2
@@ -39,10 +40,10 @@ class ProfileScreen extends Component {
 
     render() {
         // Condition : !this.props.isAuthenticated
-        if (false) {
+        // if (false) {
             // GOTO SignIn
-        }
-        else
+        // }
+        // else
             return (
                 <Container>
                     <Header>
@@ -57,28 +58,23 @@ class ProfileScreen extends Component {
                         </Right>
                     </Header>
                     <Content>
-
-                        {/* <PhotoUpload
-                        onPhotoSelect={avatar => {
-                            if (avatar) {
-                                console.log('Image base64 string: ', avatar)
-                            }
-                        }}
-                    > */}
-                        <Image
+                    <TouchableOpacity style={{alignSelf: 'center', marginVertical: 30}}>
+                    <Image
                             style={{
                                 paddingVertical: 30,
                                 width: 150,
                                 height: 150,
                                 alignSelf: 'center',
-                                borderRadius: 75
+                                borderRadius: 75,
+                                backgroundColor: '#ccc'
                             }}
                             resizeMode='cover'
-                            source={require('../../assets/profile.jpeg')}
+                            source={{uri: this.state.avatar}}
+                            
                         />
-                        {/* </PhotoUpload> */}
-
-                        {/* <Thumbnail circular large source={require('../../assets/profile.jpeg')} style={styles.logo}/> */}
+                        <Icon name='add' style={{alignSelf: 'center', position: 'absolute',top: 65}} /> 
+                    </TouchableOpacity>
+                        
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "#FF9501" }}>
