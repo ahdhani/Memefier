@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
 import { db } from '../../config'
+import { unfollow_user, follow_user } from '../../redux';
 
 class CommunityScreen extends Component {
 
@@ -22,9 +23,15 @@ class CommunityScreen extends Component {
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(user => {
+                    // var isFollow = false // if following
+                    // if (user.id in this.props.following) {
+                    //     isFollow = true
+                    // }
                 
                     user_list = [{...user.data() , uid : user.id} , ...user_list]
                 })
+
+                console.log(user_list)
 
                 this.setState({
                     users : user_list
@@ -34,12 +41,12 @@ class CommunityScreen extends Component {
             .catch(error => console.log("ERR :" , error.message))
     }
 
-    toggleFollow = (index) => {
-        let users = this.state.users;
-        users[index].isFollow = !users[index].isFollow;
-        this.setState({
-            users: users,
-        })
+    toggleFollow = (uid) => {
+        if (uid in this.props.following) {
+            this.unfollowUser(uid)
+        } else {
+            this.followUser(uid)
+        }
     }
 
     followUser = (uid) => {
@@ -70,8 +77,8 @@ class CommunityScreen extends Component {
                                 <Thumbnail source={{ uri: item.avatar }} />
                                 <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                                 <Text style={{ marginLeft: 200 }}
-                                        onPress = {()=>this.toggleFollow(index)}
-                                >{!(item.uid in this.props.following) ? 'follow ': 'unfollow'}</Text>
+                                        onPress = {() => this.toggleFollow(item.uid)}
+                                >{(this.props.following.includes(item.uid)) ? 'unfollow ': 'follow'}</Text>
                             </Item>
                         )}
                         enableEmptySections={true}
@@ -95,14 +102,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
     userDetails: state.auth.userDetails , 
     following : state.auth.following
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logoutUser: () => dispatch(logoutUser()) ,
         unfollow : (user_id) => dispatch(unfollow_user(user_id)) ,
         follow : (user_id) => dispatch(follow_user(user_id))
     }
