@@ -123,10 +123,12 @@ class ProfileScreen extends Component {
                             <Text note>Following</Text>
                         </View>
                     </View>
+
                     <H1 style={{ alignSelf: 'center', }}>
                         {this.props.userDetails.firstname} {this.props.userDetails.lastname}
                     </H1>
-                    
+                    <Text note style={{ alignSelf: 'center' }}>Description</Text>
+
                 </Content>
             </Container>
         )
