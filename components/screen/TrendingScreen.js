@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import { db } from '../../config';
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const cardWidth = Dimensions.get('window').width / 2;
@@ -57,19 +58,20 @@ export default class TrendingScreen extends Component {
         })
 
         //Change from HERE
-        if (text == 'Z') {
-            this.setState({
-                searchResult: [
-                    {
-                        username: 'hani',
-                        profileImage: ''
-                    },
-                    {
-                        username: 'kudu',
-                        profileImage: ''
-                    },
-                ]
-            })
+        if (text != '') {
+
+            // this.setState({
+            //     searchResult: [
+            //         {
+            //             username: 'hani',
+            //             profileImage: ''
+            //         },
+            //         {
+            //             username: 'kudu',
+            //             profileImage: ''
+            //         },
+            //     ]
+            // })
         }
     }
 
