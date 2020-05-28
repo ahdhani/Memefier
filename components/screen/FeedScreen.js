@@ -12,6 +12,7 @@ class FeedScreen extends Component {
     fetchPosts = async () => {
         var arr = []
         await db.collection('posts')
+            .where('created_by' , 'in' , [...this.props.following , this.props.user.uid])
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
@@ -31,7 +32,7 @@ class FeedScreen extends Component {
     }
 
     componentDidMount = () => {
-        console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
+        // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
         // this.props.fetchPosts();
         this.fetchPosts()
     }
@@ -55,7 +56,7 @@ class FeedScreen extends Component {
         this.fetchPosts()
 
         // refreshed fetch CODE HERE
-        console.log("Refreshing")
+        // console.log("Refreshing")
 
         setTimeout(() => {
           this.setState({isRefreshing: false});
@@ -99,9 +100,11 @@ class FeedScreen extends Component {
     }
 
 }
-// const mapStateToProps = (state) => ({
-//     posts : state.post.posts
-// })
+const mapStateToProps = (state) => ({
+    user : state.auth.user ,
+    userDetails: state.auth.userDetails , 
+    following : state.auth.following
+})
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPosts_: () => dispatch(fetchPosts())
@@ -109,4 +112,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps)(FeedScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(FeedScreen)
