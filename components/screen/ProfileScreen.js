@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image ,TouchableOpacity} from 'react-native'
-// import PhotoUpload from 'react-native-photo-upload'
-import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import * as Animatable from 'react-native-animatable';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
@@ -22,8 +23,42 @@ class ProfileScreen extends Component {
         }
     }
 
+    componentDidMount() {
+        this.getPermissionAsync();
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+            }
+        }
+    };
+
+    _pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                const user = this.state.user;
+                user.avatar = result.uri;
+                this.setState({ user: user });
+            }
+
+            // console.log(result);
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+
     signOutClicked = () => {
-        this.props.logoutUser() 
+        this.props.logoutUser()
     }
 
     // Sarath uid : hxvrXBCpjXY1H7NvdHqZQEohH7o2
@@ -41,128 +76,60 @@ class ProfileScreen extends Component {
     render() {
         // Condition : !this.props.isAuthenticated
         // if (false) {
-            // GOTO SignIn
+        // GOTO SignIn
         // }
         // else
-            return (
-                <Container>
-                    <Header>
-                        <Left />
-                        <Body>
-                            <Title>Profile</Title>
-                        </Body>
-                        <Right>
-                            <Button info onPress={() => this.signOutClicked()}>
-                                <Text>SignOut</Text>
-                            </Button>
-                        </Right>
-                    </Header>
-                    <Content>
-                    <TouchableOpacity style={{alignSelf: 'center', marginVertical: 30}}>
-                    <Image
-                            style={{
-                                paddingVertical: 30,
-                                width: 150,
-                                height: 150,
-                                alignSelf: 'center',
-                                borderRadius: 75,
-                                backgroundColor: '#ccc'
-                            }}
-                            resizeMode='cover'
-                            source={{uri: this.state.avatar}}
-                            
-                        />
-                        <Icon name='add' style={{alignSelf: 'center', position: 'absolute',top: 65}} /> 
-                    </TouchableOpacity>
-                        
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Name</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.userDetails.firstname}</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Email</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.userDetails.lastname}</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Phone Number</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.userDetails.phone}</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Date of Birth</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.userDetails.dob}</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Gender</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.userDetails.gender}</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#FF9501" }}>
-                                    <Icon active name="airplane" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>Following</Text>
-                            </Body>
-                            <Right>
-                                <Text>{this.props.following}</Text>
-                            </Right>
-                        </ListItem>
+        return (
+            <Container>
+                <Header>
+                    <Left />
+                    <Body>
+                        <Title>Profile</Title>
+                    </Body>
+                    <Right>
+                        <Button info onPress={() => this.signOutClicked()}>
+                            <Text>SignOut</Text>
+                        </Button>
+                    </Right>
+                </Header>
+                <Content>
+                    <H1 style={{ alignSelf: 'center', marginTop: 30 }}>Rank 0</H1>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <View style={{ justifyContent: 'center' }}>
+                            <H1 style={{ alignSelf: 'center' }}>0</H1>
+                            <Text note>Followers</Text>
+                        </View>
 
-                        <Button info onPress={() => this.followUser()}>
-                            <Text>Follow SARATH</Text>
-                        </Button>
-                        <Button info onPress={() => this.unfollowUser()}>
-                            <Text>Unfollow SARATH</Text>
-                        </Button>
-                    </Content>
-                </Container>
-            )
+                        <TouchableOpacity style={{ alignSelf: 'center', marginVertical: 30 }}
+                            onPress={() => this._pickImage()}>
+                            <Image
+                                style={{
+                                    paddingVertical: 30,
+                                    width: 150,
+                                    height: 150,
+                                    alignSelf: 'center',
+                                    borderRadius: 75,
+                                    backgroundColor: '#ccc'
+                                }}
+                                resizeMode='cover'
+                                source={{ uri: this.state.user.avatar }}
+
+                            />
+                            {!this.state.user.avatar &&
+                                <Icon name='add' style={{ alignSelf: 'center', position: 'absolute', top: 65 }} />}
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center' }}>
+                            <H1 style={{ alignSelf: 'center' }}>0</H1>
+                            <Text note>Following</Text>
+                        </View>
+                    </View>
+                    <H1 style={{ alignSelf: 'center', }}>
+                        {this.props.userDetails.firstname} {this.props.userDetails.lastname}
+                    </H1>
+                    
+                </Content>
+            </Container>
+        )
     }
 
 }
@@ -185,15 +152,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    userDetails: state.auth.userDetails , 
-    following : state.auth.following
+    userDetails: state.auth.userDetails,
+    following: state.auth.following
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logoutUser: () => dispatch(logoutUser()) ,
-        unfollow : (user_id) => dispatch(unfollow_user(user_id)) ,
-        follow : (user_id) => dispatch(follow_user(user_id))
+        logoutUser: () => dispatch(logoutUser()),
+        unfollow: (user_id) => dispatch(unfollow_user(user_id)),
+        follow: (user_id) => dispatch(follow_user(user_id))
     }
 }
 

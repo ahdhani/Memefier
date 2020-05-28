@@ -76,7 +76,7 @@ class CommunityScreen extends Component {
                             <Item style={{ flexDirection: 'row', padding: 4 }}>
                                 <Thumbnail source={{ uri: item.avatar }} />
                                 <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
-                                <Text style={{ marginLeft: 200 }}
+                                <Text style={{ marginLeft: 150 }}
                                         onPress = {() => this.toggleFollow(item.uid)}
                                 >{(this.props.following.includes(item.uid)) ? 'unfollow ': 'follow'}</Text>
                             </Item>
