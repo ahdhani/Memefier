@@ -119,7 +119,7 @@ class ProfileScreen extends Component {
                                 <Icon name='add' style={{ alignSelf: 'center', position: 'absolute', top: 65 }} />}
                         </TouchableOpacity>
                         <View style={{ justifyContent: 'center' }}>
-                            <H1 style={{ alignSelf: 'center' }}>0</H1>
+                            <H1 style={{ alignSelf: 'center' }}>{this.props.following.length}</H1>
                             <Text note>Following</Text>
                         </View>
                     </View>
