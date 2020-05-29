@@ -14,21 +14,21 @@ class LoginScreen extends Component {
 
     state = {
         isLogin: false,
-        username: '',
+        email: '',
         password: '',
-        usernameError: false,
+        emailError: false,
         passwordError: false,
     }
 
     isValidUsername = () => {
-        if (this.state.username != '') {
+        if (this.state.email != '') {
             this.setState({
-                usernameError: false,
+                emailError: false,
             })
             return true;
         }
         this.setState({
-            usernameError: true,
+            emailError: true,
         })
         return false;
     }
@@ -49,7 +49,7 @@ class LoginScreen extends Component {
     // onSignInClick = () => {
     //     if (this.isValidUsername() && this.isValidPassword()) {
     //         let user = {
-    //             email: this.state.username,
+    //             email: this.state.email,
     //             password: this.state.password,
     //         }
     //         console.log(user);
@@ -60,7 +60,7 @@ class LoginScreen extends Component {
         this.loadingButton.showLoading(true);
         if (this.isValidUsername() && this.isValidPassword()) {
             let user = {
-                email: this.state.username,
+                email: this.state.email,
                 password: this.state.password,
             }
             console.log(user);
@@ -105,10 +105,10 @@ class LoginScreen extends Component {
                             style={styles.footer}
                             animation="fadeInUpBig">
                             <Form>
-                                <Item stackedLabel error={this.state.usernameError}>
+                                <Item stackedLabel error={this.state.emailError}>
                                     <Label>Username</Label>
                                     <Input keyboardType='email-address' error="#f99"
-                                        onChangeText={(text) => this.setState({ username: text })} />
+                                        onChangeText={(text) => this.setState({ email: text })} />
                                 </Item>
                                 <Item stackedLabel error={this.state.passwordError}>
                                     <Label>Password</Label>

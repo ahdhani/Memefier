@@ -165,41 +165,6 @@ class SignUp extends Component {
                                         <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
                                     </Item>
                                 </View>
-
-
-                                {/* <View style={{flexDirection:'row'}}>
-                            <Item stackedLabel style={{flex: 1}}>
-                                <Label>Date of Birth</Label>
-                                <DatePicker
-                                    defaultDate={new Date(2000, 1, 1)}
-                                    minimumDate={new Date(1940, 1, 1)}
-                                    maximumDate={new Date(2020, 12, 31)}
-                                    locale={"en"}
-                                    timeZoneOffsetInMinutes={undefined}
-                                    modalTransparent={false}
-                                    animationType={"fade"}
-                                    androidMode={"spinner"}
-                                    placeHolderText="Select"
-                                    // textStyle={{ color: "green" }}
-                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                    onDateChange={ (date) => this.setState({dob: date})  }
-                                    disabled={false}
-                                    />
-                            </Item>
-                            <Item stackedLabel style={{flex: 1}}>
-                                <Label>Gender</Label>
-                                <Picker
-                                    iosHeader="Select one"
-                                    mode="dropdown"
-                                    selectedValue={this.state.gender}
-                                    onValueChange={(itemValue,itemIndex) => this.setState({gender: itemValue})  }
-                                    >
-                                        <Picker.Item label="Male" value="M" />
-                                        <Picker.Item label="Female" value="F" />
-                                        <Picker.Item label="Other" value="O" />
-                                    </Picker>
-                            </Item>
-                        </View> */}
                                 <Item stackedLabel>
                                     <Label>Phone Number</Label>
                                     <Input placeholder='Optional' placeholderTextColor='#ccc'
@@ -224,7 +189,7 @@ class SignUp extends Component {
             )
     }
 
-}
+} 
 
 const styles = StyleSheet.create({
     container: {
