@@ -34,7 +34,8 @@ export const createUser = (user) => {
                     dob: user.dob,
                     phone: user.phone,
                     followers: 0,
-                    following: 0
+                    following: 0,
+                    userId : user.userId
                 }
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
