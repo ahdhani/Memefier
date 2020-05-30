@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import { db } from '../../config';
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const cardWidth = Dimensions.get('window').width / 2;
@@ -54,22 +55,28 @@ export default class TrendingScreen extends Component {
     onChangeTextSearch = (text) => {
         this.setState({
             searchText: text,
+            searchResult: []
         })
 
         //Change from HERE
-        if (text == 'Z') {
-            this.setState({
-                searchResult: [
-                    {
-                        username: 'hani',
-                        profileImage: ''
-                    },
-                    {
-                        username: 'kudu',
-                        profileImage: ''
-                    },
-                ]
-            })
+        if (text != '') {
+            var search_list = []
+            db.collection('userDetails')
+                .get()
+                .then(snapshot => {
+                    snapshot.docs.forEach(doc => {
+                        if(doc.data().firstname.includes(text) || doc.data().lastname.includes(text) ) {
+                            // console.log(doc.data())
+                            // search_list.push(doc.data())
+                            search_list = [...search_list , doc.data()]
+                            this.setState({
+                                searchResult: search_list
+                            })
+                        }
+                    })
+                })
+                .catch(error => console.log(error.message))
+
         }
     }
 
@@ -105,12 +112,13 @@ export default class TrendingScreen extends Component {
                         renderItem={({ item }) => (
                             <Item style={{ flexDirection: 'row', padding: 4 }}>
                                 <Thumbnail source={require('../../assets/profile.jpeg')} />
-                                <Text style={{ marginLeft: 8 }}>{item.username}</Text>
+                                <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                             </Item>
                         )}
                         enableEmptySections={true}
                         keyExtractor={(item, index) => index.toString()}
                     />
+                    {/* -------------------------- commented to remove error --------------------------- */}
                     <FlatList
                         data={this.state.trendingPosts}
                         keyExtractor={(item, index) => index.toString()}
@@ -147,7 +155,8 @@ export default class TrendingScreen extends Component {
                         numColumns={2}
                         // enableEmptySections={true}
                     />
-
+                    
+                    {/* -------------------------- commented to remove error --------------------------- */}
 
                 </Content>
             </Container>

@@ -12,7 +12,7 @@ class CommunityScreen extends Component {
     }
 
     componentDidMount = () => {
-        console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
+        // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
         // this.props.fetchPosts();
         this.fetchUsers()
     }
@@ -32,9 +32,6 @@ class CommunityScreen extends Component {
                     }
 
                 })
-
-                console.log(user_list)
-
                 this.setState({
                     users : user_list
                 })
