@@ -1,7 +1,7 @@
-import React, { Component} from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { Component } from 'react'
+import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
 import * as Animatable from 'react-native-animatable';
-import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title } from 'native-base'
+import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title, Image } from 'native-base'
 import MainScreen from './MainScreen'
 import { AppLoading } from "expo";
 
@@ -9,6 +9,9 @@ import { AppLoading } from "expo";
 import AnimateLoadingButton from 'react-native-animate-loading-button';
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
+
+const screenHeight = Dimensions.get('screen').height;
+
 
 class LoginScreen extends Component {
 
@@ -69,7 +72,7 @@ class LoginScreen extends Component {
         if (!this.props.isAuthenticated) {
             this.loadingButton.showLoading(false);
         }
-      }
+    }
 
     onSignUpClick = () => {
         this.props.navigation.navigate('SignUpScreen');
@@ -83,91 +86,84 @@ class LoginScreen extends Component {
             return <AppLoading />
         else
             return (
-                // <Root>
-                <Container style={styles.container}>
-                    <Header>
-                        <Left />
-                        <Body>
-                            <Title>Login</Title>
-                        </Body>
-                        <Right />
-                    </Header>
-
-                    <Content style={{ bottom: 0, position: 'absolute', width: '100%', backgroundColor: "#05375a", }}>
-                        <Animatable.Image
-                            animation="bounceIn"
-                            // duration= {2000}
-                            style={styles.logo}
-                            source={require('../../assets/logo.png')}
-                            resizeMode="stretch"
-                        />
-                        <Animatable.View
-                            style={styles.footer}
-                            animation="fadeInUpBig">
-                            <Form>
-                                <Item stackedLabel error={this.state.emailError}>
-                                    <Label>Username</Label>
-                                    <Input keyboardType='email-address' error="#f99"
-                                        onChangeText={(text) => this.setState({ email: text })} />
-                                </Item>
-                                <Item stackedLabel error={this.state.passwordError}>
-                                    <Label>Password</Label>
-                                    <Input onChangeText={(text) => this.setState({ password: text })}
-                                        error="#f99" />
-                                </Item>
-                            </Form>
-                            <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
-                                <Left>
-                                    <Button style={{ margin: 10 }}
-                                        info rounded bordered block onPress={() => this.onSignUpClick()}>
-                                        <Text>SignUp</Text>
-                                    </Button>
-                                </Left>
-                                {/* <Body /> */}
-                                <Right>
-                                    {/* <Button style={{ margin: 10 }}
+                <Container>
+                    <Content>
+                        <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{height: screenHeight}}>
+                            <Animatable.Image
+                                animation="bounceIn"
+                                // duration= {2000}
+                                style={styles.logo}
+                                source={require('../../assets/logo.png')}
+                                resizeMode="stretch"
+                            />
+                            <Animatable.View
+                                style={styles.footer}
+                                animation="fadeInUpBig">
+                                <Form>
+                                    <Item stackedLabel error={this.state.emailError}>
+                                        <Label>Username</Label>
+                                        <Input keyboardType='email-address' error="#f99"
+                                            onChangeText={(text) => this.setState({ email: text })} />
+                                    </Item>
+                                    <Item stackedLabel error={this.state.passwordError}>
+                                        <Label>Password</Label>
+                                        <Input onChangeText={(text) => this.setState({ password: text })}
+                                            error="#f99" />
+                                    </Item>
+                                </Form>
+                                <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
+                                    <Left>
+                                        <Button style={{ margin: 10 }}
+                                            info rounded bordered block onPress={() => this.onSignUpClick()}>
+                                            <Text>SignUp</Text>
+                                        </Button>
+                                    </Left>
+                                    {/* <Body /> */}
+                                    <Right>
+                                        {/* <Button style={{ margin: 10 }}
                                         info rounded block onPress={() => this.onSignInClick()}>
                                         <Text>SignIn</Text>
                                     </Button> */}
-                                    <AnimateLoadingButton
-                                        ref={c => (this.loadingButton = c)}
-                                        width={150}
-                                        height={50}
-                                        title="SIGNIN"
-                                        titleFontSize={16}
-                                        titleColor="rgb(255,255,255)"
-                                        backgroundColor='#62B1F6'
-                                        borderRadius={25}
-                                        onPress={this.onSignInClick.bind(this)}
-                                    />
-                                </Right>
-                            </View>
-                        </Animatable.View>
+                                        <AnimateLoadingButton
+                                            ref={c => (this.loadingButton = c)}
+                                            width={150}
+                                            height={50}
+                                            title="SIGNIN"
+                                            titleFontSize={16}
+                                            titleColor="rgb(255,255,255)"
+                                            backgroundColor='#62B1F6'
+                                            borderRadius={25}
+                                            onPress={this.onSignInClick.bind(this)}
+                                        />
+                                    </Right>
+                                </View>
+                            </Animatable.View>
+                        </ImageBackground>
                     </Content>
                 </Container>
-                // </Root>
-
             )
     }
 
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#05375a",
-    },
     footer: {
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         padding: 20,
+        backgroundColor:  '#05375a50',
+        bottom: 0,
+        position: 'absolute',
+        width: '100%',
+        elevation: 1,
+        zIndex: 1,
     },
     logo: {
         height: 200,
         width: 200,
         alignSelf: 'center',
-
+        marginTop: 50,
     },
 });
 

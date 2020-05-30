@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Dimensions, ImageBackground } from 'react-native'
 import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title } from 'native-base'
 import * as Animatable from 'react-native-animatable';
 import MainScreen from './MainScreen'
 // imports for state management
 import { connect } from 'react-redux';
 import { createUser } from '../../redux';
+
+const screenHeight = Dimensions.get('screen').height;
 
 class SignUp extends Component {
 
@@ -120,93 +122,85 @@ class SignUp extends Component {
         else
             return (
 
-                <Container style={styles.container}>
-                    <Header>
-                        <Left style={{ padding: 10 }}>
-                            <Button transparent onPress={() => this.props.navigation.navigate('LoginScreen')}>
-                                <Icon name='arrow-back' />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title>SignUp</Title>
-                        </Body>
-                        <Right />
-                    </Header>
-
-                    <Content style={{ bottom: 0, position: 'absolute', width: '100%', backgroundColor: "#05375a", }}>
-                        <Animatable.Image
-                            animation="bounceIn"
-                            // duration= {2000}
-                            style={styles.logo}
-                            source={require('../../assets/logo.png')}
-                            resizeMode="stretch"
-                        />
-                        <Animatable.View
-                            style={styles.footer}
-                            animation="fadeInUpBig">
-                            <Form>
-                                <Item stackedLabel error={this.state.usernameError !== ''}>
-                                    <Label>Username</Label>
-                                    <Input keyboardType='email-address' error="#f99"
-                                        onChangeText={(text) => this.setState({ username: text })} />
-                                </Item>
-                                <Item stackedLabel error={this.state.passwordError !== ''}>
-                                    <Label>Password</Label>
-                                    <Input onChangeText={(text) => this.setState({ password: text })}
-                                        error="#f99" />
-                                </Item>
-                                <View style={{ flexDirection: 'row' }} >
-                                    <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
-                                        <Label>First Name</Label>
-                                        <Input error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
+                <Container>
+                    <Content>
+                        <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{ height: screenHeight }}>
+                            <Animatable.Image
+                                animation="bounceIn"
+                                // duration= {2000}
+                                style={styles.logo}
+                                source={require('../../assets/logo.png')}
+                                resizeMode="stretch"
+                            />
+                            <Animatable.View
+                                style={styles.footer}
+                                animation="fadeInUpBig">
+                                <Form>
+                                    <Item stackedLabel error={this.state.usernameError !== ''}>
+                                        <Label>Username</Label>
+                                        <Input keyboardType='email-address' error="#f99"
+                                            onChangeText={(text) => this.setState({ username: text })} />
                                     </Item>
-                                    <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
-                                        <Label>Last Name</Label>
-                                        <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
+                                    <Item stackedLabel error={this.state.passwordError !== ''}>
+                                        <Label>Password</Label>
+                                        <Input onChangeText={(text) => this.setState({ password: text })}
+                                            error="#f99" />
                                     </Item>
+                                    <View style={{ flexDirection: 'row' }} >
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
+                                            <Label>First Name</Label>
+                                            <Input error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
+                                        </Item>
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
+                                            <Label>Last Name</Label>
+                                            <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
+                                        </Item>
+                                    </View>
+                                    <Item stackedLabel>
+                                        <Label>Phone Number</Label>
+                                        <Input placeholder='Optional' placeholderTextColor='#ccc'
+                                            keyboardType='phone-pad'
+                                            onChangeText={(text) => this.setState({ phone: text })} />
+                                    </Item>
+                                </Form>
+                                <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
+                                    <Left>
+                                        <Text style={{color: '#555'}}>Sign in with Google</Text>
+                                    </Left>
+                                    <Right>
+                                        <Button info rounded block onPress={() => this.onSignUpClick()}>
+                                            <Text>SignUp</Text>
+                                        </Button>
+                                    </Right>
                                 </View>
-                                <Item stackedLabel>
-                                    <Label>Phone Number</Label>
-                                    <Input placeholder='Optional' placeholderTextColor='#ccc'
-                                        keyboardType='phone-pad'
-                                        onChangeText={(text) => this.setState({ phone: text })} />
-                                </Item>
-                            </Form>
-                            <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
-                                <Left>
-                                    <Text>Sign in with Google</Text>
-                                </Left>
-                                <Right>
-                                    <Button info rounded block onPress={() => this.onSignUpClick()}>
-                                        <Text>SignUp</Text>
-                                    </Button>
-                                </Right>
-                            </View>
-                            {/* <Text>{this.state.usernameError}</Text> */}
-                        </Animatable.View>
+                            </Animatable.View>
+                        </ImageBackground>
                     </Content>
                 </Container>
             )
     }
 
-} 
+}
 
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        backgroundColor: "#05375a",
-    },
     footer: {
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         padding: 20,
+        backgroundColor: '#05375a50',
+        bottom: 0,
+        position: 'absolute',
+        width: '100%',
+        elevation: 1,
+        zIndex: 1,
+        
     },
     logo: {
-        height: 150,
-        width: 150,
+        height: 200,
+        width: 200,
         alignSelf: 'center',
-        margin: 40,
+        marginTop: 50,
     },
 });
 
