@@ -110,6 +110,7 @@ class SignUp extends Component {
                 dob: this.state.dob,
                 userId: this.state.userId,
                 gender: this.state.gender,
+                phone : '007'
             }
             console.log(user);
             this.props.SignUpUser(user)
