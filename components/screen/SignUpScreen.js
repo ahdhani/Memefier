@@ -3,6 +3,8 @@ import { StyleSheet, View, Dimensions, ImageBackground } from 'react-native'
 import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title } from 'native-base'
 import * as Animatable from 'react-native-animatable';
 import MainScreen from './MainScreen'
+import LoaderModal from '../LoaderModal'
+
 // imports for state management
 import { connect } from 'react-redux';
 import { createUser } from '../../redux';
@@ -12,32 +14,32 @@ const screenHeight = Dimensions.get('screen').height;
 class SignUp extends Component {
 
     state = {
-        username: '',
+        email: '',
         password: '',
-        phone: null,
+        userId: '',
         firstname: '',
         lastname: '',
         gender: 'M',
         dob: '2000-01-01',
-        usernameError: '',
+        emailError: '',
         passwordError: '',
         firstNameError: false,
         lastNameError: false,
-
+        isLoading: false,
     }
 
     isValidUsername = () => {
-        if (this.state.username != '') {
+        if (this.state.email != '') {
             this.setState({
-                usernameError: false,
+                emailError: false,
             })
             return true;
         }
         this.setState({
-            usernameError: 'Atleast 8 characters',
+            emailError: 'Atleast 8 characters',
         }, () =>
             Toast.show({
-                text: this.state.usernameError,
+                text: this.state.emailError,
                 buttonText: 'Okay'
             }))
         return false;
@@ -97,15 +99,16 @@ class SignUp extends Component {
     onSignUpClick = () => {
         // VALIDATION CODE REMOVED FOR EASE OF GETTING TO DASHBOARD @hani
         // this.isValidUsername() && this.isValidPassword() && this.isValidFirstName() && this.isValidLastName()
-
+        this.setState({isLoading: true});
+       
         if (true) {
             let user = {
-                email: this.state.username,
+                email: this.state.email,
                 password: this.state.password,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 dob: this.state.dob,
-                phone: this.state.phone,
+                userId: this.state.userId,
                 gender: this.state.gender,
             }
             console.log(user);
@@ -113,6 +116,9 @@ class SignUp extends Component {
             // this.props.navigation.navigate('LoginScreen');
         }
 
+        setTimeout(() => {
+            this.setState({isLoading: false});
+          }, 3000);
     }
 
     render() {
@@ -124,6 +130,7 @@ class SignUp extends Component {
 
                 <Container>
                     <Content>
+                        <LoaderModal loading={this.state.isLoading} />
                         <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{ height: screenHeight }}>
                             <Animatable.Image
                                 animation="bounceIn"
@@ -138,33 +145,37 @@ class SignUp extends Component {
                                 <Form>
                                     <Item stackedLabel>
                                         <Label>UserId *</Label>
-                                        <Input keyboardType='phone-pad'
-                                            onChangeText={(text) => this.setState({ phone: text })} />
+                                        <Input style={{color: '#fff'}} 
+                                            onChangeText={(text) => this.setState({ userId: text })} />
                                     </Item>
                                     <View style={{ flexDirection: 'row' }} >
                                         <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
                                             <Label>First Name *</Label>
-                                            <Input error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
+                                            <Input style={{color: '#fff'}} 
+                                             error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
                                         </Item>
                                         <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
                                             <Label>Last Name *</Label>
-                                            <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
+                                            <Input  style={{color: '#fff'}} 
+                                            error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
                                         </Item>
                                     </View>
-                                    <Item stackedLabel error={this.state.usernameError !== ''}>
+                                    <Item stackedLabel error={this.state.emailError !== ''}>
                                         <Label>Email *</Label>
-                                        <Input keyboardType='email-address' error="#f99"
-                                            onChangeText={(text) => this.setState({ username: text })} />
+                                        <Input  style={{color: '#fff'}} 
+                                        keyboardType='email-address' error="#f99"
+                                            onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError !== ''}>
                                         <Label>Password *</Label>
-                                        <Input onChangeText={(text) => this.setState({ password: text })}
+                                        <Input  style={{color: '#fff'}} 
+                                        onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
                                     </Item>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
                                     <Left>
-                                        <Text style={{ color: '#555', }}>Sign in with Google</Text>
+                                        <Text style={{ color: '#ccc', }}>Sign in with Google</Text>
                                     </Left>
                                     <Right>
                                         <Button style={{ backgroundColor: '#05375a', elevation: 10, zIndex: 10 }} rounded block onPress={() => this.onSignUpClick()}>

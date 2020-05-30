@@ -3,10 +3,9 @@ import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title, Image } from 'native-base'
 import MainScreen from './MainScreen'
+import LoaderModal from '../LoaderModal'
 import { AppLoading } from "expo";
 
-
-import AnimateLoadingButton from 'react-native-animate-loading-button';
 import { loginUser } from '../../redux'
 import { connect } from "react-redux";
 
@@ -16,6 +15,7 @@ const screenHeight = Dimensions.get('screen').height;
 class LoginScreen extends Component {
 
     state = {
+        isLoading: false,
         isLogin: false,
         email: '',
         password: '',
@@ -49,18 +49,11 @@ class LoginScreen extends Component {
         return false;
     }
 
-    // onSignInClick = () => {
-    //     if (this.isValidUsername() && this.isValidPassword()) {
-    //         let user = {
-    //             email: this.state.email,
-    //             password: this.state.password,
-    //         }
-    //         console.log(user);
-    //         this.props.signInUser(user)
-    //     }
-    // }
     onSignInClick() {
-        this.loadingButton.showLoading(true);
+        this.setState({
+            isLoading: true,
+        })
+
         if (this.isValidUsername() && this.isValidPassword()) {
             let user = {
                 email: this.state.email,
@@ -69,9 +62,14 @@ class LoginScreen extends Component {
             console.log(user);
             this.props.signInUser(user)
         }
-        if (!this.props.isAuthenticated) {
-            this.loadingButton.showLoading(false);
-        }
+
+        // if (this.props.isAuthenticated==false) {
+        //     this.setState({isLoading: false});
+
+        // }
+        setTimeout(() => {
+            this.setState({isLoading: false});
+          }, 3000);
     }
 
     onSignUpClick = () => {
@@ -87,6 +85,7 @@ class LoginScreen extends Component {
         else
             return (
                 <Container>
+                    <LoaderModal loading={this.state.isLoading} />
                     <Content>
                         <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{height: screenHeight}}>
                             <Animatable.Image
@@ -102,41 +101,27 @@ class LoginScreen extends Component {
                                 <Form>
                                     <Item stackedLabel error={this.state.emailError}>
                                         <Label>Username</Label>
-                                        <Input keyboardType='email-address' error="#f99"
+                                        <Input style={{color: '#fff'}} keyboardType='email-address' error="#f99"
                                             onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError}>
                                         <Label>Password</Label>
-                                        <Input onChangeText={(text) => this.setState({ password: text })}
+                                        <Input style={{color: '#fff'}} onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
                                     </Item>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
                                     <Left>
-                                        <Button style={{ margin: 10 }}
-                                            info rounded bordered block onPress={() => this.onSignUpClick()}>
-                                            <Text>SignUp</Text>
+                                        <Button style={{ margin: 10, zIndex: 5,elevation: 5 }}
+                                            info rounded block onPress={() => this.onSignUpClick()}>
+                                            <Text>Sign Up</Text>
                                         </Button>
                                     </Left>
-                                    {/* <Body /> */}
                                     <Right>
-                                        {/* <Button style={{ margin: 10 }}
-                                        info rounded block onPress={() => this.onSignInClick()}>
-                                        <Text>SignIn</Text>
-                                    </Button> */}
-                                        <AnimateLoadingButton
-                                            ref={c => (this.loadingButton = c)}
-                                            width={150}
-                                            height={50}
-                                            title="SIGNIN"
-                                            titleFontSize={16}
-                                            titleColor="rgb(255,255,255)"
-                                            backgroundColor='#05375a'
-                                            elevation={10}
-                                            zIndex={10}
-                                            borderRadius={25}
-                                            onPress={this.onSignInClick.bind(this)}
-                                        />
+                                        <Button  style={{ margin: 10,zIndex: 5,elevation: 5 }}
+                                         info rounded block onPress={() => this.onSignInClick()}>
+                                        <Text>Sign In</Text>
+                                    </Button>
                                     </Right>
                                 </View>
                             </Animatable.View>
@@ -158,8 +143,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: 'absolute',
         width: '100%',
-        elevation: 1,
-        zIndex: 1,
+        elevation: 2,
+        zIndex: 2,
     },
     logo: {
         height: 200,

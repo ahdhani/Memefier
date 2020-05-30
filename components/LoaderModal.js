@@ -21,7 +21,9 @@ const LoaderModal = props => {
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
           <ActivityIndicator
-            animating={loading} />
+            animating={loading}
+            color = '#672b78'
+            size = {50} />
         </View>
       </View>
     </Modal>
@@ -34,10 +36,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: '#00000040'
+    backgroundColor: '#00000070'
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#00000060',
     height: 100,
     width: 100,
     borderRadius: 10,
@@ -47,4 +49,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Loader;
+export default LoaderModal;
