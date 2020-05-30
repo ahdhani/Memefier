@@ -136,39 +136,38 @@ class SignUp extends Component {
                                 style={styles.footer}
                                 animation="fadeInUpBig">
                                 <Form>
+                                    <Item stackedLabel>
+                                        <Label>UserId *</Label>
+                                        <Input keyboardType='phone-pad'
+                                            onChangeText={(text) => this.setState({ phone: text })} />
+                                    </Item>
+                                    <View style={{ flexDirection: 'row' }} >
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
+                                            <Label>First Name *</Label>
+                                            <Input error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
+                                        </Item>
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
+                                            <Label>Last Name *</Label>
+                                            <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
+                                        </Item>
+                                    </View>
                                     <Item stackedLabel error={this.state.usernameError !== ''}>
-                                        <Label>Username</Label>
+                                        <Label>Email *</Label>
                                         <Input keyboardType='email-address' error="#f99"
                                             onChangeText={(text) => this.setState({ username: text })} />
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError !== ''}>
-                                        <Label>Password</Label>
+                                        <Label>Password *</Label>
                                         <Input onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
-                                    </Item>
-                                    <View style={{ flexDirection: 'row' }} >
-                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
-                                            <Label>First Name</Label>
-                                            <Input error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
-                                        </Item>
-                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
-                                            <Label>Last Name</Label>
-                                            <Input error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
-                                        </Item>
-                                    </View>
-                                    <Item stackedLabel>
-                                        <Label>Phone Number</Label>
-                                        <Input placeholder='Optional' placeholderTextColor='#ccc'
-                                            keyboardType='phone-pad'
-                                            onChangeText={(text) => this.setState({ phone: text })} />
                                     </Item>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
                                     <Left>
-                                        <Text style={{color: '#555'}}>Sign in with Google</Text>
+                                        <Text style={{ color: '#555', }}>Sign in with Google</Text>
                                     </Left>
                                     <Right>
-                                        <Button info rounded block onPress={() => this.onSignUpClick()}>
+                                        <Button style={{ backgroundColor: '#05375a', elevation: 10, zIndex: 10 }} rounded block onPress={() => this.onSignUpClick()}>
                                             <Text>SignUp</Text>
                                         </Button>
                                     </Right>
@@ -192,9 +191,9 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: 'absolute',
         width: '100%',
-        elevation: 1,
-        zIndex: 1,
-        
+        elevation: 2,
+        zIndex: 2,
+
     },
     logo: {
         height: 200,

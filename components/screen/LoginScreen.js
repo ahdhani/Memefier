@@ -131,7 +131,9 @@ class LoginScreen extends Component {
                                             title="SIGNIN"
                                             titleFontSize={16}
                                             titleColor="rgb(255,255,255)"
-                                            backgroundColor='#62B1F6'
+                                            backgroundColor='#05375a'
+                                            elevation={10}
+                                            zIndex={10}
                                             borderRadius={25}
                                             onPress={this.onSignInClick.bind(this)}
                                         />
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         padding: 20,
-        backgroundColor:  '#05375a50',
+        backgroundColor: '#05375a50',
         bottom: 0,
         position: 'absolute',
         width: '100%',
