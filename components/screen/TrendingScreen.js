@@ -60,7 +60,6 @@ export default class TrendingScreen extends Component {
 
         //Change from HERE
         if (text != '') {
-            // console.log(text)
             var search_list = []
             db.collection('userDetails')
                 .get()
@@ -77,8 +76,7 @@ export default class TrendingScreen extends Component {
                     })
                 })
                 .catch(error => console.log(error.message))
-            // console.log(search_list)
-            
+
         }
     }
 
