@@ -111,7 +111,7 @@ class LoginScreen extends Component {
                                     </Item>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
-                                    <Left>
+                                    <Left> 
                                         <Button style={{ margin: 10, zIndex: 5,elevation: 5 }}
                                             info rounded block onPress={() => this.onSignUpClick()}>
                                             <Text>Sign Up</Text>

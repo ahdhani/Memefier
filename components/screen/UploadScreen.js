@@ -4,7 +4,6 @@ import { Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { storage } from '../../config'
 import { addPost } from '../../redux';
 import {connect} from 'react-redux'
@@ -14,6 +13,7 @@ class UploadScreen extends Component {
     state = {
         image: null,
         postOnProgress: false,
+        progress: null,
         description: "Hi all! good morning",
 
         post: {                 // NEED TO BE CHANGED TO THIS STATE FROM ABOVE
@@ -140,13 +140,15 @@ class UploadScreen extends Component {
                 (snapshot) => {
                     // Progress function
                     var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                    this.setState({progress: progress})
                     console.log("Progress : " , progress)
-                    if(progress==100)  //Code added by Hani  //////
-                    this.setState({
-                        ...this.state,
-                        image: null,
-                        postOnProgress: false,
-                    })
+                    // if(progress==100)  //Code added by Hani  //////
+                    // this.setState({
+                    //     ...this.state,
+                    //     image: null,
+                    //     progress: null,
+                    //     postOnProgress: false,
+                    // })
                 } ,
                 (error) => {
                     console.error(error.message);
@@ -155,7 +157,12 @@ class UploadScreen extends Component {
                     storage.ref('memes').child(imageName).getDownloadURL().then( url => {
                         // console.log(url);
                         this.props.addPost(url , post_desc)
-                        
+                        this.setState({
+                            ...this.state,
+                            image: null,
+                            progress: null,
+                            postOnProgress: false,
+                        })
                     })
                 })
             } catch (error) {
