@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions , ActivityIndicator} from 'react-native'
+import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { db } from '../../config';
 
@@ -122,9 +122,9 @@ export default class TrendingScreen extends Component {
                     }}
                     ListFooterComponent={() =>
                         this.state.searchLoading &&
-                        <View style={{paddingVertical: 20}}>
+                        <View style={{ paddingVertical: 20 }}>
                             <ActivityIndicator animating={this.state.searchLoading} size="small" />
-                        </View> 
+                        </View>
                     }
                     data={this.state.searchResult}
                     renderItem={({ item }) => (
@@ -143,7 +143,10 @@ export default class TrendingScreen extends Component {
                     renderItem={({ item, index }) => (
                         <Item>
                             <ImageBackground resizeMode='contain' source={require('../../assets/profile.jpeg')}
-                                style={{ width: cardWidth, height: cardHeight, elevation: 5 }}>
+                                style={{
+                                    width: cardWidth, height: cardHeight,
+                                    elevation: 5, zIndex: 5
+                                }}>
                                 <View style={{ flexDirection: 'row', top: 200 }}>
                                     <Left>
                                         <Text style={{
