@@ -54,9 +54,9 @@ export default class TrendingScreen extends Component {
     }
 
     onChangeTextSearch = (text) => {
-        // this.setState({
-        //     searchText: text,
-        // })
+        this.setState({
+            searchText: text
+        })
 
         //Change from HERE
         if (text != '') {
