@@ -12,6 +12,7 @@ export default class TrendingScreen extends Component {
     state = {
         searchText: '',
         searchResult: [],
+        searchLoading: false,
         trendingPosts: [
             {
                 name: 'hani',
@@ -53,29 +54,40 @@ export default class TrendingScreen extends Component {
     }
 
     onChangeTextSearch = (text) => {
-        this.setState({
-            searchText: text,
-        })
+        // this.setState({
+        //     searchText: text,
+        // })
 
         //Change from HERE
         if (text != '') {
+            this.setState({
+                searchLoading: true,
+                searchText: text,
+            })
             var search_list = []
             db.collection('userDetails')
                 .get()
                 .then(snapshot => {
                     snapshot.docs.forEach(doc => {
-                        if(doc.data().firstname.includes(text) || doc.data().lastname.includes(text) ) {
+                        if (doc.data().firstname.includes(text) || doc.data().lastname.includes(text)) {
                             // console.log(doc.data())
                             // search_list.push(doc.data())
-                            search_list = [...search_list , doc.data()]
+                            search_list = [...search_list, doc.data()]
                             this.setState({
-                                searchResult: search_list
+                                searchResult: search_list,
+                                searchLoading: false,
                             })
                         }
                     })
                 })
                 .catch(error => console.log(error.message))
 
+        }
+        else {
+            this.setState({
+                searchResult: [],
+                searchText: '',
+            })
         }
     }
 
@@ -104,60 +116,65 @@ export default class TrendingScreen extends Component {
                             <Icon name="ios-people" />
                         </Item>
                     </Body>
-                </Header> 
-                <Content>
-                    <FlatList
-                        data={this.state.searchResult}
-                        renderItem={({ item }) => (
-                            <Item style={{ flexDirection: 'row', padding: 4 }}>
-                                <Thumbnail source={require('../../assets/profile.jpeg')} />
-                                <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
-                            </Item>
-                        )}
-                        enableEmptySections={true}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                    {/* -------------------------- commented to remove error --------------------------- */}
-                    <FlatList
-                        data={this.state.trendingPosts}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item,index}) => (
-                            <Item>
-                                <ImageBackground resizeMode='contain' source={require('../../assets/profile.jpeg')}
-                                    style={{width: cardWidth, height: cardHeight }}>
-                                    <View style={{ flexDirection: 'row', top: 200 }}>
-                                        <Left>
-                                            <Text style={{
-                                                margin: 20, color: '#fff',
-                                                shadowColor: '#111', textShadowColor: '#111',
-                                                textShadowRadius: 10, fontWeight: '800',
-                                            }}>{item.name}</Text>
-                                        </Left>
-                                        <Right>
-                                            <TouchableOpacity 
+                </Header>
+
+                <FlatList
+                    style={{
+                        position: 'absolute', top: 60,
+                        elevation: 2, zIndex: 2,
+                        backgroundColor: '#fffffff0',
+                        width: '100%', borderBottomLeftRadius: 5,
+                        borderBottomRightRadius: 5,
+                    }}
+                    refreshing={this.state.searchLoading}
+                    data={this.state.searchResult}
+                    renderItem={({ item }) => (
+                        <Item style={{ flexDirection: 'row', padding: 4 }}>
+                            <Thumbnail source={require('../../assets/profile.jpeg')} />
+                            <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
+                        </Item>
+                    )}
+                    enableEmptySections={true}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+
+                <FlatList
+                    data={this.state.trendingPosts}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index }) => (
+                        <Item>
+                            <ImageBackground resizeMode='contain' source={require('../../assets/profile.jpeg')}
+                                style={{ width: cardWidth, height: cardHeight, elevation: 5 }}>
+                                <View style={{ flexDirection: 'row', top: 200 }}>
+                                    <Left>
+                                        <Text style={{
+                                            margin: 20, color: '#fff',
+                                            shadowColor: '#111', textShadowColor: '#111',
+                                            textShadowRadius: 10, fontWeight: '800',
+                                        }}>{item.name}</Text>
+                                    </Left>
+                                    <Right>
+                                        <TouchableOpacity
                                             onPress={() => {
                                                 this.toggleFollow(index)
                                             }}
-                                            >
-                                                <Text style={{
-                                                    margin: 20, color: '#fff',
-                                                    shadowColor: '#111', textShadowColor: '#111',
-                                                    textShadowRadius: 5, fontWeight: '600',fontSize: 12,
-                                                }}>{item.isFollow ? 'Follow' : 'Unfollow'}</Text>
-                                            </TouchableOpacity>
+                                        >
+                                            <Text style={{
+                                                margin: 20, color: '#fff',
+                                                shadowColor: '#111', textShadowColor: '#111',
+                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                            }}>{item.isFollow ? 'Follow' : 'Unfollow'}</Text>
+                                        </TouchableOpacity>
 
-                                        </Right>
-                                    </View>
-                                </ImageBackground>
-                            </Item>
-                        )}
-                        numColumns={2}
-                        // enableEmptySections={true}
-                    />
-                    
-                    {/* -------------------------- commented to remove error --------------------------- */}
+                                    </Right>
+                                </View>
+                            </ImageBackground>
+                        </Item>
+                    )}
+                    numColumns={2}
+                // enableEmptySections={true}
+                />
 
-                </Content>
             </Container>
         )
     }
