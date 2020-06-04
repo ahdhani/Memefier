@@ -169,7 +169,7 @@ class SignUp extends Component {
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError !== ''}>
                                         <Label>Password *</Label>
-                                        <Input  style={{color: '#fff'}} 
+                                        <Input secureTextEntry={true} style={{color: '#fff'}} 
                                         onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
                                     </Item>

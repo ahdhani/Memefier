@@ -106,7 +106,7 @@ class LoginScreen extends Component {
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError}>
                                         <Label>Password</Label>
-                                        <Input style={{color: '#fff'}} onChangeText={(text) => this.setState({ password: text })}
+                                        <Input secureTextEntry={true} style={{color: '#fff'}} onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
                                     </Item>
                                 </Form>

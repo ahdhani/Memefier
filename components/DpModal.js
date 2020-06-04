@@ -19,6 +19,10 @@ const cardWidth = Dimensions.get('window').width * .8;;
 
 class DpModal extends Component {
 
+    state = {
+        progress: 0,
+    }
+
     componentDidMount() {
         this.getPermissionAsync();
 
