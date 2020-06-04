@@ -1,5 +1,5 @@
 import {
-    USER_LOADED , USER_LOADING , AUTH_ERROR , LOGIN_SUCCESS , LOGIN_FAIL , LOGOUT_SUCCESS , REGISTER_SUCCESS , REGISTER_FAIL, FOLLOW_USER, UNFOLLOW_USER
+    USER_LOADED , USER_LOADING , AUTH_ERROR , LOGIN_SUCCESS , LOGIN_FAIL , LOGOUT_SUCCESS , REGISTER_SUCCESS , REGISTER_FAIL, FOLLOW_USER, UNFOLLOW_USER,  CHANGE_DP_SUCCESS
 } from './authTypes'
 
 const initialState = {
@@ -61,6 +61,15 @@ export default (state = initialState, { type, payload }) => {
         return {
             ...state ,
             following : state.following.filter(user_id => user_id !== payload.user_unfollow)
+        }
+
+    case CHANGE_DP_SUCCESS : 
+        return { 
+            ...state ,
+            userDetails : {
+                ...state.userDetails ,
+                dp : payload.dp
+            }
         }
     default:
         return state
