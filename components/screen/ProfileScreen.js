@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
+import { storage } from '../../config'
 
 import { db } from '../../config';
 
@@ -27,7 +28,10 @@ class ProfileScreen extends Component {
             gender: 'M',
             dob: '2000-01-01',
             avatar: null,
-        }
+        } ,
+        image: null,
+        postOnProgress: false,
+        progress: null
     }
 
     fetchUserPosts = async () => {
@@ -76,14 +80,16 @@ class ProfileScreen extends Component {
                 const user = this.state.user;
                 user.avatar = result.uri;
                 this.setState({ user: user });
-            }
-
+                this.setState({             //Code added by Hani
+                    ...this.state,
+                    postOnProgress: true,
+                })
+            } 
             // console.log(result);
         } catch (E) {
             console.log(E);
         }
     };
-
 
     signOutClicked = () => {
         this.props.logoutUser()
@@ -231,3 +237,13 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
+
+/*
+@reference :
+===============================================================================
+For display picture uri
+
+this.props.userDetails.dp
+default 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
+
+*/
