@@ -35,7 +35,8 @@ export const createUser = (user) => {
                     phone: user.phone,
                     followers: 0,
                     following: 0,
-                    userId : user.userId
+                    userId : user.userId ,
+                    dp : 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
                 }
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
@@ -143,8 +144,7 @@ export const loadUser = () => {
                                     }
                                 })
 
-                                console.log("FOLLOWING LOADED")
-                                console.log(getState().auth.following)
+                                console.log(getState().auth)
                             })
 
 

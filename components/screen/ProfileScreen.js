@@ -84,108 +84,12 @@ class ProfileScreen extends Component {
                     ...this.state,
                     postOnProgress: true,
                 })
-/*
-                const imageName = 'user'
-
-                try {
-                    const response = await fetch(this.state.user.avatar);
-                    const blob = await response.blob();
-                    
-                    const uploadTask  = storage.ref().child("dp/" + imageName).put(blob);
-    
-                    uploadTask.on('state_changed' , 
-                    (snapshot) => {
-                        // Progress function
-                        var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
-                        this.setState({progress: progress})
-                        console.log("Progress : " , progress)
-                        
-                    } ,
-                    (error) => {
-                        console.log("error");
-                    } , 
-                    () => {
-                        storage.ref('memes').child(imageName).getDownloadURL().then( url => {
-                            console.log(url);
-                            // this.props.addPost(url , post_desc)
-                            this.setState({
-                                ...this.state,
-                                image: null,
-                                progress: null,
-                                postOnProgress: false,
-                            })
-                        })
-                    })
-                } catch (error) {
-                    // Make a state variable error and append the `error.message` from here to it
-                    console.log(error.message);
-                }
-     */
             } 
             // console.log(result);
         } catch (E) {
             console.log(E);
         }
     };
-
-    onPost = async () => {
-        
-        if (this.state.image != null) {
-            this.setState({             //Code added by Hani
-                ...this.state,
-                postOnProgress: true,
-            })
-            // console.log("Image present and upload clicked")
-            // Hard Coded post description and image_name
-            const imageName = uuid()
-            var post_desc = this.state.description
-            // console.log("IMAGE_URI : ", this.state.image)
-            try {
-                const response = await fetch(this.state.image);
-                const blob = await response.blob();
-                
-                const uploadTask  = storage.ref().child("memes/" + imageName).put(blob);
-
-                uploadTask.on('state_changed' , 
-                (snapshot) => {
-                    // Progress function
-                    var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
-                    this.setState({progress: progress})
-                    console.log("Progress : " , progress)
-                    // if(progress==100)  //Code added by Hani  //////
-                    // this.setState({
-                    //     ...this.state,
-                    //     image: null,
-                    //     progress: null,
-                    //     postOnProgress: false,
-                    // })
-                } ,
-                (error) => {
-                    console.error(error.message);
-                } , 
-                () => {
-                    storage.ref('memes').child(imageName).getDownloadURL().then( url => {
-                        // console.log(url);
-                        this.props.addPost(url , post_desc)
-                        this.setState({
-                            ...this.state,
-                            image: null,
-                            progress: null,
-                            postOnProgress: false,
-                        })
-                    })
-                })
-            } catch (error) {
-                // Make a state variable error and append the `error.message` from here to it
-                console.log(error.message);
-            }
-
-            // return ref.put(response)
-
-        } else {
-            console.log("Image uri not present Raise Error")
-        }
-    }
 
     signOutClicked = () => {
         this.props.logoutUser()
@@ -331,3 +235,13 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
+
+/*
+@reference :
+===============================================================================
+For display picture uri
+
+this.props.userDetails.dp
+default 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
+
+*/
