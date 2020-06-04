@@ -64,6 +64,7 @@ class DpModal extends Component {
                         (error) => {
                             console.error(error.message);
                         },
+                        // Profile picture uploaded success ===============================================================
                         () => {
                             storage.ref('dp').child(imageName).getDownloadURL().then(url => {
                                 // console.log(url);
