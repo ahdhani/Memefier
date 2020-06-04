@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
 import { storage } from '../../config'
 
 import { db } from '../../config';
+
+import DpModal from '../DpModal'
 
 
 const cardWidth = Dimensions.get('window').width / 2;
@@ -28,10 +27,9 @@ class ProfileScreen extends Component {
             gender: 'M',
             dob: '2000-01-01',
             avatar: null,
-        } ,
+        },
         image: null,
-        postOnProgress: false,
-        progress: null
+        editDpModal: false,
     }
 
     fetchUserPosts = async () => {
@@ -53,43 +51,10 @@ class ProfileScreen extends Component {
     }
 
     componentDidMount() {
-        this.getPermissionAsync();
         this.fetchUserPosts();
-        console.log("User post")
+        console.log("User post fetching..")
 
     }
-
-    getPermissionAsync = async () => {
-        if (Constants.platform.ios) {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-            if (status !== 'granted') {
-                alert('Sorry, we need camera roll permissions to make this work!');
-            }
-        }
-    };
-
-    _pickImage = async () => {
-        try {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-            });
-            if (!result.cancelled) {
-                const user = this.state.user;
-                user.avatar = result.uri;
-                this.setState({ user: user });
-                this.setState({             //Code added by Hani
-                    ...this.state,
-                    postOnProgress: true,
-                })
-            } 
-            // console.log(result);
-        } catch (E) {
-            console.log(E);
-        }
-    };
 
     signOutClicked = () => {
         this.props.logoutUser()
@@ -115,6 +80,8 @@ class ProfileScreen extends Component {
         // else
         return (
             <Container>
+                <DpModal loading={this.state.editDpModal}
+                    closeModal={() => this.setState({ editDpModal: false })} />
                 <Header style={{ backgroundColor: '#252337' }}>
                     <Left />
                     <Body>
@@ -128,15 +95,18 @@ class ProfileScreen extends Component {
                 </Header>
                 <Content style={{ backgroundColor: '#252337', height: '100%', }}>
                     <H1 style={{ alignSelf: 'center', marginTop: 30, color: '#9db4c0' }}>
-                        @userID
-                        </H1>
+                        @{this.props.userDetails.userId}
+                    </H1>
                     <Text note style={{
                         alignSelf: 'center',
                         marginBottom: 150,
                     }}>
                         Rank 0
-                        </Text>
-                    <View style={{ flexGrow: 2,flex: 2, backgroundColor: '#ffffff', borderTopLeftRadius: 30, borderTopRightRadius: 30, }}>
+                    </Text>
+                    <View style={{
+                        flexGrow: 2, flex: 2, backgroundColor: '#ffffff',
+                        borderTopLeftRadius: 30, borderTopRightRadius: 30,
+                    }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
                             marginTop: -110,
@@ -147,11 +117,10 @@ class ProfileScreen extends Component {
                             </View>
 
                             <TouchableOpacity style={{
-                                alignSelf: 'center', elevation: 10,
-                                zIndex: 10, width: 150,
+                                alignSelf: 'center', width: 150,
                                 height: 150, borderRadius: 75,
-                                }}
-                                onPress={() => this._pickImage()}>
+                            }}
+                                onPress={() => this.setState({editDpModal: true})}>
                                 <Image
                                     style={{
                                         paddingVertical: 30,
@@ -162,7 +131,7 @@ class ProfileScreen extends Component {
                                         backgroundColor: '#5c6b73',
                                     }}
                                     resizeMode='cover'
-                                    source={{ uri: this.state.user.avatar ? this.state.user.avatar : null }}  //change null to defaault uri
+                                    source={{ uri: this.props.userDetails.dp }}
 
                                 />
                             </TouchableOpacity>
@@ -178,7 +147,7 @@ class ProfileScreen extends Component {
                         <Text note style={{
                             alignSelf: 'center',
                             // height: 500   //clear when wanted
-                        }}>Description</Text>
+                        }}>{this.props.userDetails.bio}</Text>
 
                         <FlatList
                             data={this.state.userPosts}
