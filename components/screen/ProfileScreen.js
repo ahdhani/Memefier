@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity , FlatList, Dimensions } from 'react-native'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -9,9 +9,16 @@ import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
 import { storage } from '../../config'
 
+import { db } from '../../config';
+
+
+const cardWidth = Dimensions.get('window').width / 2;
+const cardHeight = cardWidth * 1.25;
+
 class ProfileScreen extends Component {
 
     state = {
+        userPosts: [],
         user: {
             username: 'kjdsb',
             password: 'laksnf',
@@ -27,8 +34,29 @@ class ProfileScreen extends Component {
         progress: null
     }
 
+    fetchUserPosts = async () => {
+        var arr = []
+        await db.collection('posts')
+            .where('created_by', '==', this.props.user.uid)   //KUDU please check this statement
+            .get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    arr = [doc.data(), ...arr]
+                })
+
+                console.log("User post",arr)
+                this.setState({
+                    userPosts: arr
+                })
+            }).
+            catch(error => console.log("ERR : ", error.message))
+    }
+
     componentDidMount() {
         this.getPermissionAsync();
+        this.fetchUserPosts();
+        console.log("User post")
+
     }
 
     getPermissionAsync = async () => {
@@ -183,53 +211,86 @@ class ProfileScreen extends Component {
         // else
         return (
             <Container>
-                <Header>
+                <Header style={{ backgroundColor: '#252337' }}>
                     <Left />
                     <Body>
-                        <Title>Profile</Title>
+                        {/* <Title>Profile</Title> */}
                     </Body>
                     <Right>
-                        <Button info onPress={() => this.signOutClicked()}>
+                        <Button transparent onPress={() => this.signOutClicked()}>
                             <Text>SignOut</Text>
                         </Button>
                     </Right>
                 </Header>
-                <Content>
-                    <H1 style={{ alignSelf: 'center', marginTop: 30 }}>Rank 0</H1>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <View style={{ justifyContent: 'center' }}>
-                            <H1 style={{ alignSelf: 'center' }}>0</H1>
-                            <Text note>Followers</Text>
+                <Content style={{ backgroundColor: '#252337' }}>
+                    <H1 style={{ alignSelf: 'center', marginTop: 30, color: '#9db4c0' }}>
+                        @userID
+                        </H1>
+                    <Text note style={{
+                        alignSelf: 'center',
+                        marginBottom: 150,
+                    }}>
+                        Rank 0
+                        </Text>
+                    <View style={{ backgroundColor: '#ffffff', borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
+                        <View style={{
+                            flexDirection: 'row', justifyContent: 'space-around',
+                            marginTop: -110
+                        }}>
+                            <View style={{ justifyContent: 'center' }}>
+                                <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>0</H1>
+                                <Text note>Followers</Text>
+                            </View>
+
+                            <TouchableOpacity style={{ alignSelf: 'center', elevation: 10, zIndex: 10 }}
+                                onPress={() => this._pickImage()}>
+                                <Image
+                                    style={{
+                                        paddingVertical: 30,
+                                        width: 150,
+                                        height: 150,
+                                        alignSelf: 'center',
+                                        borderRadius: 75,
+                                        backgroundColor: '#5c6b73',
+                                    }}
+                                    resizeMode='cover'
+                                    source={{ uri: this.state.user.avatar }}
+
+                                />
+                                {!this.state.user.avatar &&
+                                    <Icon name='add' style={{ alignSelf: 'center', position: 'absolute', top: 65 }} />}
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: 'center' }}>
+                                <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>{this.props.following.length}</H1>
+                                <Text note>Following</Text>
+                            </View>
                         </View>
 
-                        <TouchableOpacity style={{ alignSelf: 'center', marginVertical: 30 }}
-                            onPress={() => this._pickImage()}>
-                            <Image
-                                style={{
-                                    paddingVertical: 30,
-                                    width: 150,
-                                    height: 150,
-                                    alignSelf: 'center',
-                                    borderRadius: 75,
-                                    backgroundColor: '#ccc'
-                                }}
-                                resizeMode='cover'
-                                source={{ uri: this.state.user.avatar }}
+                        <H1 style={{ alignSelf: 'center', marginTop: 20 }}>
+                            {this.props.userDetails.firstname} {this.props.userDetails.lastname}
+                        </H1>
+                        <Text note style={{
+                            alignSelf: 'center',
+                            height: 500   //clear when wanted
+                        }}>Description</Text>
 
-                            />
-                            {!this.state.user.avatar &&
-                                <Icon name='add' style={{ alignSelf: 'center', position: 'absolute', top: 65 }} />}
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: 'center' }}>
-                            <H1 style={{ alignSelf: 'center' }}>{this.props.following.length}</H1>
-                            <Text note>Following</Text>
-                        </View>
+                        <FlatList
+                            data={this.state.userPosts}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item, index }) => (
+                                <Item>
+                                    <Image resizeMode='contain' source={require('../../assets/profile.jpeg')}
+                                        style={{
+                                            width: cardWidth, height: cardHeight,
+                                            elevation: 5, zIndex: 5
+                                        }}>
+                                    </Image>
+                                </Item>
+                            )}
+                            numColumns={2}
+                        // enableEmptySections={true}
+                        />
                     </View>
-
-                    <H1 style={{ alignSelf: 'center', }}>
-                        {this.props.userDetails.firstname} {this.props.userDetails.lastname}
-                    </H1>
-                    <Text note style={{ alignSelf: 'center' }}>Description</Text>
 
                 </Content>
             </Container>
