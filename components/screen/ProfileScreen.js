@@ -95,18 +95,6 @@ class ProfileScreen extends Component {
         this.props.logoutUser()
     }
 
-    // Sarath uid : hxvrXBCpjXY1H7NvdHqZQEohH7o2
-
-    followUser = () => {
-        console.log("Follow user clicked");
-        this.props.follow("hxvrXBCpjXY1H7NvdHqZQEohH7o2");
-    }
-
-    unfollowUser = () => {
-        console.log("Unfollow clicked");
-        this.props.unfollow("hxvrXBCpjXY1H7NvdHqZQEohH7o2");
-    }
-
     render() {
         // Condition : !this.props.isAuthenticated
         // if (false) {
