@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity , FlatList, Dimensions } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native'
 import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -44,7 +44,7 @@ class ProfileScreen extends Component {
                     arr = [doc.data(), ...arr]
                 })
 
-                console.log("User post",arr)
+                console.log("User post", arr)
                 this.setState({
                     userPosts: arr
                 })
@@ -126,7 +126,7 @@ class ProfileScreen extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <Content style={{ backgroundColor: '#252337' }}>
+                <Content style={{ backgroundColor: '#252337', height: '100%', }}>
                     <H1 style={{ alignSelf: 'center', marginTop: 30, color: '#9db4c0' }}>
                         @userID
                         </H1>
@@ -136,17 +136,21 @@ class ProfileScreen extends Component {
                     }}>
                         Rank 0
                         </Text>
-                    <View style={{ backgroundColor: '#ffffff', borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
+                    <View style={{ flexGrow: 2,flex: 2, backgroundColor: '#ffffff', borderTopLeftRadius: 30, borderTopRightRadius: 30, }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
-                            marginTop: -110
+                            marginTop: -110,
                         }}>
                             <View style={{ justifyContent: 'center' }}>
                                 <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>0</H1>
                                 <Text note>Followers</Text>
                             </View>
 
-                            <TouchableOpacity style={{ alignSelf: 'center', elevation: 10, zIndex: 10 }}
+                            <TouchableOpacity style={{
+                                alignSelf: 'center', elevation: 10,
+                                zIndex: 10, width: 150,
+                                height: 150, borderRadius: 75,
+                                }}
                                 onPress={() => this._pickImage()}>
                                 <Image
                                     style={{
@@ -158,11 +162,9 @@ class ProfileScreen extends Component {
                                         backgroundColor: '#5c6b73',
                                     }}
                                     resizeMode='cover'
-                                    source={{ uri: this.state.user.avatar }}
+                                    source={{ uri: this.state.user.avatar ? this.state.user.avatar : null }}  //change null to defaault uri
 
                                 />
-                                {!this.state.user.avatar &&
-                                    <Icon name='add' style={{ alignSelf: 'center', position: 'absolute', top: 65 }} />}
                             </TouchableOpacity>
                             <View style={{ justifyContent: 'center' }}>
                                 <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>{this.props.following.length}</H1>
@@ -175,7 +177,7 @@ class ProfileScreen extends Component {
                         </H1>
                         <Text note style={{
                             alignSelf: 'center',
-                            height: 500   //clear when wanted
+                            // height: 500   //clear when wanted
                         }}>Description</Text>
 
                         <FlatList
