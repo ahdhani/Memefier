@@ -35,8 +35,8 @@ export const createUser = (user) => {
                     phone: user.phone,
                     followers: 0,
                     following: 0,
-                    userId : user.userId ,
-                    dp : 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
+                    userId: user.userId,
+                    dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
                 }
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
@@ -129,7 +129,7 @@ export const loadUser = () => {
                                 console.log(snapshot_followers.docs);
                                 let arr = []
                                 snapshot_followers.docs.forEach(item => {
-                                    arr = [...arr , item.data().following]
+                                    arr = [...arr, item.data().following]
                                 })
 
                                 console.log(arr)
@@ -210,6 +210,28 @@ export const unfollow_user = (user_uid) => { // user_uid is the id of the user t
 
             console.log("UNFOLLOW USER SUCCESS");
             console.log(getState().auth.following);
+        });
+    }
+}
+
+export const changeDisplayPicture = (img_url) => {
+    return function (dispatch, getState) {
+        // Add a new document with a generated id.
+        console.log("DP CHANGE REQUEST");
+        
+        let addDoc = db.collection('userDetails')
+            .doc(getState().auth.user.uid)
+            .update({
+                dp : img_url
+            })
+            .then(ref => {
+            console.log("DP CHANGE SUCCESS");
+            console.log(getState().auth.userDetails)
+
+            // console.log(ref.ZE.path.segments[1])
+            // console.log(getState().post)
+        }).catch(error => {
+            console.log("DP CHANGE FAILURE", error.message);
         });
     }
 }
