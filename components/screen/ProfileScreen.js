@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
+import { storage } from '../../config'
 
 class ProfileScreen extends Component {
 
@@ -20,7 +21,10 @@ class ProfileScreen extends Component {
             gender: 'M',
             dob: '2000-01-01',
             avatar: null,
-        }
+        } ,
+        image: null,
+        postOnProgress: false,
+        progress: null
     }
 
     componentDidMount() {
@@ -48,14 +52,112 @@ class ProfileScreen extends Component {
                 const user = this.state.user;
                 user.avatar = result.uri;
                 this.setState({ user: user });
-            }
+                this.setState({             //Code added by Hani
+                    ...this.state,
+                    postOnProgress: true,
+                })
+/*
+                const imageName = 'user'
 
+                try {
+                    const response = await fetch(this.state.user.avatar);
+                    const blob = await response.blob();
+                    
+                    const uploadTask  = storage.ref().child("dp/" + imageName).put(blob);
+    
+                    uploadTask.on('state_changed' , 
+                    (snapshot) => {
+                        // Progress function
+                        var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                        this.setState({progress: progress})
+                        console.log("Progress : " , progress)
+                        
+                    } ,
+                    (error) => {
+                        console.log("error");
+                    } , 
+                    () => {
+                        storage.ref('memes').child(imageName).getDownloadURL().then( url => {
+                            console.log(url);
+                            // this.props.addPost(url , post_desc)
+                            this.setState({
+                                ...this.state,
+                                image: null,
+                                progress: null,
+                                postOnProgress: false,
+                            })
+                        })
+                    })
+                } catch (error) {
+                    // Make a state variable error and append the `error.message` from here to it
+                    console.log(error.message);
+                }
+     */
+            } 
             // console.log(result);
         } catch (E) {
             console.log(E);
         }
     };
 
+    onPost = async () => {
+        
+        if (this.state.image != null) {
+            this.setState({             //Code added by Hani
+                ...this.state,
+                postOnProgress: true,
+            })
+            // console.log("Image present and upload clicked")
+            // Hard Coded post description and image_name
+            const imageName = uuid()
+            var post_desc = this.state.description
+            // console.log("IMAGE_URI : ", this.state.image)
+            try {
+                const response = await fetch(this.state.image);
+                const blob = await response.blob();
+                
+                const uploadTask  = storage.ref().child("memes/" + imageName).put(blob);
+
+                uploadTask.on('state_changed' , 
+                (snapshot) => {
+                    // Progress function
+                    var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                    this.setState({progress: progress})
+                    console.log("Progress : " , progress)
+                    // if(progress==100)  //Code added by Hani  //////
+                    // this.setState({
+                    //     ...this.state,
+                    //     image: null,
+                    //     progress: null,
+                    //     postOnProgress: false,
+                    // })
+                } ,
+                (error) => {
+                    console.error(error.message);
+                } , 
+                () => {
+                    storage.ref('memes').child(imageName).getDownloadURL().then( url => {
+                        // console.log(url);
+                        this.props.addPost(url , post_desc)
+                        this.setState({
+                            ...this.state,
+                            image: null,
+                            progress: null,
+                            postOnProgress: false,
+                        })
+                    })
+                })
+            } catch (error) {
+                // Make a state variable error and append the `error.message` from here to it
+                console.log(error.message);
+            }
+
+            // return ref.put(response)
+
+        } else {
+            console.log("Image uri not present Raise Error")
+        }
+    }
 
     signOutClicked = () => {
         this.props.logoutUser()
