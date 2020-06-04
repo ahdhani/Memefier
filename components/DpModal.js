@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import {storage} from '../config'
+import {changeDisplayPicture} from '../redux/'
 
 const cardWidth = Dimensions.get('window').width * .8;;
 
@@ -39,10 +41,35 @@ class DpModal extends Component {
                 aspect: [1, 1],
                 quality: 1,
             });
-            if (!result.cancelled) {        //KUDU pls add code to update dp
-                // const user = this.state.user;
-                // user.avatar = result.uri;
-                // this.setState({ user: user });
+            if (!result.cancelled) {
+                const IMG_URI = result.uri;
+                const imageName = this.props.user.uid;
+                try {
+                    const response = await fetch(IMG_URI);
+                    const blob = await response.blob();
+
+                    const uploadTask = storage.ref().child("dp/" + imageName).put(blob);
+
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            // Progress function
+                            var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                            this.setState({ progress: progress })
+                            console.log("Progress : ", progress)
+                        },
+                        (error) => {
+                            console.error(error.message);
+                        },
+                        () => {
+                            storage.ref('dp').child(imageName).getDownloadURL().then(url => {
+                                // console.log(url);
+                                this.props.changeDisplayPicture(url)
+                                
+                            })
+                        })
+                } catch (error) {
+                    console.log("ERR :", error.message)
+                }
             }
             console.log(result);
         } catch (E) {
@@ -56,9 +83,9 @@ class DpModal extends Component {
                 transparent={true}
                 animationType={'none'}
                 visible={this.props.loading}
-                onRequestClose={() => {this.props.closeModal()}}
+                onRequestClose={() => { this.props.closeModal() }}
             >
-                <TouchableHighlight style={styles.modalBackground} onPress={() => {this.props.closeModal()}}>
+                <TouchableHighlight style={styles.modalBackground} onPress={() => { this.props.closeModal() }}>
                     <ImageBackground
                         style={{
                             width: cardWidth,
@@ -109,14 +136,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     // isAuthenticated: state.auth.isAuthenticated,
     userDetails: state.auth.userDetails,
+    user: state.auth.user
     // following: state.auth.following
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // logoutUser: () => dispatch(logoutUser()),
-        // unfollow: (user_id) => dispatch(unfollow_user(user_id)),
-        // follow: (user_id) => dispatch(follow_user(user_id))
+        changeDisplayPicture : (img_url) => dispatch(changeDisplayPicture(img_url))
     }
 }
 

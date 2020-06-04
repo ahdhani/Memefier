@@ -220,13 +220,13 @@ export const changeDisplayPicture = (img_url) => {
         console.log("DP CHANGE REQUEST");
         
         let addDoc = db.collection('userDetails')
-            .doc(getState().user.uid)
+            .doc(getState().auth.user.uid)
             .update({
                 dp : img_url
             })
             .then(ref => {
             console.log("DP CHANGE SUCCESS");
-            console.log(ref)
+            console.log(getState().auth.userDetails)
 
             // console.log(ref.ZE.path.segments[1])
             // console.log(getState().post)
