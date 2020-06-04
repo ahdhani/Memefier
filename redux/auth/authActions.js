@@ -1,4 +1,4 @@
-import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER } from './authTypes'
+import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER , CHANGE_DP_SUCCESS } from './authTypes'
 import { auth, db } from '../../config'
 
 export const logoutUser = () => {
@@ -226,6 +226,13 @@ export const changeDisplayPicture = (img_url) => {
             })
             .then(ref => {
             console.log("DP CHANGE SUCCESS");
+
+            dispatch({
+                type: CHANGE_DP_SUCCESS,
+                payload: {
+                    dp : img_url
+                }
+            })
             console.log(getState().auth.userDetails)
 
             // console.log(ref.ZE.path.segments[1])
