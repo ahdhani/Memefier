@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native'
-import { Container, Button, Card, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
+import { Container, Button, Card, Text , Item , ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
-import { storage } from '../../config'
 
 import { db } from '../../config';
 
@@ -181,7 +180,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     userDetails: state.auth.userDetails,
-    following: state.auth.following
+    following: state.auth.following,
+    user : state.auth.user
 })
 
 const mapDispatchToProps = (dispatch) => {
