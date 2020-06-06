@@ -7,7 +7,7 @@ import { logoutUser, unfollow_user, follow_user } from '../../redux';
 
 import { db } from '../../config';
 
-import DpModal from '../DpModal'
+// import DpModal from '../DpModal'
 
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
@@ -17,16 +17,8 @@ class ProfileScreen extends Component {
 
     state = {
         userPosts: [],
-        editDpModal: false,
-        // postExpand: false,
     }
 
-    // expandUserPost = (index) => {
-    //     this.setState({ postExpand: !this.state.postExpand }, () => {
-    //         this.flatListRef.scrollToIndex({ animated: true, index: index });
-    //     })
-
-    // }
     fetchUserPosts = async () => {
         var arr = []
         await db.collection('posts')
@@ -58,10 +50,12 @@ class ProfileScreen extends Component {
     render() {
         return (
             <Container>
-                <DpModal loading={this.state.editDpModal}
-                    closeModal={() => this.setState({ editDpModal: false })} />
                 <Header style={{ backgroundColor: '#252337' }}>
-                    <Left />
+                    <Left>
+                        <Button transparent onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                            <Text>Edit</Text>
+                        </Button>
+                    </Left>
                     <Body>
                         {/* <Title>Profile</Title> */}
                     </Body>
@@ -97,26 +91,19 @@ class ProfileScreen extends Component {
                                     <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>0</H1>
                                     <Text note>Followers</Text>
                                 </View>
+                                <Image
+                                    style={{
+                                        paddingVertical: 30,
+                                        width: 150,
+                                        height: 150,
+                                        alignSelf: 'center',
+                                        borderRadius: 75,
+                                        backgroundColor: '#5c6b73',
+                                    }}
+                                    resizeMode='cover'
+                                    source={{ uri: this.props.userDetails.dp }}
 
-                                <TouchableOpacity style={{
-                                    alignSelf: 'center', width: 150,
-                                    height: 150, borderRadius: 75,
-                                }}
-                                    onPress={() => this.setState({ editDpModal: true })}>
-                                    <Image
-                                        style={{
-                                            paddingVertical: 30,
-                                            width: 150,
-                                            height: 150,
-                                            alignSelf: 'center',
-                                            borderRadius: 75,
-                                            backgroundColor: '#5c6b73',
-                                        }}
-                                        resizeMode='cover'
-                                        source={{ uri: this.props.userDetails.dp }}
-
-                                    />
-                                </TouchableOpacity>
+                                />
                                 <View style={{ justifyContent: 'center' }}>
                                     <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>{this.props.following.length}</H1>
                                     <Text note>Following</Text>
@@ -129,6 +116,9 @@ class ProfileScreen extends Component {
                             <Text note style={{
                                 alignSelf: 'center',
                             }}>{this.props.userDetails.bio}</Text>
+                            <Button transparent onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                                <Text>Edit Profile</Text>
+                            </Button>
 
                             <FlatList
                                 // getItemLayout={(data, index) => { return {length: cardHeight+2, index, offset: (cardHeight+2) * index} }}
@@ -141,7 +131,7 @@ class ProfileScreen extends Component {
                                     <Item onPress={() => this.props.navigation.navigate('ProfileFeedScreen', {
                                         post: this.state.userPosts,
                                         index: index,
-                                      })}>
+                                    })}>
                                         <Image resizeMode='contain' source={{ uri: item.img }}
                                             style={{
                                                 // flex: 1,width: '100%',

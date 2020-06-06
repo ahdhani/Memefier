@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import ProfileFeedScreen from './ProfileFeedScreen'
 import ProfileScreen from './ProfileScreen'
+import EditProfileScreen from './EditProfileScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -33,6 +34,13 @@ export default class ProfileStack extends Component {
                     <Stack.Screen
                         name="ProfileFeedScreen"
                         component={ProfileFeedScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="EditProfileScreen"
+                        component={EditProfileScreen}
                         options={{
                             headerShown: false
                         }}
