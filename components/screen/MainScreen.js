@@ -8,6 +8,7 @@ import FeedScreen from './FeedScreen'
 import TrendingScreen from './TrendingScreen'
 import UploadScreen from './UploadScreen'
 import CommunityScreen from './CommunityScreen'
+import ProfileStack from './ProfileStack'
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -83,7 +84,7 @@ function MainScreen() {
             />
             <Tab.Screen
                 name="Profile"
-                component={ProfileScreen}
+                component={ProfileStack}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color,focused  }) => (
