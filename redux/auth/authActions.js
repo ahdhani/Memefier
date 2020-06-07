@@ -30,9 +30,9 @@ export const createUser = (user) => {
                 var userDetails = {
                     firstname: user.firstname,
                     lastname: user.lastname,
-                    gender: user.gender,
-                    dob: user.dob,
-                    phone: user.phone,
+                    gender: 0,
+                    dob: new Date(2000,1,1),
+                    // phone: user.phone,
                     followers: 0,
                     following: 0,
                     userId: user.userId,

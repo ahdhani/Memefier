@@ -12,6 +12,8 @@ import * as Permissions from 'expo-permissions';
 
 // import { loginUser } from '../../redux'
 import { connect } from "react-redux";
+import { db } from '../../config'
+import { updateUserDetails } from '../../redux';
 
 // const screenHeight = Dimensions.get('screen').height;
 
@@ -24,9 +26,8 @@ class EditProfileScreen extends Component {
         lastname: this.props.userDetails.lastname,
         bio: this.props.userDetails.bio,
         dp: this.props.userDetails.dp,
-        gender: 'M',
+        gender: 0,
         dob: new Date(1999, 1, 1),
-        phone: null,
         userIdError: null,
         isLoading: false,
         progress: 0,
@@ -56,6 +57,7 @@ class EditProfileScreen extends Component {
                 quality: 1,
             });
             if (!result.cancelled) {
+                this.setState({ dp: result.uri });
                 const IMG_URI = result.uri;
                 const imageName = this.props.user.uid;
                 try {
@@ -77,9 +79,10 @@ class EditProfileScreen extends Component {
                         // Profile picture uploaded success ===============================================================
                         () => {
                             storage.ref('dp').child(imageName).getDownloadURL().then(url => {
-                                // console.log(url);
-                                this.props.changeDisplayPicture(url)
-
+                                this.setState({
+                                    dp: url,
+                                })
+                                // this.props.changeDisplayPicture(url)
                             })
                         })
                 } catch (error) {
@@ -92,16 +95,46 @@ class EditProfileScreen extends Component {
         }
     };
 
-    saveUserdetails = () => {
+    // updateUserDetailsCheck = async () => {
+
+    //     /*
+    //     FIELD NAMES :
+    //     {
+    //         bio : <> ,
+    //         firstname : <> ,
+    //         lastname : <> 
+    //         phone : <>
+    //     }
+    //     */
+
+    //     await this.props.updateUser({
+    //         firstname : "killadi"
+    //     })
+    //     console.log("Finished")
+    // }
+
+    saveUserdetails = async () => {
 
         this.setState({
             isLoading: true,
         })
-        console.log(this.state.userId, this.state.firstname, this.state.gender)
+        await this.props.updateUser({
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            bio: this.state.bio,
+            userId: this.state.userId,
+            dp: this.state.dp,
+            gender: this.state.gender,
+            dob: this.state.dob,
+        })
 
-        setTimeout(() => {
-            this.setState({ isLoading: false });
-        }, 3000);
+        console.log(this.props.userDetails)
+
+        // setTimeout(() => {
+        //     this.setState({ isLoading: false });
+        // }, 1000);
+        this.setState({ isLoading: false });
+        this.props.navigation.goBack();
     }
 
     render() {
@@ -111,7 +144,8 @@ class EditProfileScreen extends Component {
                 <LoaderModal loading={this.state.isLoading} />
                 <Header style={{ backgroundColor: '#252337' }}>
                     <Left >
-                        <Icon style={{ marginLeft: 10, color: '#fff' }} name='ios-arrow-round-back' onPress={() => this.props.navigation.goBack()} />
+                        <Icon style={{ marginLeft: 10, color: '#fff' }} name='ios-arrow-round-back'
+                            onPress={() => this.props.navigation.goBack()} />
                     </Left>
                     <Body>
                         <Title>Edit Profile</Title>
@@ -120,126 +154,126 @@ class EditProfileScreen extends Component {
                 <Content style={{
                     backgroundColor: '#253237',
                 }}>
-                <View style={{
-                    alignContent: 'center',
-                    padding: 10,
-                }}>
-                    <TouchableOpacity style={{
-                        alignSelf: 'center', width: 150,
-                        height: 150, borderRadius: 75,
-                        marginVertical: 30,
-                    }} onPress={() => this._pickImage()}
-                    >
-                        <Image
-                            style={{
-                                width: 150,
-                                height: 150,
-                                borderRadius: 75,
-                                backgroundColor: '#5c6b73',
-                            }}
-                            resizeMode='cover'
-                            source={{ uri: this.state.dp }}
+                    <View style={{
+                        alignContent: 'center',
+                        padding: 10,
+                    }}>
+                        <TouchableOpacity style={{
+                            alignSelf: 'center', width: 150,
+                            height: 150, borderRadius: 75,
+                            marginVertical: 30,
+                        }} onPress={() => this._pickImage()}
+                        >
+                            <Image
+                                style={{
+                                    width: 150,
+                                    height: 150,
+                                    borderRadius: 75,
+                                    backgroundColor: '#5c6b73',
+                                }}
+                                resizeMode='cover'
+                                source={{ uri: this.state.dp }}
 
-                        />
-                    </TouchableOpacity>
+                            />
+                        </TouchableOpacity>
 
-                    <Form>
-                        <Item stackedLabel error={this.state.userIdError}>
-                            <Label>UserID</Label>
-                            <Input style={{ color: '#fff' }}
-                                error="#f99"
-                                value={this.state.userId}
-                                onChangeText={(text) => this.setState({ userId: text })} />
-                        </Item>
-                        <View style={{ flexDirection: 'row' }} >
-                            <Item stackedLabel style={{ flex: 1 }}>
-                                <Label>First Name</Label>
+                        <Form>
+                            <Item stackedLabel error={this.state.userIdError}>
+                                <Label>UserID</Label>
                                 <Input style={{ color: '#fff' }}
                                     error="#f99"
-                                    onChangeText={(text) => this.setState({ firstname: text })}
-                                    value={this.state.firstname} />
+                                    value={this.state.userId}
+                                    onChangeText={(text) => this.setState({ userId: text })} />
                             </Item>
-                            <Item stackedLabel style={{ flex: 1 }}>
-                                <Label>Last Name</Label>
-                                <Input style={{ color: '#fff' }}
+                            <View style={{ flexDirection: 'row' }} >
+                                <Item stackedLabel style={{ flex: 1 }}>
+                                    <Label>First Name</Label>
+                                    <Input style={{ color: '#fff' }}
+                                        error="#f99"
+                                        onChangeText={(text) => this.setState({ firstname: text })}
+                                        value={this.state.firstname} />
+                                </Item>
+                                <Item stackedLabel style={{ flex: 1 }}>
+                                    <Label>Last Name</Label>
+                                    <Input style={{ color: '#fff' }}
+                                        error="#f99"
+                                        onChangeText={(text) => this.setState({ lastname: text })}
+                                        value={this.state.lastname} />
+                                </Item>
+                            </View>
+                            <View style={{ marginLeft: 15, marginTop: 10 }}>
+                                <Label style={{
+                                    color: '#555', fontSize: 15,
+                                }}>Bio</Label>
+                                <TextInput numberOfLines={5} multiline maxLength={50} style={{
+                                    color: '#fff', height: 100,
+                                    textAlignVertical: 'top', borderWidth: 1,
+                                    borderColor: '#ffffff88', marginTop: 5,
+                                    padding: 10
+                                }}
+                                    onChangeText={(text) => this.setState({ bio: text })}
                                     error="#f99"
-                                    onChangeText={(text) => this.setState({ lastname: text })}
-                                    value={this.state.lastname} />
-                            </Item>
-                        </View>
-                        <View style={{ marginLeft: 15, marginTop: 10 }}>
-                            <Label style={{
-                                color: '#555', fontSize: 15,
-                            }}>Bio</Label>
-                            <TextInput numberOfLines={5} multiline maxLength={50} style={{
-                                color: '#fff', height: 100,
-                                textAlignVertical: 'top', borderWidth: 1,
-                                borderColor: '#ffffff88', marginTop: 5,
-                                padding: 10
-                            }}
-                                onChangeText={(text) => this.setState({ bio: text })}
-                                error="#f99"
-                                value={this.state.bio} />
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} >
-                            <View style={{ flex: 1, marginLeft: 14, marginTop: 8 }}>
-                                <Label style={{ color: '#555', fontSize: 15, }}>Date of birth</Label>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ datePickerVisible: true })}
-                                    style={{ height: 50 }}
-                                >
-                                    <Input
-                                        style={{ color: '#fff' }}
-                                        editable={false}
-                                        value={this.state.dob.toLocaleDateString()}
-                                    />
-                                </TouchableOpacity>
+                                    value={this.state.bio} />
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} >
+                                <View style={{ flex: 1, marginLeft: 14, marginTop: 8 }}>
+                                    <Label style={{ color: '#555', fontSize: 15, }}>Date of birth</Label>
+                                    <TouchableOpacity
+                                        onPress={() => this.setState({ datePickerVisible: true })}
+                                        style={{ height: 50 }}
+                                    >
+                                        <Input
+                                            style={{ color: '#fff' }}
+                                            editable={false}
+                                            value={this.state.dob.toLocaleDateString()}
+                                        />
+                                    </TouchableOpacity>
 
-                                {this.state.datePickerVisible &&
-                                    (<DateTimePicker
-                                        mode={"date"} // THIS DOES NOT WORK ON ANDROID. IT DISPLAYS ONLY A DATE PICKER.
-                                        display='spinner' // Android Only  
-                                        is24Hour={false} // Android Only 
-                                        value={this.state.dob}
-                                        maximumDate={new Date(2010, 1, 1)}
-                                        minimumDate={new Date(1970, 1, 1)}
-                                        onChange={(event, value) => {
-                                            if (event.type !== "set")
-                                                this.setState({
-                                                    dob: new Date(2000, 1, 1),
-                                                    datePickerVisible: Platform.OS === 'ios' ? true : false,
-                                                });
-                                            else {
-                                                this.setState({
-                                                    dob: value,
-                                                    datePickerVisible: Platform.OS === 'ios' ? true : false,
-                                                });
-                                            }
-                                        }}
-                                    />)}
+                                    {this.state.datePickerVisible &&
+                                        (<DateTimePicker
+                                            mode={"date"} // THIS DOES NOT WORK ON ANDROID. IT DISPLAYS ONLY A DATE PICKER.
+                                            display='spinner' // Android Only  
+                                            is24Hour={false} // Android Only 
+                                            value={this.state.dob}
+                                            maximumDate={new Date(2010, 1, 1)}
+                                            minimumDate={new Date(1970, 1, 1)}
+                                            onChange={(event, value) => {
+                                                if (event.type !== "set")
+                                                    this.setState({
+                                                        dob: new Date(2000, 1, 1),
+                                                        datePickerVisible: Platform.OS === 'ios' ? true : false,
+                                                    });
+                                                else {
+                                                    this.setState({
+                                                        dob: value,
+                                                        datePickerVisible: Platform.OS === 'ios' ? true : false,
+                                                    });
+                                                }
+                                            }}
+                                        />)}
+                                </View>
+                                <View style={{ flex: 1, marginLeft: 5, marginTop: 8 }}>
+                                    <Label style={{ color: '#555', fontSize: 15, }}>Gender</Label>
+                                    <Picker
+                                        selectedValue={this.state.gender}
+                                        style={{ height: 50, color: '#fff' }}
+                                        onValueChange={(itemValue, itemIndex) => this.setState({ gender: itemValue })}
+                                    >
+                                        <Picker.Item label="Male" value={0} />
+                                        <Picker.Item label="Female" value={1} />
+                                        <Picker.Item label="Transgender" value={2} />
+                                        <Picker.Item label="Others" value={3} />
+                                    </Picker>
+                                </View>
                             </View>
-                            <View style={{ flex: 1, marginLeft: 5, marginTop: 8 }}>
-                                <Label style={{ color: '#555', fontSize: 15, }}>Gender</Label>
-                                <Picker
-                                    selectedValue={this.state.gender}
-                                    style={{ height: 50, color: '#fff' }}
-                                    onValueChange={(itemValue, itemIndex) => this.setState({ gender: itemValue })}
-                                >
-                                    <Picker.Item label="Male" value="M" />
-                                    <Picker.Item label="Female" value="F" />
-                                    <Picker.Item label="Transgender" value="T" />
-                                    <Picker.Item label="Others" value="O" />
-                                </Picker>
-                            </View>
+                        </Form>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Button style={{ margin: 30, zIndex: 5, elevation: 5 }}
+                                dark rounded block onPress={() => this.saveUserdetails()}>
+                                <Icon name='ios-arrow-round-forward' />
+                            </Button>
                         </View>
-                    </Form>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button style={{ margin: 30, zIndex: 5, elevation: 5 }}
-                            dark rounded block onPress={() => this.saveUserdetails()}>
-                            <Icon name='ios-arrow-round-forward' />
-                        </Button>
                     </View>
-                </View>
                 </Content>
             </Container>
         )
@@ -270,11 +304,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     userDetails: state.auth.userDetails,
-    // isAuthenticated: state.auth.isAuthenticated
 })
 const mapDispatchToProps = (dispatch) => {
     return {
-        // signInUser: (user) => dispatch(loginUser(user))
+        updateUser: (data) => dispatch(updateUserDetails(data))
     }
 }
 
