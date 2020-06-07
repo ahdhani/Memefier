@@ -23,7 +23,7 @@ export const createUser = (user) => {
             type: REGISTER_FAIL
         })
         auth.createUserWithEmailAndPassword(user.email, user.password)
-            .then(cred => {
+            .then((cred) => {
                 console.log("USER CREATED SUCCESS")
 
 
@@ -45,14 +45,27 @@ export const createUser = (user) => {
                     .then(() => {
                         console.log("USER DETAILS PUSHED");
 
-                        dispatch({
-                            type: REGISTER_SUCCESS,
-                            payload: {
-                                user, userDetails, following: []
-                            }
-                        })
+                        var userIdDetails = {
+                            uid : cred.user.uid ,
+                            userId : userDetails.userId
+                        }
+
+                        db.collection("userId").doc(userIdDetails.userId).set(userIdDetails)
+                            .then(() => {
+                                console.log("USERID ADDED")
+                                
+                                dispatch({
+                                    type: REGISTER_SUCCESS,
+                                    payload: {
+                                        user, userDetails, following: []
+                                    }
+                                })
+                            })
+                            .catch(error => console.log(error.message))
                     })
                     .catch(error => console.log("User Details can't be added!!"))
+
+
 
             })
             .catch(error => dispatch({
@@ -133,9 +146,6 @@ export const loadUser = () => {
                                 snapshot_followers.docs.forEach(item => {
                                     arr = [...arr, item.data().following]
                                 })
-
-                                console.log(arr)
-
                                 dispatch({
                                     type: USER_LOADED,
                                     payload: {
@@ -146,7 +156,6 @@ export const loadUser = () => {
                                     }
                                 })
 
-                                console.log(getState().auth)
                             })
 
 
@@ -250,17 +259,17 @@ export const updateUserDetails = (updatedUserdetails) => {
         var userDetailsRef = db.collection('userDetails').doc(getState().auth.user.uid)
 
         return userDetailsRef.update(updatedUserdetails)
-        .then(() => {    
-            console.log("UserDetails Updated successfully!")
-            dispatch({
-                type : UPDATE_USER_DETAILS ,
-                payload : {
-                    updatedUserdetails
-                }
-            })
+            .then(() => {
+                console.log("UserDetails Updated successfully!")
+                dispatch({
+                    type: UPDATE_USER_DETAILS,
+                    payload: {
+                        updatedUserdetails
+                    }
+                })
 
-            console.log("Dispatched")
-        })
-        .catch(error => console.log(error.message))
+                console.log("Dispatched")
+            })
+            .catch(error => console.log(error.message))
     }
 }

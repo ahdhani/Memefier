@@ -27,6 +27,7 @@ class CommunityScreen extends Component {
                     // if (user.id in this.props.following) {
                     //     isFollow = true
                     // }
+                    console.log(this.props.user.uid , " == " , user.id)
                     if (user.id != this.props.user.uid) {
                         user_list = [{ ...user.data(), uid: user.id }, ...user_list]
                     }
