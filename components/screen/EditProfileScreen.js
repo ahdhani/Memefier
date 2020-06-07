@@ -117,11 +117,10 @@ class EditProfileScreen extends Component {
                         <Title>Edit Profile</Title>
                     </Body>
                 </Header>
+                <Content style={{
+                    backgroundColor: '#253237',
+                }}>
                 <View style={{
-                    flex: 1,
-                    elevation: 5,
-                    backgroundColor: '#253237ff',
-                    justifyContent: 'flex-end',
                     alignContent: 'center',
                     padding: 10,
                 }}>
@@ -241,6 +240,7 @@ class EditProfileScreen extends Component {
                         </Button>
                     </View>
                 </View>
+                </Content>
             </Container>
         )
     }
