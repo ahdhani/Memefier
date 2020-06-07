@@ -8,6 +8,7 @@ import LoaderModal from '../LoaderModal'
 // imports for state management
 import { connect } from 'react-redux';
 import { createUser } from '../../redux';
+import { db } from '../../config';
 
 const screenHeight = Dimensions.get('screen').height;
 
@@ -26,23 +27,42 @@ class SignUp extends Component {
         firstNameError: false,
         lastNameError: false,
         isLoading: false,
+        userIdValid : null
     }
 
-    isValidUsername = () => {
-        if (this.state.email != '') {
+    // this.state.userIdValid this state variable tells whether a  username is valid or not 
+    // if only this variable is true allow sign up
+
+    onChangeUserId = (text) => {
+
+        // console.log(text);
+        this.setState({ userId: text });
+        // console.log(this.state.userId);
+        if (text != ''){
             this.setState({
-                emailError: false,
-            })
-            return true;
+                userIdValid : false
+            });
+            this.isValidUserId(text);
         }
-        this.setState({
-            emailError: 'Atleast 8 characters',
-        }, () =>
-            Toast.show({
-                text: this.state.emailError,
-                buttonText: 'Okay'
-            }))
-        return false;
+    }
+
+    isValidUserId = (userId) => {
+
+        db.collection('userId').doc(userId)
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    this.setState({
+                        userIdValid : false
+                    });
+                } else {
+                    // doc.data() will be undefined in this case
+                    this.setState({
+                        userIdValid : true
+                    });
+                }
+            })
+            .catch(error => console.log("ERR:" , error.message))
     }
 
     isValidPassword = () => {
@@ -147,7 +167,7 @@ class SignUp extends Component {
                                     <Item stackedLabel>
                                         <Label>UserId *</Label>
                                         <Input style={{color: '#fff'}} 
-                                            onChangeText={(text) => this.setState({ userId: text })} />
+                                            onChangeText={(text) => this.onChangeUserId(text)} />
                                     </Item>
                                     <View style={{ flexDirection: 'row' }} >
                                         <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>

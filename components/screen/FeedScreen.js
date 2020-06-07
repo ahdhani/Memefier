@@ -5,12 +5,12 @@ import FeedCards from '../FeedCards'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../redux'
 import { db } from '../../config'
-import {uuid} from 'react-uuid'
-
 class FeedScreen extends Component {
 
     fetchPosts = async () => {
         var arr = []
+
+        console.log("USER.UID , " , this.props.user.uid )
         await db.collection('posts')
             .where('created_by' , 'in' , [...this.props.following , this.props.user.uid])
             .get()
