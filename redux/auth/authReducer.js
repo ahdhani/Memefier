@@ -1,5 +1,5 @@
 import {
-    USER_LOADED , USER_LOADING , AUTH_ERROR , LOGIN_SUCCESS , LOGIN_FAIL , LOGOUT_SUCCESS , REGISTER_SUCCESS , REGISTER_FAIL, FOLLOW_USER, UNFOLLOW_USER,  CHANGE_DP_SUCCESS
+    USER_LOADED , USER_LOADING , AUTH_ERROR , LOGIN_SUCCESS , LOGIN_FAIL , LOGOUT_SUCCESS , REGISTER_SUCCESS , REGISTER_FAIL, FOLLOW_USER, UNFOLLOW_USER,  CHANGE_DP_SUCCESS , UPDATE_USER_DETAILS
 } from './authTypes'
 
 const initialState = {
@@ -69,6 +69,14 @@ export default (state = initialState, { type, payload }) => {
             userDetails : {
                 ...state.userDetails ,
                 dp : payload.dp
+            }
+        }
+    case UPDATE_USER_DETAILS :
+        return {
+            ...state ,
+            userDetails : {
+                ...state.userDetails , 
+                ...payload.updatedUserdetails
             }
         }
     default:
