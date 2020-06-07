@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Picker, TextInput, Image, TouchableOpacity } from 'react-native'
-import * as Animatable from 'react-native-animatable';
-import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title, Icon } from 'native-base'
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, DatePicker, Body, Right, Title, Icon } from 'native-base'
 import LoaderModal from '../LoaderModal'
 
 
@@ -25,11 +25,12 @@ class EditProfileScreen extends Component {
         bio: this.props.userDetails.bio,
         dp: this.props.userDetails.dp,
         gender: 'M',
-        dob: null,
+        dob: new Date(1999, 1, 1),
         phone: null,
         userIdError: null,
         isLoading: false,
         progress: 0,
+        datePickerVisible: false
     }
 
     componentDidMount() {
@@ -118,7 +119,8 @@ class EditProfileScreen extends Component {
                 </Header>
                 <View style={{
                     flex: 1,
-                    backgroundColor: '#253237',
+                    elevation: 5,
+                    backgroundColor: '#253237ff',
                     justifyContent: 'flex-end',
                     alignContent: 'center',
                     padding: 10,
@@ -181,17 +183,44 @@ class EditProfileScreen extends Component {
                                 value={this.state.bio} />
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }} >
-                            <Item stackedLabel style={{ flex: 1, marginRight: 5 }}>
-                                <Label>Date of birth</Label>
-                                <Input style={{ color: '#fff' }}
-                                    onChangeText={(text) => this.setState({ dob: text })}
-                                    error="#f99"
-                                    value={this.state.dob} />
-                            </Item>
+                            <View style={{ flex: 1, marginLeft: 14, marginTop: 8 }}>
+                                <Label style={{ color: '#555', fontSize: 15, }}>Date of birth</Label>
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ datePickerVisible: true })}
+                                    style={{ height: 50 }}
+                                >
+                                    <Input
+                                        style={{ color: '#fff' }}
+                                        editable={false}
+                                        value={this.state.dob.toLocaleDateString()}
+                                    />
+                                </TouchableOpacity>
+
+                                {this.state.datePickerVisible &&
+                                    (<DateTimePicker
+                                        mode={"date"} // THIS DOES NOT WORK ON ANDROID. IT DISPLAYS ONLY A DATE PICKER.
+                                        display='spinner' // Android Only  
+                                        is24Hour={false} // Android Only 
+                                        value={this.state.dob}
+                                        maximumDate={new Date(2010, 1, 1)}
+                                        minimumDate={new Date(1970, 1, 1)}
+                                        onChange={(event, value) => {
+                                            if (event.type !== "set")
+                                                this.setState({
+                                                    dob: new Date(2000, 1, 1),
+                                                    datePickerVisible: Platform.OS === 'ios' ? true : false,
+                                                });
+                                            else {
+                                                this.setState({
+                                                    dob: value,
+                                                    datePickerVisible: Platform.OS === 'ios' ? true : false,
+                                                });
+                                            }
+                                        }}
+                                    />)}
+                            </View>
                             <View style={{ flex: 1, marginLeft: 5, marginTop: 8 }}>
-                                <Label style={{
-                                    color: '#555', fontSize: 15,
-                                }}>Gender</Label>
+                                <Label style={{ color: '#555', fontSize: 15, }}>Gender</Label>
                                 <Picker
                                     selectedValue={this.state.gender}
                                     style={{ height: 50, color: '#fff' }}
@@ -204,7 +233,6 @@ class EditProfileScreen extends Component {
                                 </Picker>
                             </View>
                         </View>
-
                     </Form>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <Button style={{ margin: 30, zIndex: 5, elevation: 5 }}
