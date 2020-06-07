@@ -1,4 +1,4 @@
-import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER , CHANGE_DP_SUCCESS } from './authTypes'
+import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER, CHANGE_DP_SUCCESS, UPDATE_USER_DETAILS } from './authTypes'
 import { auth, db } from '../../config'
 
 export const logoutUser = () => {
@@ -36,9 +36,9 @@ export const createUser = (user) => {
                     followers: 0,
                     following: 0,
                     userId: user.userId,
-                    dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9' ,
-                    bio : '' ,
-                    rank : 0
+                    dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9',
+                    bio: '',
+                    rank: 0
                 }
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
@@ -220,27 +220,47 @@ export const changeDisplayPicture = (img_url) => {
     return function (dispatch, getState) {
         // Add a new document with a generated id.
         console.log("DP CHANGE REQUEST");
-        
+
         let addDoc = db.collection('userDetails')
             .doc(getState().auth.user.uid)
             .update({
-                dp : img_url
+                dp: img_url
             })
             .then(ref => {
-            console.log("DP CHANGE SUCCESS");
+                console.log("DP CHANGE SUCCESS");
 
+                dispatch({
+                    type: CHANGE_DP_SUCCESS,
+                    payload: {
+                        dp: img_url
+                    }
+                })
+                console.log(getState().auth.userDetails)
+
+                // console.log(ref.ZE.path.segments[1])
+                // console.log(getState().post)
+            }).catch(error => {
+                console.log("DP CHANGE FAILURE", error.message);
+            });
+    }
+}
+
+export const updateUserDetails = (updatedUserdetails) => {
+    return function (dispatch, getState) {
+        var userDetailsRef = db.collection('userDetails').doc(getState().auth.user.uid)
+
+        return userDetailsRef.update(updatedUserdetails)
+        .then(() => {    
+            console.log("UserDetails Updated successfully!")
             dispatch({
-                type: CHANGE_DP_SUCCESS,
-                payload: {
-                    dp : img_url
+                type : UPDATE_USER_DETAILS ,
+                payload : {
+                    updatedUserdetails
                 }
             })
-            console.log(getState().auth.userDetails)
 
-            // console.log(ref.ZE.path.segments[1])
-            // console.log(getState().post)
-        }).catch(error => {
-            console.log("DP CHANGE FAILURE", error.message);
-        });
+            console.log("Dispatched")
+        })
+        .catch(error => console.log(error.message))
     }
 }

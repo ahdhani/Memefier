@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
 import { db } from '../../config'
-import { unfollow_user, follow_user } from '../../redux';
+import { unfollow_user, follow_user, updateUserDetails } from '../../redux';
 
 class CommunityScreen extends Component {
 
@@ -27,17 +27,17 @@ class CommunityScreen extends Component {
                     // if (user.id in this.props.following) {
                     //     isFollow = true
                     // }
-                    if(user.id != this.props.user.uid) {
-                        user_list = [{...user.data() , uid : user.id} , ...user_list]
+                    if (user.id != this.props.user.uid) {
+                        user_list = [{ ...user.data(), uid: user.id }, ...user_list]
                     }
 
                 })
                 this.setState({
-                    users : user_list
+                    users: user_list
                 })
 
             })
-            .catch(error => console.log("ERR :" , error.message))
+            .catch(error => console.log("ERR :", error.message))
     }
 
     toggleFollow = (uid) => {
@@ -58,6 +58,24 @@ class CommunityScreen extends Component {
         this.props.unfollow(uid);
     }
 
+    updateUserDetailsCheck = async () => {
+
+        /*
+        FIELD NAMES :
+        {
+            bio : <> ,
+            firstname : <> ,
+            lastname : <> 
+            phone : <>
+        }
+        */
+
+        await this.props.updateUser({
+            firstname : "killadi"
+        })
+        console.log("Finished")
+    }
+
     render() {
         return (
             <Container>
@@ -69,24 +87,29 @@ class CommunityScreen extends Component {
                     <Right />
                 </Header>
                 <Content>
+
+                    <Button transparent onPress={() => this.updateUserDetailsCheck()}>
+                        <Text>Update</Text>
+                    </Button>
+
                     <FlatList
                         data={this.state.users}
-                        renderItem={({ item , index}) => (
+                        renderItem={({ item, index }) => (
                             <Item style={{ flexDirection: 'row', padding: 4 }}>
                                 <Thumbnail source={{ uri: item.avatar }} />
                                 <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                                 <Text style={{ marginLeft: 150 }}
-                                        onPress = {() => this.toggleFollow(item.uid)}
-                                >{(this.props.following.includes(item.uid)) ? 'unfollow ': 'follow'}</Text>
+                                    onPress={() => this.toggleFollow(item.uid)}
+                                >{(this.props.following.includes(item.uid)) ? 'unfollow ' : 'follow'}</Text>
                             </Item>
                         )}
                         enableEmptySections={true}
                         keyExtractor={(item, index) => index.toString()}
                     />
-                    <View style={{height: 500,width: 400,backgroundColor: 'green'}}>
-                        <View style={{height: 40,backgroundColor: 'black'}} />
-                        <View style={{flex: 1,backgroundColor: 'blue'}} />
-                        <View style={{flexGrow: 2,backgroundColor: 'yellow'}} />
+                    <View style={{ height: 500, width: 400, backgroundColor: 'green' }}>
+                        <View style={{ height: 40, backgroundColor: 'black' }} />
+                        <View style={{ flex: 1, backgroundColor: 'blue' }} />
+                        <View style={{ flexGrow: 2, backgroundColor: 'yellow' }} />
                     </View>
 
                 </Content>
@@ -107,15 +130,16 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    user : state.auth.user ,
-    userDetails: state.auth.userDetails , 
-    following : state.auth.following
+    user: state.auth.user,
+    userDetails: state.auth.userDetails,
+    following: state.auth.following
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        unfollow : (user_id) => dispatch(unfollow_user(user_id)) ,
-        follow : (user_id) => dispatch(follow_user(user_id))
+        unfollow: (user_id) => dispatch(unfollow_user(user_id)),
+        follow: (user_id) => dispatch(follow_user(user_id)) ,
+        updateUser : (data) => dispatch(updateUserDetails(data))
     }
 }
 
