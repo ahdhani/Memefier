@@ -33,6 +33,7 @@ RenderReactions = (props) => {
 const FeedCards = (props) => {
 
     const [name, setName] = useState('')
+    const [dp , setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
     
     const fetchUser = async (user_uid) => {
         db.collection("userDetails")
@@ -42,7 +43,9 @@ const FeedCards = (props) => {
                 var name = user.data().firstname + ' ' + user.data().lastname
                 // console.log(typeof(name))
                 // return user.data().firstname
+                // console.log(user.data())
                 setName(name);
+                setDp(user.data().dp)
             }).catch(error => console.log(error.message))
 
     }
@@ -53,7 +56,7 @@ const FeedCards = (props) => {
         <Card style={{ height: cardHeight }}>
             <CardItem>
                 <Left>
-                    <Thumbnail source={require('../assets/profile.jpeg')} />
+                    <Thumbnail source={{uri: dp}} />
                     <Body>
                         <Text>{name}</Text>
                         <Text note>category</Text>
