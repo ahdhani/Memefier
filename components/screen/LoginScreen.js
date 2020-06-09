@@ -49,7 +49,7 @@ class LoginScreen extends Component {
         return false;
     }
 
-    onSignInClick() {
+    onSignInClick = async () => {
         this.setState({
             isLoading: true,
         })
@@ -59,17 +59,12 @@ class LoginScreen extends Component {
                 email: this.state.email,
                 password: this.state.password,
             }
-            console.log(user);
-            this.props.signInUser(user)
+            // console.log(user);
+            await this.props.signInUser(user)
         }
-
-        // if (this.props.isAuthenticated==false) {
-        //     this.setState({isLoading: false});
-
-        // }
         setTimeout(() => {
             this.setState({isLoading: false});
-          }, 3000);
+          }, 500);
     }
 
     onSignUpClick = () => {

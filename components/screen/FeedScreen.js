@@ -10,36 +10,34 @@ class FeedScreen extends Component {
     fetchPosts = async () => {
         var arr = []
 
-        console.log("USER.UID , " , this.props.user.uid )
+        console.log("USER.UID , ", this.props.user.uid)
         await db.collection('posts')
-            .where('created_by' , 'in' , [...this.props.following , this.props.user.uid])
+            .where('created_by', 'in', [...this.props.following, this.props.user.uid])
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
-                    arr = [doc.data() , ...arr]
+                    arr = [doc.data(), ...arr]
                     // this.state.posts = [...this.state.posts , doc.data()]
                 })
 
                 this.setState({
-                    posts : arr
+                    posts: arr
                 })
 
                 // console.log(this.state.posts);
                 // this.state.condition = "FETCHED"
                 // console.log(this.state.condition)
             }).
-            catch(error => console.log("ERR : " , error.message))
+            catch(error => console.log("ERR : ", error.message))
     }
 
     componentDidMount = () => {
-        // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
-        // this.props.fetchPosts();
         this.fetchPosts()
     }
 
 
     state = {
-        posts : [] ,
+        posts: [],
         isRefreshing: false,
     }
 
@@ -47,21 +45,11 @@ class FeedScreen extends Component {
         // fetch next batch CODE HERE
     }
 
-    onRefresh = () => {
-        this.setState({isRefreshing: true});
-
-
-        // fetch next batch CODE HERE
-        // console.log("Refreshing")
-        this.fetchPosts()
-
-        // refreshed fetch CODE HERE
-        // console.log("Refreshing")
-
-        setTimeout(() => {
-          this.setState({isRefreshing: false});
-        }, 2000);
-      }
+    onRefresh = async () => {
+        this.setState({ isRefreshing: true });
+        await this.fetchPosts()
+        this.setState({ isRefreshing: false });
+    }
 
     render() {
         return (
@@ -79,19 +67,19 @@ class FeedScreen extends Component {
                         renderItem={({ item }) => <FeedCards post={item} />}
                         // keyExtractor={item => uuid()}
                         // keyExtractor={item => item.id}
-                        keyExtractor={(item,index) => `id_${index}`}
-                        pagingEnabled={true} 
+                        keyExtractor={(item, index) => `id_${index}`}
+                        pagingEnabled={true}
                         decelerationRate={'fast'}
-                        snapToAlignment={'top'} 
-                        viewabilityConfig={{itemVisiblePercentThreshold: 90}} 
+                        snapToAlignment={'top'}
+                        viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
                         refreshing={this.state.isRefreshing}
                         onRefresh={() => this.onRefresh()}
                         onEndReachedThreshold={0.5}
-                  
-                        onEndReached = {({distanceFromEnd})=>{
-                          console.log(distanceFromEnd) 
-                          console.log('reached');
-                        //   this.onEndReached()
+
+                        onEndReached={({ distanceFromEnd }) => {
+                            console.log(distanceFromEnd)
+                            console.log('reached');
+                            //   this.onEndReached()
                         }}
                     />
                 </View>
@@ -101,9 +89,9 @@ class FeedScreen extends Component {
 
 }
 const mapStateToProps = (state) => ({
-    user : state.auth.user ,
-    userDetails: state.auth.userDetails , 
-    following : state.auth.following
+    user: state.auth.user,
+    userDetails: state.auth.userDetails,
+    following: state.auth.following
 })
 const mapDispatchToProps = (dispatch) => {
     return {
