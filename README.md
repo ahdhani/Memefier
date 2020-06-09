@@ -1,4 +1,7 @@
 ![](assets/logo.png)
+
+<img src="assets/frn.png" width="500">
+
 ### Install Expo CLI
 ```console
 memefier@memefier :~$ npm install -g expo-cli
