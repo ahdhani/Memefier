@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Dimensions, ImageBackground } from 'react-native'
-import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title } from 'native-base'
+import { StyleSheet, View, Dimensions, ImageBackground, KeyboardAvoidingView } from 'react-native'
+import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Root, Toast, Icon, Right, H3, H2, DatePicker, Title } from 'native-base'
 import * as Animatable from 'react-native-animatable';
 import MainScreen from './MainScreen'
 import LoaderModal from '../LoaderModal'
@@ -12,6 +12,8 @@ import { db } from '../../config';
 
 const screenHeight = Dimensions.get('screen').height;
 
+// Note: Root is used for toast
+
 class SignUp extends Component {
 
     state = {
@@ -20,50 +22,73 @@ class SignUp extends Component {
         userId: '',
         firstname: '',
         lastname: '',
-        gender: 'M',
-        dob: '2000-01-01',
         emailError: '',
+        userIdValid: null,
         passwordError: '',
         firstNameError: false,
         lastNameError: false,
         isLoading: false,
-        userIdValid : null
+        passwordVisible: false,
     }
 
-    // this.state.userIdValid this state variable tells whether a  username is valid or not 
-    // if only this variable is true allow sign up
 
-    onChangeUserId = (text) => {
-
-        // console.log(text);
+    onChangeUserId = async (text) => {
         this.setState({ userId: text });
-        // console.log(this.state.userId);
-        if (text != ''){
+        if (text !== '') {
+            // this.checkUserId(text);
+            await db.collection('userId').doc(text)
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    this.setState({
+                        userIdValid: false
+                    });
+                } else {
+                    // doc.data() will be undefined in this case
+                    this.setState({
+                        userIdValid: true
+                    });
+                }
+            })
+            .catch(error => console.log("ERR:", error.message))
+        }
+        else {
             this.setState({
-                userIdValid : false
+                userIdValid: false
             });
-            this.isValidUserId(text);
         }
     }
 
-    isValidUserId = (userId) => {
-
+    checkUserId = (userId) => {
         db.collection('userId').doc(userId)
             .get()
             .then((doc) => {
                 if (doc.exists) {
                     this.setState({
-                        userIdValid : false
+                        userIdValid: false
                     });
                 } else {
                     // doc.data() will be undefined in this case
                     this.setState({
-                        userIdValid : true
+                        userIdValid: true
                     });
                 }
             })
-            .catch(error => console.log("ERR:" , error.message))
+            .catch(error => console.log("ERR:", error.message))
     }
+
+    isValidUserId = () => {
+        if (this.state.userId != '') {
+            return this.state.userIdValid
+        }
+        else {
+            this.setState({
+                userIdValid: tfalse
+            }, () => alert('Invalid User ID'));
+            return false
+        }
+    }
+
 
     isValidPassword = () => {
         if (this.state.password.length >= 8) {
@@ -74,11 +99,20 @@ class SignUp extends Component {
         }
         this.setState({
             passwordError: 'Atleast 8 characters',
-        }, () =>
-            Toast.show({
-                text: this.state.passwordError,
-                buttonText: 'Okay'
-            }))
+        }, () => alert(this.state.passwordError))
+        return false;
+    }
+
+    isValidEmail = () => {
+        if (this.state.email != '') {
+            this.setState({
+                emailError: '',
+            })
+            return true;
+        }
+        this.setState({
+            emailError: 'Enter a valid email',
+        }, () => alert(this.state.emailError))
         return false;
     }
 
@@ -91,11 +125,7 @@ class SignUp extends Component {
         }
         this.setState({
             firstNameError: true,
-        }, () =>
-            Toast.show({
-                text: this.state.firstNameError,
-                buttonText: 'Okay'
-            }))
+        })
         return false;
     }
 
@@ -108,38 +138,34 @@ class SignUp extends Component {
         }
         this.setState({
             lastNameError: true,
-        }, () =>
-            Toast.show({
-                text: this.state.lastNameError,
-                buttonText: 'Okay'
-            }))
+        })
         return false;
     }
 
-    onSignUpClick = () => {
-        // VALIDATION CODE REMOVED FOR EASE OF GETTING TO DASHBOARD @hani
-        // this.isValidUsername() && this.isValidPassword() && this.isValidFirstName() && this.isValidLastName()
-        this.setState({isLoading: true});
-       
-        if (true) {
+    onSignUpClick = async () => {
+        this.setState({ isLoading: true });
+
+        // if (true) {
+        console.log('user  id ', this.state.userIdValid);
+
+        if (this.isValidEmail() && this.isValidPassword() && this.isValidUserId() && this.isValidFirstName()
+            && this.isValidLastName()) {
+            console.log(this.state.userIdValid);
             let user = {
                 email: this.state.email,
                 password: this.state.password,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
-                dob: this.state.dob,
+                // dob: this.state.dob,
                 userId: this.state.userId,
-                gender: this.state.gender,
-                phone : '007'
+                // gender: this.state.gender,
+                // phone: '007'
             }
             console.log(user);
-            this.props.SignUpUser(user)
-            // this.props.navigation.navigate('LoginScreen');
+            await this.props.SignUpUser(user)
         }
 
-        setTimeout(() => {
-            this.setState({isLoading: false});
-          }, 3000);
+        this.setState({ isLoading: false });
     }
 
     render() {
@@ -148,7 +174,6 @@ class SignUp extends Component {
         }
         else
             return (
-
                 <Container>
                     <Content>
                         <LoaderModal loading={this.state.isLoading} />
@@ -164,35 +189,46 @@ class SignUp extends Component {
                                 style={styles.footer}
                                 animation="fadeInUpBig">
                                 <Form>
-                                    <Item stackedLabel>
-                                        <Label>UserId *</Label>
-                                        <Input style={{color: '#fff'}} 
-                                            onChangeText={(text) => this.onChangeUserId(text)} />
-                                    </Item>
-                                    <View style={{ flexDirection: 'row' }} >
-                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
-                                            <Label>First Name *</Label>
-                                            <Input style={{color: '#fff'}} 
-                                             error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
-                                        </Item>
-                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
-                                            <Label>Last Name *</Label>
-                                            <Input  style={{color: '#fff'}} 
-                                            error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
-                                        </Item>
-                                    </View>
+
                                     <Item stackedLabel error={this.state.emailError !== ''}>
                                         <Label>Email *</Label>
-                                        <Input  style={{color: '#fff'}} 
-                                        keyboardType='email-address' error="#f99"
+                                        <Input style={{ color: '#fff' }}
+                                            keyboardType='email-address' error="#f99"
                                             onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError !== ''}>
                                         <Label>Password *</Label>
-                                        <Input secureTextEntry={true} style={{color: '#fff'}} 
-                                        onChangeText={(text) => this.setState({ password: text })}
-                                            error="#f99" />
+                                        <View style={{ flexDirection: 'row', height: 50, alignItems: 'center' }}>
+                                            <Input secureTextEntry={!this.state.passwordVisible} style={{ color: '#fff' }}
+                                                onChangeText={(text) => this.setState({ password: text })}
+                                                error="#f99" />
+                                            <Icon name={this.state.passwordVisible ? 'eye-off' : 'eye'}
+                                                style={{ color: '#555', height: 50 }}
+                                                onPress={() => this.setState({ passwordVisible: !this.state.passwordVisible })} />
+                                        </View>
+
                                     </Item>
+                                    <Item stackedLabel error={this.state.userIdValid===false}>
+                                        <Label>UserId *</Label>
+                                        <View style={{ flexDirection: 'row', height: 50, alignItems: 'center' }}>
+                                            <Input style={{ color: '#fff' }} error="#f99"
+                                                onChangeText={(text) => this.onChangeUserId(text)} />
+                                            <Icon name={this.state.userIdValid ? 'checkmark' : null}
+                                                style={{ color: 'green', height: 50 }} />
+                                        </View>
+                                    </Item>
+                                    <View style={{ flexDirection: 'row' }} >
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.firstNameError}>
+                                            <Label>First Name *</Label>
+                                            <Input style={{ color: '#fff' }}
+                                                error="#f99" onChangeText={(text) => this.setState({ firstname: text })} />
+                                        </Item>
+                                        <Item stackedLabel style={{ flex: 1 }} error={this.state.lastNameError}>
+                                            <Label>Last Name *</Label>
+                                            <Input style={{ color: '#fff' }}
+                                                error="#f99" onChangeText={(text) => this.setState({ lastname: text })} />
+                                        </Item>
+                                    </View>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
                                     <Left>
