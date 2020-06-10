@@ -61,7 +61,7 @@ class UploadScreen extends Component {
                     <Card>
                         <CardItem>
                             <Left>
-                                <Thumbnail source={require('../../assets/profile.jpeg')} />
+                                <Thumbnail resizeMode='cover' source={{ uri: this.props.userDetails.dp }} />
                                 <Body>
                                     <Text>{this.props.userDetails.firstname} {this.props.userDetails.lastname}</Text>
                                     <Text note>Roasting fukru</Text>
