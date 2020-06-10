@@ -15,6 +15,7 @@ class UploadScreen extends Component {
         postOnProgress: false,
         progress: null,
         description: "Hi all! good morning",
+        hashtags: [],
 
         post: {                 // NEED TO BE CHANGED TO THIS STATE FROM ABOVE
             id: 0,
@@ -63,8 +64,11 @@ class UploadScreen extends Component {
                             <Left>
                                 <Thumbnail resizeMode='cover' source={{ uri: this.props.userDetails.dp }} />
                                 <Body>
-                                    <Text>{this.props.userDetails.firstname} {this.props.userDetails.lastname}</Text>
-                                    <Text note>Roasting fukru</Text>
+                                    <Text style={{fontSize: 12}}>@{this.props.userDetails.userId}</Text>
+                                    {/* <Text note>Roasting fukru</Text> */}
+                                    <Input onChangeText={(text) => this.setState({ description: text })}
+                                            placeholder='Type description' placeholderTextColor='#ccc' style={
+                                                {fontSize: 15}}/>
                                 </Body>
                             </Left>
                             <Right>

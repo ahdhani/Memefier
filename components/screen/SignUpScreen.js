@@ -33,10 +33,10 @@ class SignUp extends Component {
 
 
     onChangeUserId = async (text) => {
-        this.setState({ userId: text });
+        this.setState({ userId: text.toLowerCase() });
         if (text !== '') {
             // this.checkUserId(text);
-            await db.collection('userId').doc(text)
+            await db.collection('userId').doc(this.state.userId)
             .get()
             .then((doc) => {
                 if (doc.exists) {
@@ -59,31 +59,13 @@ class SignUp extends Component {
         }
     }
 
-    checkUserId = (userId) => {
-        db.collection('userId').doc(userId)
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    this.setState({
-                        userIdValid: false
-                    });
-                } else {
-                    // doc.data() will be undefined in this case
-                    this.setState({
-                        userIdValid: true
-                    });
-                }
-            })
-            .catch(error => console.log("ERR:", error.message))
-    }
-
     isValidUserId = () => {
         if (this.state.userId != '') {
             return this.state.userIdValid
         }
         else {
             this.setState({
-                userIdValid: tfalse
+                userIdValid: false
             }, () => alert('Invalid User ID'));
             return false
         }
@@ -211,7 +193,7 @@ class SignUp extends Component {
                                     <Item stackedLabel error={this.state.userIdValid===false}>
                                         <Label>UserId *</Label>
                                         <View style={{ flexDirection: 'row', height: 50, alignItems: 'center' }}>
-                                            <Input style={{ color: '#fff' }} error="#f99"
+                                            <Input style={{ color: '#fff' }} error="#f99" value={this.state.userId}
                                                 onChangeText={(text) => this.onChangeUserId(text)} />
                                             <Icon name={this.state.userIdValid ? 'checkmark' : null}
                                                 style={{ color: 'green', height: 50 }} />

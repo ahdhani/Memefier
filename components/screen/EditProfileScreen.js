@@ -28,7 +28,7 @@ class EditProfileScreen extends Component {
         dp: this.props.userDetails.dp,
         gender: 0,
         dob: new Date(1999, 1, 1),
-        userIdError: null,
+        userIdValid: null,
         isLoading: false,
         progress: 0,
         datePickerVisible: false
@@ -95,46 +95,70 @@ class EditProfileScreen extends Component {
         }
     };
 
-    // updateUserDetailsCheck = async () => {
+    onChangeUserId = async (text) => {
+        console.log('text ', text)
+        console.log('user ', this.state.userId)
+        this.setState({ userId: text.toLowerCase() },async () => {
+            console.log('userAfter ', this.state.userId)
+            if (this.state.userId != '') {
+                await db.collection('userId').doc(this.state.userId)
+                    .get()
+                    .then((doc) => {
+                        if (doc.exists && this.state.userId != this.props.userDetails.userId) {
+                            this.setState({
+                                userIdValid: false
+                            });
+                        } else {
+                            // doc.data() will be undefined in this case
+                            this.setState({
+                                userIdValid: true
+                            });
+                        }
+                    })
+                    .catch(error => console.log("ERR:", error.message))
+            }
+            else {
+                this.setState({
+                    userIdValid: false
+                });
+            }
+        });
 
-    //     /*
-    //     FIELD NAMES :
-    //     {
-    //         bio : <> ,
-    //         firstname : <> ,
-    //         lastname : <> 
-    //         phone : <>
-    //     }
-    //     */
+    }
 
-    //     await this.props.updateUser({
-    //         firstname : "killadi"
-    //     })
-    //     console.log("Finished")
-    // }
+    isValidUserId = () => {
+        if (this.state.userId != '') {
+            return this.state.userIdValid
+        }
+        else {
+            this.setState({
+                userIdValid: false
+            }, () => alert('Invalid User ID'));
+            return false
+        }
+    }
 
     saveUserdetails = async () => {
 
         this.setState({
             isLoading: true,
         })
-        await this.props.updateUser({
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            bio: this.state.bio,
-            userId: this.state.userId,
-            dp: this.state.dp,
-            gender: this.state.gender,
-            dob: this.state.dob,
-        })
+        if (this.isValidUserId() && (this.state.lastname !== '') && (this.state.firstname !== '')) {
+            await this.props.updateUser({
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                bio: this.state.bio,
+                userId: this.state.userId,
+                dp: this.state.dp,
+                gender: this.state.gender,
+                dob: this.state.dob,
+            })
+            this.props.navigation.goBack();
 
+        }
         console.log(this.props.userDetails)
 
-        // setTimeout(() => {
-        //     this.setState({ isLoading: false });
-        // }, 1000);
         this.setState({ isLoading: false });
-        this.props.navigation.goBack();
     }
 
     render() {
@@ -178,22 +202,22 @@ class EditProfileScreen extends Component {
                         </TouchableOpacity>
 
                         <Form>
-                            <Item stackedLabel error={this.state.userIdError}>
+                            <Item stackedLabel error={this.state.userIdValid === false}>
                                 <Label>UserID</Label>
                                 <Input style={{ color: '#fff' }}
                                     error="#f99"
                                     value={this.state.userId}
-                                    onChangeText={(text) => this.setState({ userId: text })} />
+                                    onChangeText={(text) => this.onChangeUserId(text)} />
                             </Item>
                             <View style={{ flexDirection: 'row' }} >
-                                <Item stackedLabel style={{ flex: 1 }}>
+                                <Item stackedLabel style={{ flex: 1 }} error={(this.state.firstname === '')}>
                                     <Label>First Name</Label>
                                     <Input style={{ color: '#fff' }}
                                         error="#f99"
                                         onChangeText={(text) => this.setState({ firstname: text })}
                                         value={this.state.firstname} />
                                 </Item>
-                                <Item stackedLabel style={{ flex: 1 }}>
+                                <Item stackedLabel style={{ flex: 1 }} error={(this.state.lastname === '')}>
                                     <Label>Last Name</Label>
                                     <Input style={{ color: '#fff' }}
                                         error="#f99"
