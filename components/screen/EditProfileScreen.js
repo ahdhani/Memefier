@@ -98,7 +98,7 @@ class EditProfileScreen extends Component {
     onChangeUserId = async (text) => {
         console.log('text ', text)
         console.log('user ', this.state.userId)
-        this.setState({ userId: text.toLowerCase() },async () => {
+        this.setState({ userId: text },async () => {
             console.log('userAfter ', this.state.userId)
             if (this.state.userId != '') {
                 await db.collection('userId').doc(this.state.userId)
