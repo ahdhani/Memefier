@@ -13,43 +13,7 @@ export default class TrendingScreen extends Component {
         searchResult: [],
         searchLoading: false,
         trendingPosts: [
-            {
-                name: 'hani',
-                postImage: null,
-                isFollow: true,
-
-            },
-            {
-                name: 'kudu',
-                postImage: null,
-                isFollow: false,
-
-            },
-            {
-                name: 'hashm',
-                postImage: null,
-                isFollow: true,
-
-            },
-            {
-                name: 'hayan',
-                postImage: null,
-                isFollow: true,
-
-            },
-            {
-                name: 'melvin',
-                postImage: null,
-                isFollow: true,
-
-            },
-            {
-                name: 'hani',
-                postImage: null,
-                isFollow: true,
-
-            },
-        ]
+        ],
     }
 
     onChangeTextSearch = (text) => {
@@ -92,6 +56,54 @@ export default class TrendingScreen extends Component {
             trendingPosts: trendingPosts,
         })
     }
+
+    fetchPosts = async () => {
+        var arr = []
+        // console.log("USER.UID , ", this.props.user.uid)
+        await db.collection('posts')
+            // .where('created_by', 'in', [...this.props.following, this.props.user.uid])
+            .get()
+            .then(snapshot => {
+                snapshot.docs.forEach(async doc => {
+                    var name = ''
+                    await db.collection("userDetails")            //Code added by Hani
+                        .doc(doc.data().created_by)
+                        .get()
+                        .then(user => {
+                            name = user.data().userId
+                        }).catch(error => console.log(error.message))
+                    // console.log(arr)
+
+                    arr = [{ userId: name, ...doc.data() }, ...arr]
+                })
+                console.log(arr)
+
+                this.setState({
+                    trendingPosts: arr
+                })
+            }).
+            catch(error => console.log("ERR : ", error.message))
+    }
+
+    // const fetchUser = async (user_uid) => {
+    //     db.collection("userDetails")
+    //         .doc(user_uid)
+    //         .get()
+    //         .then(user => {
+    //             var name = user.data().firstname + ' ' + user.data().lastname
+    //             // console.log(typeof(name))
+    //             // return user.data().firstname
+    //             // console.log(user.data())
+    //             setName(name);
+    //             setDp(user.data().dp)
+    //         }).catch(error => console.log(error.message))
+
+    // }
+
+    componentDidMount = () => {
+        this.fetchPosts()
+    }
+
     render() {
         return (
             <Container>
@@ -141,8 +153,11 @@ export default class TrendingScreen extends Component {
                     data={this.state.trendingPosts}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
-                        <Item>
-                            <ImageBackground resizeMode='contain' source={require('../../assets/profile.jpeg')}
+                        <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
+                            post: this.state.trendingPosts,
+                            index: index,
+                        })}>
+                            <ImageBackground resizeMode='contain' source={{ uri: item.img }}
                                 style={{
                                     width: cardWidth, height: cardHeight,
                                     elevation: 5, zIndex: 5
@@ -153,7 +168,7 @@ export default class TrendingScreen extends Component {
                                             margin: 20, color: '#fff',
                                             shadowColor: '#111', textShadowColor: '#111',
                                             textShadowRadius: 10, fontWeight: '800',
-                                        }}>{item.name}</Text>
+                                        }}>{item.userId}</Text>
                                     </Left>
                                     <Right>
                                         <TouchableOpacity

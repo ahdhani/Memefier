@@ -5,7 +5,7 @@ import FeedCards from '../FeedCards'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../redux'
 
-class ProfileFeedScreen extends Component {
+class PostScrollScreen extends Component {
 
     state = {
         posts: [],
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileFeedScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(PostScrollScreen)

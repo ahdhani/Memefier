@@ -33,7 +33,7 @@ class SignUp extends Component {
 
 
     onChangeUserId = async (text) => {
-        this.setState({ userId: text.toLowerCase() });
+        this.setState({ userId: text });
         if (text !== '') {
             // this.checkUserId(text);
             await db.collection('userId').doc(this.state.userId)

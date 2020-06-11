@@ -95,7 +95,8 @@ class EditProfileScreen extends Component {
         }
     };
 
-    onChangeUserId = async (text) => {
+    onChangeUserId = async (text) => {              //Please resolve the await problem 
+                                                        //setstate clashes two consecutive query
         console.log('text ', text)
         console.log('user ', this.state.userId)
         this.setState({ userId: text },async () => {
@@ -104,7 +105,7 @@ class EditProfileScreen extends Component {
                 await db.collection('userId').doc(this.state.userId)
                     .get()
                     .then((doc) => {
-                        if (doc.exists && this.state.userId != this.props.userDetails.userId) {
+                        if (doc.exists && this.state.userId !== this.props.userDetails.userId) {
                             this.setState({
                                 userIdValid: false
                             });
@@ -205,6 +206,7 @@ class EditProfileScreen extends Component {
                             <Item stackedLabel error={this.state.userIdValid === false}>
                                 <Label>UserID</Label>
                                 <Input style={{ color: '#fff' }}
+                                    autoCapitalize='none'
                                     error="#f99"
                                     value={this.state.userId}
                                     onChangeText={(text) => this.onChangeUserId(text)} />

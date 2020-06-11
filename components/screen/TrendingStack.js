@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 import PostScrollScreen from './PostScrollScreen'
-import ProfileScreen from './ProfileScreen'
-import EditProfileScreen from './EditProfileScreen'
+import TrendingScreen from './TrendingScreen'
+// import EditProfileScreen from './EditProfileScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-export default class ProfileStack extends Component {
+export default class TrendingStack extends Component {
 
 
 
@@ -19,14 +19,14 @@ export default class ProfileStack extends Component {
             <NavigationContainer independent={true}>
                 <Stack.Navigator
                 
-                    initialRouteName="ProfileScreen"
+                    initialRouteName="TrendingScreen"
                     screenOptions={{
                         gestureEnabled: true
                     }}>
 
                     <Stack.Screen
-                        name="ProfileScreen"
-                        component={ProfileScreen}
+                        name="TrendingScreen"
+                        component={TrendingScreen}
                         options={{
                             headerShown: false
                         }}
@@ -34,13 +34,6 @@ export default class ProfileStack extends Component {
                     <Stack.Screen
                         name="PostScrollScreen"
                         component={PostScrollScreen}
-                        options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Screen
-                        name="EditProfileScreen"
-                        component={EditProfileScreen}
                         options={{
                             headerShown: false
                         }}

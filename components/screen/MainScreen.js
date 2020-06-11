@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import FeedScreen from './FeedScreen'
-import TrendingScreen from './TrendingScreen'
+import TrendingStack from './TrendingStack'
 import UploadScreen from './UploadScreen'
 import CommunityScreen from './CommunityScreen'
 import ProfileStack from './ProfileStack'
@@ -44,7 +44,7 @@ function MainScreen() {
             />
             <Tab.Screen
                 name="Trending"
-                component={TrendingScreen}
+                component={TrendingStack}
                 options={{
                     tabBarLabel: 'Discover',
                     tabBarIcon: ({ color,focused }) => (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground } from 'react-native'
 import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
 // imports for state management
 import { connect } from 'react-redux';
@@ -128,17 +128,53 @@ class ProfileScreen extends Component {
                                 // ref={(ref) => { this.flatListRef = ref; }}
                                 // initialNumToRender={2}
                                 renderItem={({ item, index }) => (
-                                    <Item onPress={() => this.props.navigation.navigate('ProfileFeedScreen', {
+                                    <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
                                         post: this.state.userPosts,
                                         index: index,
                                     })}>
-                                        <Image resizeMode='contain' source={{ uri: item.img }}
+                                        <ImageBackground resizeMode='contain' source={{ uri: item.img }}
                                             style={{
                                                 // flex: 1,width: '100%',
                                                 width: cardWidth, height: cardHeight, margin: 1,
-                                                borderRadius: 15,
+                                                borderRadius: 15,justifyContent: 'flex-end'
                                             }}>
-                                        </Image>
+                                            <View style={{ flexDirection: 'row',}}>
+                                                <Left>
+                                                    {/* <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.toggleFollow(index)
+                                                        }}
+                                                    > */}
+                                                       
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                             <Icon name='trending-down' style={{color: '#fff',fontSize: 20}} />
+                                                              4</Text>
+                                                    {/* </TouchableOpacity> */}
+
+                                                </Left>
+                                                <Right>
+                                                    {/* <TouchableOpacity
+                                                        onPress={() => {
+                                                            this.toggleFollow(index)
+                                                        }}
+                                                    > */}
+                                                       
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                             <Icon name='trending-up' style={{color: '#fff',fontSize: 20}} />
+                                                              54</Text>
+                                                    {/* </TouchableOpacity> */}
+
+                                                </Right>
+                                            </View>
+                                        </ImageBackground>
                                     </Item>
                                 )}
                                 numColumns={2}
