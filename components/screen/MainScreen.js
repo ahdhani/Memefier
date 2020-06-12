@@ -33,33 +33,13 @@ function MainScreen() {
 
         >
             <Tab.Screen
-                name="Feed"
-                component={FeedScreen}
-                options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color,focused }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={focused?28:26} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="Trending"
-                component={TrendingStack}
-                options={{
-                    tabBarLabel: 'Discover',
-                    tabBarIcon: ({ color,focused }) => (
-                        <MaterialCommunityIcons name="magnify" color={color} size={focused?28:26} />
-                    ),
-                }}
-            />
-            <Tab.Screen
                 name="Upload"
                 component={UploadScreen}
                 options={{
                     tabBarLabel: 'Upload',
-                    tabBarIcon: ({ color,focused  }) => (
-                        <MaterialCommunityIcons name="shape-square-plus" 
-                        color={color} size={focused?28:26} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="shape-square-plus"
+                            color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />
@@ -68,8 +48,28 @@ function MainScreen() {
                 component={CommunityScreen}
                 options={{
                     tabBarLabel: 'Community',
-                    tabBarIcon: ({ color,focused }) => (
-                        <MaterialCommunityIcons name="account-multiple" color={color} size={focused?28:26} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="account-multiple" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Feed"
+                component={FeedScreen}
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="home" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Trending"
+                component={TrendingStack}
+                options={{
+                    tabBarLabel: 'Discover',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="magnify" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />
@@ -78,8 +78,8 @@ function MainScreen() {
                 component={ProfileStack}
                 options={{
                     tabBarLabel: 'Profile',
-                    tabBarIcon: ({ color,focused  }) => (
-                        <MaterialCommunityIcons name="account" color={color} size={focused?28:26} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="account" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />

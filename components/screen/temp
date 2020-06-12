@@ -68,7 +68,7 @@ class UploadScreen extends Component {
                                     {/* <Text note>Roasting fukru</Text> */}
                                     <Input onChangeText={(text) => this.setState({ description: text })}
                                             placeholder='Type description' placeholderTextColor='#ccc' style={
-                                                {fontSize: 15}} multiline/>
+                                                {fontSize: 15}}/>
                                 </Body>
                             </Left>
                             <Right>
