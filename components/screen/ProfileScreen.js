@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground, TouchableOpacityBase } from 'react-native'
 import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
+import colors from '../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../redux';
 
 import { db } from '../../config';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // import DpModal from '../DpModal'
 
@@ -50,7 +52,7 @@ class ProfileScreen extends Component {
     render() {
         return (
             <Container>
-                <Header style={{ backgroundColor: '#252337' }}>
+                <Header style={{ backgroundColor: colors.color5 }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
                             <Text>Edit</Text>
@@ -61,16 +63,16 @@ class ProfileScreen extends Component {
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.signOutClicked()}>
-                            <Text>SignOut</Text>
+                            <Text style={{ color: colors.color1 }} >SignOut</Text>
                         </Button>
                     </Right>
                 </Header>
-                <Content style={{ backgroundColor: '#252337', height: '100%', }}>
+                <Content style={{ backgroundColor: colors.color5, height: '100%', }}>
                     <View style={{
                         flex: 1, flexGrow: 1, height: '100%'
                     }}>
 
-                        <H1 style={{ alignSelf: 'center', marginTop: 30, color: '#9db4c0' }}>
+                        <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
                             @{this.props.userDetails.userId}
                         </H1>
                         <Text note style={{
@@ -80,7 +82,7 @@ class ProfileScreen extends Component {
                             Rank 0
                         </Text>
                         <View style={{
-                            flex: 1, flexGrow: 2, backgroundColor: '#ffffff',
+                            flex: 1, flexGrow: 2, backgroundColor: '#fff',
                             borderTopLeftRadius: 30, borderTopRightRadius: 30, height: '100%' ////
                         }}>
                             <View style={{
@@ -88,37 +90,47 @@ class ProfileScreen extends Component {
                                 marginTop: -110,
                             }}>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>0</H1>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>0</H1>
                                     <Text note>Followers</Text>
                                 </View>
-                                <Image
+                                <ImageBackground
                                     style={{
                                         paddingVertical: 30,
                                         width: 150,
                                         height: 150,
                                         alignSelf: 'center',
                                         borderRadius: 75,
-                                        backgroundColor: '#5c6b73',
+                                        backgroundColor: colors.color3,
                                     }}
                                     resizeMode='cover'
                                     source={{ uri: this.props.userDetails.dp }}
 
-                                />
+                                >
+                                    <TouchableOpacity style={{
+                                        position: 'absolute', bottom: 5,
+                                        right: 5, backgroundColor: colors.color1,
+                                        borderRadius: 20,
+                                        height: 40, width: 40,
+                                        alignItems: 'center', justifyContent: 'center'
+                                    }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                                        <Icon name='create' style={{
+                                            fontSize: 20
+                                        }} />
+                                    </TouchableOpacity>
+
+                                </ImageBackground>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: '#9db4c0' }}>{this.props.following.length}</H1>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.following.length}</H1>
                                     <Text note>Following</Text>
                                 </View>
                             </View>
 
-                            <H1 style={{ alignSelf: 'center', marginTop: 20 }}>
+                            <H1 style={{ alignSelf: 'center', marginTop: 20, color: colors.color3 }}>
                                 {this.props.userDetails.firstname} {this.props.userDetails.lastname}
                             </H1>
                             <Text note style={{
                                 alignSelf: 'center',
                             }}>{this.props.userDetails.bio}</Text>
-                            <Button transparent onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
-                                <Text>Edit Profile</Text>
-                            </Button>
 
                             <FlatList
                                 // getItemLayout={(data, index) => { return {length: cardHeight+2, index, offset: (cardHeight+2) * index} }}
@@ -136,22 +148,22 @@ class ProfileScreen extends Component {
                                             style={{
                                                 // flex: 1,width: '100%',
                                                 width: cardWidth, height: cardHeight, margin: 1,
-                                                borderRadius: 15,justifyContent: 'flex-end'
+                                                borderRadius: 15, justifyContent: 'flex-end'
                                             }}>
-                                            <View style={{ flexDirection: 'row',}}>
+                                            <View style={{ flexDirection: 'row', }}>
                                                 <Left>
                                                     {/* <TouchableOpacity
                                                         onPress={() => {
                                                             this.toggleFollow(index)
                                                         }}
                                                     > */}
-                                                       
-                                                        <Text style={{
-                                                            margin: 10, color: '#fff',
-                                                            shadowColor: '#111', textShadowColor: '#111',
-                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                                        }}>
-                                                             <Icon name='trending-down' style={{color: '#fff',fontSize: 20}} />
+
+                                                    <Text style={{
+                                                        margin: 10, color: '#fff',
+                                                        shadowColor: '#111', textShadowColor: '#111',
+                                                        textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                    }}>
+                                                        <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
                                                               4</Text>
                                                     {/* </TouchableOpacity> */}
 
@@ -162,13 +174,13 @@ class ProfileScreen extends Component {
                                                             this.toggleFollow(index)
                                                         }}
                                                     > */}
-                                                       
-                                                        <Text style={{
-                                                            margin: 10, color: '#fff',
-                                                            shadowColor: '#111', textShadowColor: '#111',
-                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                                        }}>
-                                                             <Icon name='trending-up' style={{color: '#fff',fontSize: 20}} />
+
+                                                    <Text style={{
+                                                        margin: 10, color: '#fff',
+                                                        shadowColor: '#111', textShadowColor: '#111',
+                                                        textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                    }}>
+                                                        <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
                                                               54</Text>
                                                     {/* </TouchableOpacity> */}
 
@@ -178,7 +190,7 @@ class ProfileScreen extends Component {
                                     </Item>
                                 )}
                                 numColumns={2}
-                                style={{ marginTop: 20, paddingTop: 5, backgroundColor: '#ddd' }}
+                                style={{ marginTop: 20, paddingTop: 5 }}
                             // enableEmptySections={true}
                             />
                         </View>

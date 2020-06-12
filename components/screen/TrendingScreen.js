@@ -72,7 +72,7 @@ export default class TrendingScreen extends Component {
                         .then(user => {
                             name = user.data().userId
                         }).catch(error => console.log(error.message))
-                    // console.log(arr)
+                    console.log(arr)
 
                     arr = [{ userId: name, ...doc.data() }, ...arr]
                 })

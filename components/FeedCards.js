@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail } from 'native-base'
-import { Image, Dimensions } from 'react-native'
+import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail,Input } from 'native-base'
+import { Image,View, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { db } from '../config';
 
@@ -33,8 +33,9 @@ RenderReactions = (props) => {
 const FeedCards = (props) => {
 
     const [name, setName] = useState('')
-    const [dp , setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
-    
+    const [userComment, setComment] = useState('')
+    const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
+
     const fetchUser = async (user_uid) => {
         db.collection("userDetails")
             .doc(user_uid)
@@ -53,10 +54,10 @@ const FeedCards = (props) => {
     fetchUser(props.post.created_by);
 
     return (
-        <Card style={{ height: cardHeight }}>
+        <Card style={{ height: cardHeight,justifyContent: 'space-between',alignContent: 'space-between' }}>
             <CardItem>
                 <Left>
-                    <Thumbnail source={{uri: dp}} />
+                    <Thumbnail source={{ uri: dp }} />
                     <Body>
                         <Text>{name}</Text>
                         <Text note>category</Text>
@@ -70,9 +71,9 @@ const FeedCards = (props) => {
             </CardItem>
             <CardItem cardBody>
 
-                <Image resizeMode='contain' 
-                source={{uri: props.post.img }}
-                style={{ width: screenWidth,height: postHeight}} />
+                <Image resizeMode='contain'
+                    source={{ uri: props.post.img }}
+                    style={{ width: screenWidth, height: postHeight }} />
 
             </CardItem>
 
@@ -107,7 +108,16 @@ const FeedCards = (props) => {
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0
                 </Text>
+
             </CardItem>
+            <View style={{ height: 60,flexDirection: 'row',backgroundColor: '#253237'}}>
+            <Input style={{ color: '#fff' }}
+            placeholder='Comment...'
+                onChangeText={(text) => setComment(text)}
+                value={userComment} />
+                <Icon name='send' style={{margin: 15}}/>
+            </View>
+            
 
         </Card>
     )
