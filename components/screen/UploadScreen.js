@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
-import { Image, View } from 'react-native';
+import { Image, View,TextInput,StyleSheet} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -64,7 +64,6 @@ class UploadScreen extends Component {
                                 <Thumbnail source={require('../../assets/profile.jpeg')} />
                                 <Body>
                                     <Text>{this.props.userDetails.firstname} {this.props.userDetails.lastname}</Text>
-                                    <Text note>Roasting fukru</Text>
                                 </Body>
                             </Left>
                             <Right>
@@ -74,6 +73,16 @@ class UploadScreen extends Component {
 
                             </Right>
                         </CardItem>
+
+                        <CardItem style={{margin: 20,paddingLeft:0 ,paddingTop:1,borderBottomColor:'rgba(0,0,0,0.25)',borderBottomWidth:1}}>
+                            <TextInput 
+                                onChangeText={(description) => this.setState({description})} 
+                                vlaue={this.state.description} 
+                                placeholder='Description..' 
+                                multiline
+                             />
+                        </CardItem>
+
                         <CardItem style={{ flexDirection: 'column' }}>
                             {image && <Image resizeMode='contain' source={{ uri: image }}
                                 style={{ width: '100%', height: 400 }} />}
