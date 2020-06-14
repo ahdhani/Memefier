@@ -58,31 +58,34 @@ export default class TrendingScreen extends Component {
     }
 
     fetchPosts = async () => {
-        var arr = []
+        
         // console.log("USER.UID , ", this.props.user.uid)
         await db.collection('posts')
             // .where('created_by', 'in', [...this.props.following, this.props.user.uid])
             .get()
-            .then(snapshot => {
-                snapshot.docs.forEach(async doc => {
+            .then(async snapshot => {
+                var arr = []
+                await snapshot.docs.forEach(async doc => {
                     var name = ''
-                    await db.collection("userDetails")            //Code added by Hani
+                    db.collection("userDetails")  
                         .doc(doc.data().created_by)
                         .get()
                         .then(user => {
                             name = user.data().userId
                         }).catch(error => console.log(error.message))
-                    console.log(arr)
 
                     arr = [{ userId: name, ...doc.data() }, ...arr]
                 })
-                console.log(arr)
 
-                this.setState({
-                    trendingPosts: arr
+                await this.setState({
+                    trendingPosts : arr
                 })
+
+                
+                console.log("trending Posts\n" , this.state.trendingPosts)
             }).
             catch(error => console.log("ERR : ", error.message))
+
     }
 
     // const fetchUser = async (user_uid) => {
