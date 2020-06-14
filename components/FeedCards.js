@@ -4,6 +4,8 @@ import { Image,View, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { db } from '../config';
 
+import { useNavigation } from '@react-navigation/native';
+
 const tabHeight = (Platform.OS === 'ios') ? 55 : 60;
 
 const screenWidth = Dimensions.get('window').width;
@@ -32,6 +34,7 @@ RenderReactions = (props) => {
 
 const FeedCards = (props) => {
 
+    const navigation = useNavigation();
     const [name, setName] = useState('')
     const [userComment, setComment] = useState('')
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
@@ -104,7 +107,7 @@ const FeedCards = (props) => {
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
                     {props.post.caption}
                 </Text>
-                <Text>
+                <Text onPress={() => {navigation.navigate('CommentScreen')}}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0
                 </Text>

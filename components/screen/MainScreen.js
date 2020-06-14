@@ -2,11 +2,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import React, { Component } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import FeedScreen from './FeedScreen'
+import FeedStack from './FeedStack'
 import TrendingStack from './TrendingStack'
 import UploadScreen from './UploadScreen'
 import CommunityScreen from './CommunityScreen'
 import ProfileStack from './ProfileStack'
+import CommentScreen from './CommentScreen'
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -55,7 +57,7 @@ function MainScreen() {
             />
             <Tab.Screen
                 name="Feed"
-                component={FeedScreen}
+                component={FeedStack}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color, focused }) => (
