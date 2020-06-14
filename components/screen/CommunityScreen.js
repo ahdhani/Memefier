@@ -4,6 +4,7 @@ import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, 
 import { connect } from 'react-redux'
 import { db } from '../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../redux';
+import { likePost , unlikePost , dislikePost } from '../functions/reactions'
 
 class CommunityScreen extends Component {
 
@@ -27,7 +28,7 @@ class CommunityScreen extends Component {
                     // if (user.id in this.props.following) {
                     //     isFollow = true
                     // }
-                    console.log(this.props.user.uid , " == " , user.id)
+                    // console.log(this.props.user.uid , " == " , user.id)
                     if (user.id != this.props.user.uid) {
                         user_list = [{ ...user.data(), uid: user.id }, ...user_list]
                     }
@@ -60,21 +61,7 @@ class CommunityScreen extends Component {
     }
 
     updateUserDetailsCheck = async () => {
-
-        /*
-        FIELD NAMES :
-        {
-            bio : <> ,
-            firstname : <> ,
-            lastname : <> 
-            phone : <>
-        }
-        */
-
-        await this.props.updateUser({
-            firstname : "killadi"
-        })
-        console.log("Finished")
+        dislikePost()
     }
 
     render() {
@@ -89,8 +76,14 @@ class CommunityScreen extends Component {
                 </Header> */}
                 <Content>
 
-                    <Button transparent onPress={() => this.updateUserDetailsCheck()}>
-                        <Text>Update</Text>
+                    <Button transparent onPress={() => likePost()}>
+                        <Text>Like</Text>
+                    </Button>
+                    <Button transparent onPress={() => dislikePost()}>
+                        <Text>Dislike</Text>
+                    </Button>
+                    <Button transparent onPress={() => unlikePost()}>
+                        <Text>Unlike</Text>
                     </Button>
 
                     <FlatList
