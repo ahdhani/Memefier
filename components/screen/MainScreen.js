@@ -5,7 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import FeedStack from './FeedStack'
 import TrendingStack from './TrendingStack'
 import UploadScreen from './UploadScreen'
-import CommunityScreen from './CommunityScreen'
+import CommunityStack from './CommunityStack'
 import ProfileStack from './ProfileStack'
 import CommentScreen from './CommentScreen'
 
@@ -34,6 +34,17 @@ function MainScreen() {
             }}
 
         >
+            
+            <Tab.Screen
+                name="Community"
+                component={CommunityStack}
+                options={{
+                    tabBarLabel: 'Community',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialCommunityIcons name="account-multiple" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
+                    ),
+                }}
+            />
             <Tab.Screen
                 name="Upload"
                 component={UploadScreen}
@@ -42,16 +53,6 @@ function MainScreen() {
                     tabBarIcon: ({ color, focused }) => (
                         <MaterialCommunityIcons name="shape-square-plus"
                             color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="Community"
-                component={CommunityScreen}
-                options={{
-                    tabBarLabel: 'Community',
-                    tabBarIcon: ({ color, focused }) => (
-                        <MaterialCommunityIcons name="account-multiple" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />

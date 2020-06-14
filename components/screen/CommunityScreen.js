@@ -80,13 +80,13 @@ class CommunityScreen extends Component {
     render() {
         return (
             <Container>
-                <Header>
+                {/* <Header>
                     <Left />
                     <Body>
                         <Title>Community</Title>
                     </Body>
                     <Right />
-                </Header>
+                </Header> */}
                 <Content>
 
                     <Button transparent onPress={() => this.updateUserDetailsCheck()}>
