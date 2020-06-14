@@ -45,13 +45,11 @@ export default class CommentScreen extends Component {
                         data={this.state.comments}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <Item style={{ flexDirection: 'row' }}
+                            <Item style={{ flexDirection: 'row',alignItems: 'flex-start' }}
                             // onPress={() => this.props.navigation.navigate('PostScrollScreen')}
                             >
-                                <View style={{ alignContent: 'flex-start' ,alignItems: 'flex-start',
-                                justifyContent: 'flex-start',backgroundColor: 'black'}}>
-                                    <Thumbnail small resizeMode='cover' source={require('../../assets/dp/default.png')} style={{ margin: 5 }} />
-                                </View>
+                                    <Thumbnail small resizeMode='cover' 
+                                    source={require('../../assets/dp/default.png')} style={{ margin: 5,marginTop: 10 }} />
                                 {/* <Thumbnail source={{ uri:  }} />  */}
                                 <View style={{ margin: 5 }}>
                                     <Text style={{ color: '#fff' }}>@userID</Text>
@@ -67,7 +65,7 @@ export default class CommentScreen extends Component {
                         flexDirection: 'row', backgroundColor: '#253237',
                         alignItems: 'center', marginVertical: 10
                     }}>
-                        <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')} style={{ margin: 10 }} />
+                        <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')} style={{ marginHorizontal: 5 }} />
                         <View style={{ flex: 1 }}>
                             <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
                             <Input style={{ color: '#fff', }}
