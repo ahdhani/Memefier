@@ -10,7 +10,7 @@ class FeedScreen extends Component {
     fetchPosts = async () => {
         var arr = []
 
-        console.log("USER.UID , ", this.props.user.uid)
+        // console.log("USER.UID , ", this.props.user.uid)
         await db.collection('posts')
             .where('created_by', 'in', [...this.props.following, this.props.user.uid])
             .get()
