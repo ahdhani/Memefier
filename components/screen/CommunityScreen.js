@@ -100,12 +100,6 @@ class CommunityScreen extends Component {
                         enableEmptySections={true}
                         keyExtractor={(item, index) => index.toString()}
                     />
-                    <View style={{ height: 500, width: 400, backgroundColor: 'green' }}>
-                        <View style={{ height: 40, backgroundColor: 'black' }} />
-                        <View style={{ flex: 1, backgroundColor: 'blue' }} />
-                        <View style={{ flexGrow: 2, backgroundColor: 'yellow' }} />
-                    </View>
-
                 </Content>
             </Container>
         )
