@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { db } from '../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../redux';
 import { likePost , unlikePost , dislikePost } from '../functions/reactions'
+import { addComment , fetchAllComments , testFunction } from '../functions/comments'
 
 class CommunityScreen extends Component {
 
@@ -16,6 +17,18 @@ class CommunityScreen extends Component {
         // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
         // this.props.fetchPosts();
         this.fetchUsers()
+    }
+
+    fetchComments = async () => {
+        var comments = await fetchAllComments()
+
+        console.log(comments)
+    }
+
+    test = () => {
+        var ret = testFunction()
+
+        console.log(ret)
     }
 
     fetchUsers = () => {
@@ -79,11 +92,14 @@ class CommunityScreen extends Component {
                     <Button transparent onPress={() => likePost()}>
                         <Text>Like</Text>
                     </Button>
-                    <Button transparent onPress={() => dislikePost()}>
-                        <Text>Dislike</Text>
+                    <Button transparent onPress={() => addComment()}>
+                        <Text>Add Comment</Text>
                     </Button>
-                    <Button transparent onPress={() => unlikePost()}>
-                        <Text>Unlike</Text>
+                    <Button transparent onPress={() => this.fetchComments()}>
+                        <Text>Fetch Comments</Text>
+                    </Button>
+                    <Button transparent onPress={() => this.test()}>
+                        <Text>Test Function</Text>
                     </Button>
 
                     <FlatList
