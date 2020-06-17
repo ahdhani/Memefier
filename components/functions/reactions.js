@@ -1,5 +1,27 @@
 import { db } from '../../config'
 
+export const checkReaction = async (post_id = '57j6qQbKXOz8cXD7z0hr', user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3') => {
+    // var doc_name = user_uid + '_' + post_id
+
+    var return_value = -1
+    
+    const query = db.collection('reactions')
+                    .where('post_id' , '==' , post_id)
+                    .where('user_uid' , '==' , user_uid)
+    await query.get()
+        .then((querySnapshot) => {
+            if(querySnapshot.docs.length == 0) {
+                return_value = -1
+            } else {
+                console.log(querySnapshot.docs[0].data())
+                return_value = querySnapshot.docs[0].data().reaction
+            }
+        })
+        .catch(error => console.log(error.message))
+
+    return return_value
+}
+
 export const likePost = (user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3' , post_id = '57j6qQbKXOz8cXD7z0hr' , reaction = 0) => {   
     var doc_name = user_uid + '_' + post_id
     db.collection("reactions").doc(doc_name).set({
@@ -19,12 +41,17 @@ export const dislikePost = (user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3' , post_id 
 
 export const unlikePost = (user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3' , post_id = '57j6qQbKXOz8cXD7z0hr') => {
     var doc_name = user_uid + '_' + post_id
-    db.collection('reactions').doc(doc_name).delete()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                doc.ref.delete();
-            });
-            console.log("Unlike Success");
+    let query = db.collection('reactions').doc(doc_name);
+    query.get()
+        .then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                console.log("Doc found and deleted")
+                query.delete()
+            }
         })
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            console.log('ERR', err.message);
+        });
 }
