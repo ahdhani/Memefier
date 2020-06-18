@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail,Input } from 'native-base'
-import { Image,View, Dimensions } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
+import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import { db } from '../config';
+import { connect } from 'react-redux'
+
+import { likePost, unlikePost, dislikePost, checkReaction } from './functions/reactions'
 
 import { useNavigation } from '@react-navigation/native';
 
-const tabHeight = (Platform.OS === 'ios') ? 55 : 60;
+const tabHeight = 55;
 
 const screenWidth = Dimensions.get('window').width;
 const cardHeight = Dimensions.get('window').height - tabHeight - 10;
@@ -36,6 +38,7 @@ const FeedCards = (props) => {
 
     const navigation = useNavigation();
     const [name, setName] = useState('')
+    const [reaction, setReaction] = useState(-1)
     const [userComment, setComment] = useState('')
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
 
@@ -57,7 +60,7 @@ const FeedCards = (props) => {
     fetchUser(props.post.created_by);
 
     return (
-        <Card style={{ height: cardHeight,justifyContent: 'space-between',alignContent: 'space-between' }}>
+        <Card style={{ height: cardHeight, justifyContent: 'space-between', }}>
             <CardItem>
                 <Left>
                     <Thumbnail source={{ uri: dp }} />
@@ -82,47 +85,91 @@ const FeedCards = (props) => {
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-            <CardItem>
-                <Left>
-                    <Button transparent>
-                        <Icon active name="thumbs-up" />
-                        <Text>0 Dislikes</Text>
-                    </Button>
-                </Left>
-                <Body>
-                    <Button transparent>
-                        <Icon active name="share" />
-                        <Text>Share</Text>
-                    </Button>
-                </Body>
-                <Right>
-                    <Button transparent>
-                        <Icon active name="thumbs-up" />
-                        <Text>0 Likes</Text>
-                    </Button>
-                </Right>
+            <CardItem style={{ justifyContent: 'space-around' }}>
+                <TouchableOpacity style={styles.button}
+                    onPress={async () => {
+                        var reactions = await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                        console.log(reactions)
+                        console.log(await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr'))
+                        {
+                            (reactions === 1) ?
+                                unlikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                                :
+                                dislikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                        }
+                    }}
+                >
+                    <Icon name="thumbs-down" />
+                    <Text>0</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button}>
+                    <Icon name="share" style={{width: 20}} />
+                    {/* <Text>Share</Text> */}
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button}
+                    onPress={async () => {
+                        var reactions = await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                        console.log(reactions)
+                        {
+                            (reactions === 0) ?
+                                unlikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                                :
+                                likePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
+                        }
+                    }}
+                >
+                    <Icon name="thumbs-up" />
+                    <Text>0</Text>
+                </TouchableOpacity>
+
             </CardItem>
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
                     {props.post.caption}
                 </Text>
-                <Text onPress={() => {navigation.navigate('CommentScreen')}}>
+                <Text onPress={() => { navigation.navigate('CommentScreen') }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0
                 </Text>
 
             </CardItem>
-            <View style={{ height: 60,flexDirection: 'row',backgroundColor: '#253237'}}>
-            <Input style={{ color: '#fff' }}
-            placeholder='Comment...'
-                onChangeText={(text) => setComment(text)}
-                value={userComment} />
-                <Icon name='send' style={{margin: 15}}/>
+            <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
+                <Input style={{ color: '#fff' }}
+                    placeholder='Comment...'
+                    onChangeText={(text) => setComment(text)}
+                    value={userComment} />
+                <Icon name='send' style={{ margin: 15 }} />
             </View>
-            
+
 
         </Card>
     )
 }
-export default FeedCards;
+
+const styles = StyleSheet.create({
+    button: {
+        flexDirection: 'row',
+        padding: 3,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        backgroundColor: '#cccccc55',
+    }
+});
+
+const mapStateToProps = (state) => ({
+    // user: state.auth.user,
+    userDetails: state.auth.userDetails,
+    // following: state.auth.following
+})
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // fetchPosts_: () => dispatch(fetchPosts())
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedCards)
+// export default FeedCards;
