@@ -57,96 +57,103 @@ const FeedCards = (props) => {
 
     }
 
-    fetchUser(props.post.created_by);
+    const likeHandler = async () => {
+        var reactions = await checkReaction()
+        console.log(reactions)
+        if (reactions === 0) {
+            unlikePost()
+            setReaction(-1)
+        }
+        else {
+            likePost()
+            setReaction(0)
+        }
+    }
 
-    return (
-        <Card style={{ height: cardHeight, justifyContent: 'space-between', }}>
-            <CardItem>
-                <Left>
-                    <Thumbnail source={{ uri: dp }} />
-                    <Body>
-                        <Text>{name}</Text>
-                        <Text note>category</Text>
-                    </Body>
-                </Left>
-                <Right>
-                    <Button transparent>
-                        <Icon active name="menu" />
-                    </Button>
-                </Right>
-            </CardItem>
-            <CardItem cardBody>
+const dislikeHandler = async () => {
+    var reactions = await checkReaction()
+    console.log(reactions)
+    if (reactions === 1) {
+        unlikePost()
+        setReaction(-1)
+    }
+    else {
+        dislikePost()
+        setReaction(1)
+    }
+}
 
-                <Image resizeMode='contain'
-                    source={{ uri: props.post.img }}
-                    style={{ width: screenWidth, height: postHeight }} />
+fetchUser(props.post.created_by);
 
-            </CardItem>
+return (
+    <Card style={{ height: cardHeight, justifyContent: 'space-between', }}>
+        <CardItem>
+            <Left>
+                <Thumbnail source={{ uri: dp }} />
+                <Body>
+                    <Text>{name}</Text>
+                    <Text note>category</Text>
+                </Body>
+            </Left>
+            <Right>
+                <Button transparent>
+                    <Icon active name="menu" />
+                </Button>
+            </Right>
+        </CardItem>
+        <CardItem cardBody>
 
-            {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
+            <Image resizeMode='contain'
+                source={{ uri: props.post.img }}
+                style={{ width: screenWidth, height: postHeight }} />
 
-            <CardItem style={{ justifyContent: 'space-around' }}>
-                <TouchableOpacity style={styles.button}
-                    onPress={async () => {
-                        var reactions = await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                        console.log(reactions)
-                        console.log(await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr'))
-                        {
-                            (reactions === 1) ?
-                                unlikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                                :
-                                dislikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                        }
-                    }}
-                >
-                    <Icon name="thumbs-down" />
-                    <Text>0</Text>
-                </TouchableOpacity>
+        </CardItem>
 
-                <TouchableOpacity style={styles.button}>
-                    <Icon name="share" style={{width: 20}} />
-                    {/* <Text>Share</Text> */}
-                </TouchableOpacity>
+        {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-                <TouchableOpacity style={styles.button}
-                    onPress={async () => {
-                        var reactions = await checkReaction('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                        console.log(reactions)
-                        {
-                            (reactions === 0) ?
-                                unlikePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                                :
-                                likePost('TNB7jMDAKrRVJAtnvDLkf5K7jIB3', '57j6qQbKXOz8cXD7z0hr')
-                        }
-                    }}
-                >
-                    <Icon name="thumbs-up" />
-                    <Text>0</Text>
-                </TouchableOpacity>
+        <CardItem style={{ justifyContent: 'space-around' }}>
+            <TouchableOpacity style={styles.button}
+                onPress={() => dislikeHandler()}
+            >
+                <Icon name="thumbs-down" />
+                <Text>{reaction}</Text>
+            </TouchableOpacity>
 
-            </CardItem>
-            <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
-                <Text>
-                    <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
-                    {props.post.caption}
-                </Text>
-                <Text onPress={() => { navigation.navigate('CommentScreen') }}>
-                    <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
+            <TouchableOpacity style={styles.button}>
+                <Icon name="share" style={{ width: 20 }} />
+                {/* <Text>Share</Text> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button}
+                onPress={() => likeHandler()}
+            >
+                <Icon name="thumbs-up" />
+                <Text>{reaction}</Text>
+            </TouchableOpacity>
+
+        </CardItem>
+        <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
+            <Text>
+                <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
+                {props.post.caption}
+            </Text>
+            <Text onPress={() => { navigation.navigate('CommentScreen') }}>
+                <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0
                 </Text>
 
-            </CardItem>
-            <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
-                <Input style={{ color: '#fff' }}
-                    placeholder='Comment...'
-                    onChangeText={(text) => setComment(text)}
-                    value={userComment} />
-                <Icon name='send' style={{ margin: 15 }} />
-            </View>
+        </CardItem>
+        <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
+            <Input style={{ color: '#fff' }}
+                placeholder='Comment...'
+                onChangeText={(text) => setComment(text)}
+                value={userComment} />
+            <Icon name='send' style={{ margin: 15 }} />
+        </View>
 
 
-        </Card>
-    )
+    </Card>
+)
 }
 
 const styles = StyleSheet.create({
