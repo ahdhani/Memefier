@@ -48,6 +48,21 @@ export default class CommentScreen extends Component {
                     padding: 10,
                     flex: 1
                 }}>
+                    <View style={{
+                        flexDirection: 'row',
+                    }}>
+                        <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')}
+                            style={{ marginHorizontal: 5 }} small />
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
+                            <Input style={{ color: '#fff', }}
+                                placeholder='Comment...'
+                                onChangeText={(text) => this.setState({ commentText: text })}
+                                value={this.state.commentText} />
+                        </View>
+
+                        <Icon name='send' style={{ margin: 15 }} onPress={() => this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })} />
+                    </View>
                     <FlatList
                         // style={{maxHeight: 500}}
                         data={this.state.comments}
@@ -118,21 +133,7 @@ export default class CommentScreen extends Component {
 
                     />
 
-                    <View style={{
-                        flexDirection: 'row',
-                    }}>
-                        <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')}
-                            style={{ marginHorizontal: 5 }} small />
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
-                            <Input style={{ color: '#fff', }}
-                                placeholder='Comment...'
-                                onChangeText={(text) => this.setState({ commentText: text })}
-                                value={this.state.commentText} />
-                        </View>
-
-                        <Icon name='send' style={{ margin: 15 }} onPress={() => this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })} />
-                    </View>
+                    
                 </View>
             </Container>
         )

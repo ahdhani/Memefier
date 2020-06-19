@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import colors from '../constants/colors'
@@ -6,7 +6,7 @@ import colors from '../constants/colors'
 import { db } from '../config';
 import { connect } from 'react-redux'
 
-import { likePost, unlikePost, dislikePost, checkReaction } from './functions/reactions'
+import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from './functions/reactions'
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -41,8 +41,40 @@ const FeedCards = (props) => {
     const navigation = useNavigation();
     const [name, setName] = useState('')
     const [reaction, setReaction] = useState(-1)
+    const [likes, setLikes] = useState(0)
+    const [dislikes, setDislikes] = useState(0)
     const [userComment, setComment] = useState('')
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
+
+
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch('http://localhost/wptest2/?rest_route=/delayedCoupons/1.0/loadAllCoupons');
+    //         const data = await response.json();
+
+    //         return data;
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // };
+
+    useEffect(() => {
+        countLike()
+            .then(setLikes)
+            .catch(error => {
+                console.warn(JSON.stringify(error, null, 2));
+            });
+        countDisike()
+            .then(setDislikes)
+            .catch(error => {
+                console.warn(JSON.stringify(error, null, 2));
+            });
+        checkReaction()
+            .then(setReaction)
+            .catch(error => {
+                console.warn(JSON.stringify(error, null, 2));
+            });
+    }, []);
 
     const fetchUser = async (user_uid) => {
         db.collection("userDetails")
@@ -117,8 +149,8 @@ const FeedCards = (props) => {
                     onPress={() => dislikeHandler()}
                 >
                     <Icon name="thumbs-down" active={false}
-                    style={{color: (reaction===1)? colors.color3:colors.color1,}}/>
-                    <Text>{reaction===1? 50 - 1 : 50 }</Text>
+                        style={{ color: (reaction === 1) ? colors.color3 : colors.color1, }} />
+                    <Text>{reaction === 1 ? dislikes - 1 : dislikes}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
@@ -130,8 +162,8 @@ const FeedCards = (props) => {
                     onPress={() => likeHandler()}
                 >
                     <Icon name="thumbs-up" active={false}
-                    style={{color: (reaction===0)? colors.color3:colors.color1}}/>
-                    <Text>{reaction===0? 50 + 1 : 50 }</Text>
+                        style={{ color: (reaction === 0) ? colors.color3 : colors.color1 }} />
+                    <Text>{reaction === 0 ? likes + 1 : likes}</Text>
                 </TouchableOpacity>
 
             </CardItem>
