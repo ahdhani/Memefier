@@ -174,7 +174,7 @@ const FeedCards = (props) => {
                 </Text>
                 <Text onPress={() => { navigation.navigate('CommentScreen') }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    0
+                    0 | {props.post.post_id}
                 </Text>
 
             </CardItem>
