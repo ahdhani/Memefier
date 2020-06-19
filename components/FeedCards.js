@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
+import colors from '../constants/colors'
+
 import { db } from '../config';
 import { connect } from 'react-redux'
 
@@ -54,11 +56,10 @@ const FeedCards = (props) => {
                 setName(name);
                 setDp(user.data().dp)
             }).catch(error => console.log(error.message))
-
     }
 
     const likeHandler = async () => {
-        var reactions = await checkReaction()
+        var reactions = await checkReaction()       //this.props.user.uid  /////
         console.log(reactions)
         if (reactions === 0) {
             unlikePost()
@@ -70,90 +71,92 @@ const FeedCards = (props) => {
         }
     }
 
-const dislikeHandler = async () => {
-    var reactions = await checkReaction()
-    console.log(reactions)
-    if (reactions === 1) {
-        unlikePost()
-        setReaction(-1)
+    const dislikeHandler = async () => {
+        var reactions = await checkReaction()
+        console.log(reactions)
+        if (reactions === 1) {
+            unlikePost()
+            setReaction(-1)
+        }
+        else {
+            dislikePost()
+            setReaction(1)
+        }
     }
-    else {
-        dislikePost()
-        setReaction(1)
-    }
-}
 
-fetchUser(props.post.created_by);
+    fetchUser(props.post.created_by);
 
-return (
-    <Card style={{ height: cardHeight, justifyContent: 'space-between', }}>
-        <CardItem>
-            <Left>
-                <Thumbnail source={{ uri: dp }} />
-                <Body>
-                    <Text>{name}</Text>
-                    <Text note>category</Text>
-                </Body>
-            </Left>
-            <Right>
-                <Button transparent>
-                    <Icon active name="menu" />
-                </Button>
-            </Right>
-        </CardItem>
-        <CardItem cardBody>
+    return (
+        <Card style={{ height: cardHeight, justifyContent: 'space-between' }} >
+            <CardItem>
+                <Left>
+                    <Thumbnail source={{ uri: dp }} />
+                    <Body>
+                        <Text>{name}</Text>
+                        <Text note>category</Text>
+                    </Body>
+                </Left>
+                <Right>
+                    <Button transparent>
+                        <Icon active name="menu" />
+                    </Button>
+                </Right>
+            </CardItem>
+            <CardItem cardBody>
 
-            <Image resizeMode='contain'
-                source={{ uri: props.post.img }}
-                style={{ width: screenWidth, height: postHeight }} />
+                <Image resizeMode='contain'
+                    source={{ uri: props.post.img }}
+                    style={{ width: screenWidth, height: postHeight }} />
 
-        </CardItem>
+            </CardItem>
 
-        {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
+            {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-        <CardItem style={{ justifyContent: 'space-around' }}>
-            <TouchableOpacity style={styles.button}
-                onPress={() => dislikeHandler()}
-            >
-                <Icon name="thumbs-down" />
-                <Text>{reaction}</Text>
-            </TouchableOpacity>
+            <CardItem style={{ justifyContent: 'space-around' }}>
+                <TouchableOpacity style={styles.button}
+                    onPress={() => dislikeHandler()}
+                >
+                    <Icon name="thumbs-down" active={false}
+                    style={{color: (reaction===1)? colors.color3:colors.color1,}}/>
+                    <Text>{reaction===1? 50 - 1 : 50 }</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
-                <Icon name="share" style={{ width: 20 }} />
-                {/* <Text>Share</Text> */}
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                    <Icon name="share" style={{ width: 20 }} />
+                    {/* <Text>Share</Text> */}
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}
-                onPress={() => likeHandler()}
-            >
-                <Icon name="thumbs-up" />
-                <Text>{reaction}</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.button}
+                    onPress={() => likeHandler()}
+                >
+                    <Icon name="thumbs-up" active={false}
+                    style={{color: (reaction===0)? colors.color3:colors.color1}}/>
+                    <Text>{reaction===0? 50 + 1 : 50 }</Text>
+                </TouchableOpacity>
 
-        </CardItem>
-        <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
-            <Text>
-                <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
-                {props.post.caption}
-            </Text>
-            <Text onPress={() => { navigation.navigate('CommentScreen') }}>
-                <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
+            </CardItem>
+            <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
+                <Text>
+                    <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
+                    {props.post.caption}
+                </Text>
+                <Text onPress={() => { navigation.navigate('CommentScreen') }}>
+                    <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0
                 </Text>
 
-        </CardItem>
-        <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
-            <Input style={{ color: '#fff' }}
-                placeholder='Comment...'
-                onChangeText={(text) => setComment(text)}
-                value={userComment} />
-            <Icon name='send' style={{ margin: 15 }} />
-        </View>
+            </CardItem>
+            <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
+                <Input style={{ color: '#fff' }}
+                    placeholder='Comment...'
+                    onChangeText={(text) => setComment(text)}
+                    value={userComment} />
+                <Icon name='send' style={{ margin: 15 }} />
+            </View>
 
 
-    </Card>
-)
+        </Card>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     // user: state.auth.user,
-    userDetails: state.auth.userDetails,
+    user: state.auth.user,
     // following: state.auth.following
 })
 const mapDispatchToProps = (dispatch) => {
