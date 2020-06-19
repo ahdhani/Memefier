@@ -18,7 +18,7 @@ class FeedScreen extends Component {
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
-                    arr = [doc.data(), ...arr]
+                    arr = [{ ...doc.data() , post_id : doc.id}, ...arr]
                     // this.state.posts = [...this.state.posts , doc.data()]
                 })
 

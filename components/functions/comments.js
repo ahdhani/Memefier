@@ -6,6 +6,19 @@ export const testFunction = () => {
     return 'hello'
 }
 
+export const countComment = async (post_id = '57j6qQbKXOz8cXD7z0hr' ) => {
+    var comment = 0
+    await db.collection("comments").where('post_id' , '==' , post_id)
+        .get()
+        .then(snapshots => {
+            comment = snapshots.docs.length
+        })
+        .catch(error => console.log(error.message))
+
+        return comment
+}
+
+
 export const fetchAllComments = async (post_id = "57j6qQbKXOz8cXD7z0hr") => {
     let query = db.collection("comments")
         .where('post_id' , '==' , post_id)
