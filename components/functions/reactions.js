@@ -1,5 +1,29 @@
 import { db } from '../../config'
 
+export const countLike = async (post_id = '57j6qQbKXOz8cXD7z0hr' ) => {
+    var like = 0
+    await db.collection("reactions").where('post_id' , '==' , post_id).where('reaction' , '==' , 0)
+        .get()
+        .then(snapshots => {
+            like = snapshots.docs.length
+        })
+        .catch(error => console.log(error.message))
+
+        return like
+}
+
+export const countDisike = async (post_id = '57j6qQbKXOz8cXD7z0hr' ) => {
+    var dislike = 0
+    await db.collection("reactions").where('post_id' , '==' , post_id).where('reaction' , '==' , 1)
+        .get()
+        .then(snapshots => {
+            dislike = snapshots.docs.length
+        })
+        .catch(error => console.log(error.message))
+
+        return dislike
+}
+
 export const checkReaction = async (post_id = '57j6qQbKXOz8cXD7z0hr', user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3') => {
     // var doc_name = user_uid + '_' + post_id
 
