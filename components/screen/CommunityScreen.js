@@ -4,13 +4,19 @@ import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, 
 import { connect } from 'react-redux'
 import { db } from '../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../redux';
-import { likePost , unlikePost , dislikePost , checkReaction } from '../functions/reactions'
+import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../functions/reactions'
 import { addComment , fetchAllComments , testFunction } from '../functions/comments'
 
 class CommunityScreen extends Component {
 
     state = {
         users: []
+    }
+
+    likeCount = async () => {
+        var like = await countLike()
+
+        console.log(like)
     }
 
     checkLike = async () => {
@@ -112,7 +118,9 @@ class CommunityScreen extends Component {
                     <Button transparent onPress={() => unlikePost()}>
                         <Text>Unlike</Text>
                     </Button>
-
+                    <Button transparent onPress={() => this.likeCount()}>
+                        <Text>Count Like</Text>
+                    </Button>
                     <FlatList
                         data={this.state.users}
                         renderItem={({ item, index }) => (
