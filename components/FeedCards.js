@@ -59,17 +59,17 @@ const FeedCards = (props) => {
     // };
 
     useEffect(() => {
-        countLike()
+        countLike(props.post.post_id)
             .then(setLikes)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        countDisike()
+        countDisike(props.post.post_id)
             .then(setDislikes)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        checkReaction()
+        checkReaction(props.user.uid,props.post.post_id)
             .then(setReaction)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
@@ -91,27 +91,27 @@ const FeedCards = (props) => {
     }
 
     const likeHandler = async () => {
-        var reactions = await checkReaction()       //this.props.user.uid  /////
+        var reactions = await checkReaction(props.post.post_id,props.user.uid )
         console.log(reactions)
         if (reactions === 0) {
-            unlikePost()
+            unlikePost(props.user.uid,props.post.post_id)
             setReaction(-1)
         }
         else {
-            likePost()
+            likePost(props.user.uid,props.post.post_id)
             setReaction(0)
         }
     }
 
     const dislikeHandler = async () => {
-        var reactions = await checkReaction()
+        var reactions = await checkReaction(props.post.post_id,props.user.uid)
         console.log(reactions)
         if (reactions === 1) {
-            unlikePost()
+            unlikePost(props.user.uid,props.post.post_id)
             setReaction(-1)
         }
         else {
-            dislikePost()
+            dislikePost(props.user.uid,props.post.post_id)
             setReaction(1)
         }
     }
@@ -150,7 +150,7 @@ const FeedCards = (props) => {
                 >
                     <Icon name="thumbs-down" active={false}
                         style={{ color: (reaction === 1) ? colors.color3 : colors.color1, }} />
-                    <Text>{reaction === 1 ? dislikes - 1 : dislikes}</Text>
+                    <Text>{reaction === 1 ? dislikes + 1 : dislikes}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
