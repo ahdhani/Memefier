@@ -27,9 +27,10 @@ export default class CommentScreen extends Component {
     componentDidMount = async () => {
         let comments = await fetchAllComments()
         // console.log(comments)
-        comments.map(async (item,index) => { 
+        comments.map(async (item,index) => {
+            console.log("uid" , item.created_by) 
             var user = await fetchUserId(item.created_by)
-            // Object.assign(item,{userId: user});
+            console.log("ID : ",  user)
             item = {...item,userId: user}
             // console.log(user)
         })
