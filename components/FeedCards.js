@@ -40,7 +40,7 @@ const FeedCards = (props) => {
 
     const navigation = useNavigation();
     const [name, setName] = useState('')
-    const [reaction, setReaction] = useState(-1)
+    const [reaction, setReaction] = useState()
     const [likes, setLikes] = useState(0)
     const [dislikes, setDislikes] = useState(0)
     const [userComment, setComment] = useState('')
@@ -70,7 +70,8 @@ const FeedCards = (props) => {
                 console.warn(JSON.stringify(error, null, 2));
             });
         checkReaction(props.user.uid,props.post.post_id)
-            .then(setReaction)
+            .then(setReaction
+                )
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });

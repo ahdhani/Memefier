@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Picker, TextInput, Image, FlatList, TouchableOpacity } from 'react-native'
 import { Container, Button, Item, Input, Header, Content, Text, Left, Body, Title, Icon, Thumbnail, Right } from 'native-base'
 import colors from '../../constants/colors'
+import { fetchAllComments, fetchAllReplies, addComment, addReply } from '../functions/comments'
+import { fetchUserId } from '../functions/general'
+
 
 // import { loginUser } from '../../redux'
 // import { connect } from "react-redux";
@@ -17,14 +20,23 @@ export default class CommentScreen extends Component {
         commentText: '',
         replyText: '',
         replyIndex: null,
-        comments: [{ comment: 'hgcjhdlkfnd', replies: [{ reply: 'f' }, { reply: 'f' }] }, { comment: 'hgcjh' }, { comment: 'hgcjh' },],
+        comments: [],
+        // comments: [{ comment: 'hgcjhdlkfnd', replies: [{ reply: 'f' }, { reply: 'f' }] }, { comment: 'hgcjh' }, { comment: 'hgcjh' },],
     }
 
-    // componentDidMount() {
-    //     // this.getPermissionAsync();
+    componentDidMount = async () => {
+        let comments = await fetchAllComments()
+        // console.log(comments)
+        comments.map(async (item,index) => { 
+            var user = await fetchUserId(item.created_by)
+            // Object.assign(item,{userId: user});
+            item = {...item,userId: user}
+            // console.log(user)
+        })
+        this.setState({ comments: comments })
+        console.log(comments)
 
-    // }
-
+    }
     addReply = (index) => {
 
     }
@@ -56,12 +68,16 @@ export default class CommentScreen extends Component {
                         <View style={{ flex: 1 }}>
                             <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
                             <Input style={{ color: '#fff', }}
-                                placeholder='Comment...'
+                                placeholder='Add your comments...'
                                 onChangeText={(text) => this.setState({ commentText: text })}
                                 value={this.state.commentText} />
                         </View>
 
-                        <Icon name='send' style={{ margin: 15 }} onPress={() => this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })} />
+                        <Icon name='send' style={{ margin: 15 }} onPress={() => {
+                            addComment()
+                            this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })
+                        }
+                        } />
                     </View>
                     <FlatList
                         // style={{maxHeight: 500}}
@@ -76,8 +92,8 @@ export default class CommentScreen extends Component {
                                         source={require('../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
                                     {/* <Thumbnail source={{ uri:  }} />  */}
                                     <View style={{ margin: 5 }}>
-                                        <Text style={{ color: '#fff' }}>@userID</Text>
-                                        <Text style={{ color: '#fff' }}>{item.comment}</Text>
+                                        <Text style={{ color: '#fff' }}>{item.userId}</Text>
+                                        <Text style={{ color: '#fff' }}>{item.content}</Text>
                                     </View>
                                     <Text style={{ position: 'absolute', right: 30, margin: 10, color: colors.color3 }}
                                         onPress={() => this.setState({ replyIndex: index })}
@@ -133,7 +149,7 @@ export default class CommentScreen extends Component {
 
                     />
 
-                    
+
                 </View>
             </Container>
         )
