@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Image, FlatList } from 'react-native'
 import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import FeedCards from '../FeedCards'
+import FeedCards from './FeedScreen/FeedCards'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../redux'
 

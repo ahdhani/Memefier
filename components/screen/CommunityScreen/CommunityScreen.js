@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Image, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
-import { db } from '../../config'
-import { unfollow_user, follow_user, updateUserDetails } from '../../redux';
-import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../functions/reactions'
-import { addComment , fetchAllComments , testFunction } from '../functions/comments'
+import { db } from '../../../config'
+import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
+import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
+import { addComment , fetchAllComments , testFunction } from '../../functions/comments'
 
 class CommunityScreen extends Component {
 

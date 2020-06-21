@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PostScrollScreen from './PostScrollScreen'
+import PostScrollScreen from '../PostScrollScreen'
 import TrendingScreen from './TrendingScreen'
 // import EditProfileScreen from './EditProfileScreen'
 

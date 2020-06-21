@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title } from 'native-base'
-import MainScreen from './MainScreen'
+import MainScreen from '../MainScreen'
 import { AppLoading } from "expo";
 
 
 import AnimateLoadingButton from 'react-native-animate-loading-button';
-import { loginUser } from '../../redux'
+import { loginUser } from '../../../redux'
 import { connect } from "react-redux";
-import { createUser } from '../../redux';
+import { createUser } from '../../../redux';
 
 
 class AuthScreen extends Component {

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { View, Image, FlatList } from 'react-native'
 import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import FeedCards from '../FeedCards'
-import colors from '../../constants/colors'
+import FeedCards from './FeedCards'
+import colors from '../../../constants/colors'
 
 import { connect } from 'react-redux'
-import { fetchPosts } from '../../redux'
-import { db } from '../../config'
+import { fetchPosts } from '../../../redux'
+import { db } from '../../../config'
 class FeedScreen extends Component {
 
     fetchPosts = async () => {

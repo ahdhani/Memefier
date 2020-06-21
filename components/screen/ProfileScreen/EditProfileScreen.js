@@ -12,8 +12,8 @@ import * as Permissions from 'expo-permissions';
 
 // import { loginUser } from '../../redux'
 import { connect } from "react-redux";
-import { db } from '../../config'
-import { updateUserDetails } from '../../redux';
+import { db } from '../../../config'
+import { updateUserDetails } from '../../../redux';
 
 // const screenHeight = Dimensions.get('screen').height;
 

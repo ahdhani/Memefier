@@ -12,8 +12,8 @@ import { connect } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import {storage} from '../config'
-import {changeDisplayPicture} from '../redux/'
+import {storage} from '../../../config'
+import {changeDisplayPicture} from '../../../redux'
 
 const cardWidth = Dimensions.get('window').width * .8;;
 

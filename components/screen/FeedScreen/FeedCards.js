@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
-import colors from '../constants/colors'
+import colors from '../../../constants/colors'
 
-import { db } from '../config';
+import { db } from '../../../config';
 import { connect } from 'react-redux'
 
-import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from './functions/reactions'
+import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from '../../functions/reactions'
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,24 +16,24 @@ const screenWidth = Dimensions.get('window').width;
 const cardHeight = Dimensions.get('window').height - tabHeight - 10;
 const postHeight = screenWidth * 1.25;
 
-RenderReactions = (props) => {
-    return (
-        <CardItem style={{ justifyContent: 'space-around' }}>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-        </CardItem>
-    );
-}
+// RenderReactions = (props) => {
+//     return (
+//         <CardItem style={{ justifyContent: 'space-around' }}>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//         </CardItem>
+//     );
+// }
 // props.post.created_by
 
 const FeedCards = (props) => {

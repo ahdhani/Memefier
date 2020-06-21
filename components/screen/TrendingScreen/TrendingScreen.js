@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import { db } from '../../config';
+import { db } from '../../../config';
 
 const cardWidth = Dimensions.get('window').width / 2;
 const cardHeight = cardWidth * 1.25;
@@ -130,7 +130,7 @@ export default class TrendingScreen extends Component {
                     data={this.state.searchResult}
                     renderItem={({ item }) => (
                         <Item style={{ flexDirection: 'row', padding: 4 }}>
-                            <Thumbnail source={require('../../assets/profile.jpeg')} />
+                            <Thumbnail source={require('../../../assets/profile.jpeg')} />
                             <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                         </Item>
                     )}
