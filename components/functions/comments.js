@@ -26,7 +26,7 @@ export const fetchAllComments = async (post_id = "57j6qQbKXOz8cXD7z0hr") => {
     await query.get()
         .then((querySnapshot) => {
             querySnapshot.docs.forEach(async doc => {
-                comments = [...comments , doc.data()]
+                comments = [...comments , {comment_id : doc.id , ...doc.data()}]
             })      
         })
         .catch(error => console.log(error.message))
