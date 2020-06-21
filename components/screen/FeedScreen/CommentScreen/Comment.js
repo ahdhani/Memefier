@@ -17,7 +17,7 @@ const Comment = (props) => {
     const [replyIndex, setReplyIndex] = useState()
 
     useEffect(() => {
-        
+
         fetchUserId(props.comment.created_by)
             .then(setUserId)
             .catch(error => {
@@ -34,7 +34,7 @@ const Comment = (props) => {
                     source={require('../../../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
                 {/* <Thumbnail source={{ uri:  }} />  */}
                 <View style={{ margin: 5 }}>
-                    <Text style={{ color: '#fff' }}>{userId}</Text>
+                    <Text style={{ color: '#fff' }}>@{userId}</Text>
                     <Text style={{ color: '#fff' }}>{props.comment.content}</Text>
                 </View>
                 <Text style={{ position: 'absolute', right: 20, margin: 10, color: colors.color3 }}

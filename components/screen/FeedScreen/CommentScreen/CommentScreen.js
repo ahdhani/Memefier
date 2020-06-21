@@ -15,13 +15,16 @@ export default class CommentScreen extends Component {
     }
 
     componentDidMount = async () => {
-        let comments = await fetchAllComments()
+        let comments = await fetchAllComments(this.props.route.params.postId)
         console.log(comments)
         this.setState({ comments: comments })
 
     }
 
     render() {
+
+        const { postId } = this.props.route.params;
+        const { userId } = this.props.route.params;
 
         return (
             <Container style={{ backgroundColor: '#253237' }}>
@@ -54,17 +57,18 @@ export default class CommentScreen extends Component {
                         </View>
 
                         <Icon name='send' style={{ margin: 15 }} onPress={() => {
-                            addComment()
-                            this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })
+                            //
+                            addComment(postId,this.state.commentText,userId)
+                            this.setState({ comments: [...this.state.comments, 
+                                { content: this.state.commentText,postId: {postId},created_by: {userId} }] })
                         }
                         } />
                     </View>
                     <FlatList
-                        // style={{maxHeight: 500}}
                         data={this.state.comments}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <Comment comment={item} index={index}/>
+                            <Comment comment={item} index={index} userId={userId}/>
                         )}
                     />
 

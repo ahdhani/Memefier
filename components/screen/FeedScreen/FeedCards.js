@@ -69,9 +69,9 @@ const FeedCards = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        checkReaction(props.user.uid,props.post.post_id)
+        checkReaction(props.user.uid, props.post.post_id)
             .then(setReaction
-                )
+            )
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
@@ -92,27 +92,27 @@ const FeedCards = (props) => {
     }
 
     const likeHandler = async () => {
-        var reactions = await checkReaction(props.post.post_id,props.user.uid )
+        var reactions = await checkReaction(props.post.post_id, props.user.uid)
         console.log(reactions)
         if (reactions === 0) {
-            unlikePost(props.user.uid,props.post.post_id)
+            unlikePost(props.user.uid, props.post.post_id)
             setReaction(-1)
         }
         else {
-            likePost(props.user.uid,props.post.post_id)
+            likePost(props.user.uid, props.post.post_id)
             setReaction(0)
         }
     }
 
     const dislikeHandler = async () => {
-        var reactions = await checkReaction(props.post.post_id,props.user.uid)
+        var reactions = await checkReaction(props.post.post_id, props.user.uid)
         console.log(reactions)
         if (reactions === 1) {
-            unlikePost(props.user.uid,props.post.post_id)
+            unlikePost(props.user.uid, props.post.post_id)
             setReaction(-1)
         }
         else {
-            dislikePost(props.user.uid,props.post.post_id)
+            dislikePost(props.user.uid, props.post.post_id)
             setReaction(1)
         }
     }
@@ -173,7 +173,12 @@ const FeedCards = (props) => {
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
                     {props.post.caption}
                 </Text>
-                <Text onPress={() => { navigation.navigate('CommentScreen') }}>
+                <Text onPress={() => {
+                    navigation.navigate('CommentScreen', {
+                        postId: props.post.post_id,
+                        userId: props.user.uid,
+                    })
+                }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
                     0 | {props.post.post_id}
                 </Text>
