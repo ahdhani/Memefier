@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import FeedScreen from './FeedScreen'
-import CommentScreen from './CommentScreen'
+import CommentScreen from './CommentScreen/CommentScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
