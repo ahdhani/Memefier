@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Dimensions, ImageBackground, KeyboardAvoidingView } from 'react-native'
 import { Container, Button, Card, Text, Form, Label, Item, Input, Header, Content, Left, Root, Toast, Icon, Right, H3, H2, DatePicker, Title } from 'native-base'
 import * as Animatable from 'react-native-animatable';
-import MainScreen from './MainScreen'
+import MainScreen from '../MainScreen'
 import LoaderModal from '../LoaderModal'
 
 // imports for state management
 import { connect } from 'react-redux';
-import { createUser } from '../../redux';
-import { db } from '../../config';
+import { createUser } from '../../../redux';
+import { db } from '../../../config';
 
 const screenHeight = Dimensions.get('screen').height;
 
@@ -159,12 +159,12 @@ class SignUp extends Component {
                 <Container>
                     <Content>
                         <LoaderModal loading={this.state.isLoading} />
-                        <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{ height: screenHeight }}>
+                        <ImageBackground resizeMode='cover' source={require('../../../assets/bgImage.png')} style={{ height: screenHeight }}>
                             <Animatable.Image
                                 animation="bounceIn"
                                 // duration= {2000}
                                 style={styles.logo}
-                                source={require('../../assets/logo.png')}
+                                source={require('../../../assets/logo.png')}
                                 resizeMode="stretch"
                             />
                             <Animatable.View

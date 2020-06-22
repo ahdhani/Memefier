@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './components/screen/LoginScreen'
-import SignUpScreen from './components/screen/SignUpScreen'
-import ProfileScreen from './components/screen/ProfileScreen'
+import LoginScreen from './components/screen/AuthenticationScreen/LoginScreen'
+import SignUpScreen from './components/screen/AuthenticationScreen/SignUpScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import {AppLoading} from "expo";
-import MainScreen from './components/screen/MainScreen'
+// import MainScreen from './components/screen/MainScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

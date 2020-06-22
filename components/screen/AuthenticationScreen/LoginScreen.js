@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title, Image } from 'native-base'
-import MainScreen from './MainScreen'
+import MainScreen from '../MainScreen'
 import LoaderModal from '../LoaderModal'
 import { AppLoading } from "expo";
 
-import { loginUser } from '../../redux'
+import { loginUser } from '../../../redux'
 import { connect } from "react-redux";
 
 const screenHeight = Dimensions.get('screen').height;
@@ -82,12 +82,12 @@ class LoginScreen extends Component {
                 <Container>
                     <LoaderModal loading={this.state.isLoading} />
                     <Content>
-                        <ImageBackground resizeMode='cover' source={require('../../assets/bgImage.png')} style={{height: screenHeight}}>
+                        <ImageBackground resizeMode='cover' source={require('../../../assets/bgImage.png')} style={{height: screenHeight}}>
                             <Animatable.Image
                                 animation="bounceIn"
                                 // duration= {2000}
                                 style={styles.logo}
-                                source={require('../../assets/logo.png')}
+                                source={require('../../../assets/logo.png')}
                                 resizeMode="stretch"
                             />
                             <Animatable.View

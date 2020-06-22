@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Picker, TextInput, Image, FlatList, TouchableOpacity } from 'react-native'
 import { Container, Button, Item, Input, Header, Content, Text, Left, Body, Title, Icon, Thumbnail, Right } from 'native-base'
-import colors from '../../constants/colors'
+import colors from '../../../constants/colors'
+import { fetchAllComments, fetchAllReplies, addComment, addReply } from '../../functions/comments'
+import { fetchUserId } from '../../functions/general'
 
-// import { loginUser } from '../../redux'
-// import { connect } from "react-redux";
-// import { db } from '../../config'
-// import { updateUserDetails } from '../../redux';
-
-// const screenHeight = Dimensions.get('screen').height;
 
 
 export default class CommentScreen extends Component {
@@ -17,14 +13,22 @@ export default class CommentScreen extends Component {
         commentText: '',
         replyText: '',
         replyIndex: null,
-        comments: [{ comment: 'hgcjhdlkfnd', replies: [{ reply: 'f' }, { reply: 'f' }] }, { comment: 'hgcjh' }, { comment: 'hgcjh' },],
+        comments: [],
+        // comments: [{ comment: 'hgcjhdlkfnd', replies: [{ reply: 'f' }, { reply: 'f' }] }, { comment: 'hgcjh' }, { comment: 'hgcjh' },],
     }
 
-    // componentDidMount() {
-    //     // this.getPermissionAsync();
+    componentDidMount = async () => {
+        let comments = await fetchAllComments()
+        // console.log(comments)
+        await comments.map(async (item,index) => {
+            var user = await fetchUserId(item.created_by)
+            item = {...item,userId: user}
+        })
+        console.log(comments)
+        this.setState({ comments: comments })
+        // console.log(comments)
 
-    // }
-
+    }
     addReply = (index) => {
 
     }
@@ -51,17 +55,21 @@ export default class CommentScreen extends Component {
                     <View style={{
                         flexDirection: 'row',
                     }}>
-                        <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')}
+                        <Thumbnail resizeMode='cover' source={require('../../../assets/dp/default.png')}
                             style={{ marginHorizontal: 5 }} small />
                         <View style={{ flex: 1 }}>
                             <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
                             <Input style={{ color: '#fff', }}
-                                placeholder='Comment...'
+                                placeholder='Add your comments...'
                                 onChangeText={(text) => this.setState({ commentText: text })}
                                 value={this.state.commentText} />
                         </View>
 
-                        <Icon name='send' style={{ margin: 15 }} onPress={() => this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })} />
+                        <Icon name='send' style={{ margin: 15 }} onPress={() => {
+                            addComment()
+                            this.setState({ comments: [...this.state.comments, { comment: this.state.commentText }] })
+                        }
+                        } />
                     </View>
                     <FlatList
                         // style={{maxHeight: 500}}
@@ -73,11 +81,11 @@ export default class CommentScreen extends Component {
                             >
                                 <View style={{ flexDirection: 'row', width: '100%' }} >
                                     <Thumbnail small resizeMode='cover'
-                                        source={require('../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
+                                        source={require('../../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
                                     {/* <Thumbnail source={{ uri:  }} />  */}
                                     <View style={{ margin: 5 }}>
-                                        <Text style={{ color: '#fff' }}>@userID</Text>
-                                        <Text style={{ color: '#fff' }}>{item.comment}</Text>
+                                        <Text style={{ color: '#fff' }}>{item.userId}</Text>
+                                        <Text style={{ color: '#fff' }}>{item.content}</Text>
                                     </View>
                                     <Text style={{ position: 'absolute', right: 30, margin: 10, color: colors.color3 }}
                                         onPress={() => this.setState({ replyIndex: index })}
@@ -94,7 +102,7 @@ export default class CommentScreen extends Component {
                                         }}
                                         >
                                             <Thumbnail small resizeMode='cover'
-                                                source={require('../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
+                                                source={require('../../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
                                             {/* <Thumbnail source={{ uri:  }} />  */}
                                             <View style={{ margin: 5, flexGrow: 1 }}>
                                                 <Text style={{ color: '#fff' }}>@userID</Text>
@@ -109,7 +117,7 @@ export default class CommentScreen extends Component {
                                                 flexDirection: 'row', backgroundColor: '#253237',
                                                 alignItems: 'center', width: '100%'
                                             }}>
-                                                <Thumbnail resizeMode='cover' source={require('../../assets/dp/default.png')}
+                                                <Thumbnail resizeMode='cover' source={require('../../../assets/dp/default.png')}
                                                     style={{ marginHorizontal: 5 }} small />
                                                 <View>
                                                     <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
@@ -133,7 +141,7 @@ export default class CommentScreen extends Component {
 
                     />
 
-                    
+
                 </View>
             </Container>
         )

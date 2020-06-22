@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground, TouchableOpacityBase } from 'react-native'
 import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
-import colors from '../../constants/colors'
+import colors from '../../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
-import { logoutUser, unfollow_user, follow_user } from '../../redux';
+import { logoutUser, unfollow_user, follow_user } from '../../../redux';
 
-import { db } from '../../config';
+import { db } from '../../../config';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // import DpModal from '../DpModal'

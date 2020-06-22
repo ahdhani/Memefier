@@ -2,12 +2,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import React, { Component } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import FeedStack from './FeedStack'
-import TrendingStack from './TrendingStack'
-import UploadScreen from './UploadScreen'
-import CommunityStack from './CommunityStack'
-import ProfileStack from './ProfileStack'
-import CommentScreen from './CommentScreen'
+import FeedStack from './FeedScreen/FeedStack'
+import TrendingStack from './TrendingScreen/TrendingStack'
+import UploadScreen from './UploadScreen/UploadScreen'
+import CommunityStack from './CommunityScreen/CommunityStack'
+import ProfileStack from './ProfileScreen/ProfileStack'
+// import CommentScreen from './FeedScreen/CommentScreen'
 
 
 const Tab = createMaterialTopTabNavigator();

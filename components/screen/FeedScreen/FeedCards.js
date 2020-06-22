@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
-import colors from '../constants/colors'
+import colors from '../../../constants/colors'
 
-import { db } from '../config';
+import { db } from '../../../config';
 import { connect } from 'react-redux'
 
-import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from './functions/reactions'
+import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from '../../functions/reactions'
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,31 +16,31 @@ const screenWidth = Dimensions.get('window').width;
 const cardHeight = Dimensions.get('window').height - tabHeight - 10;
 const postHeight = screenWidth * 1.25;
 
-RenderReactions = (props) => {
-    return (
-        <CardItem style={{ justifyContent: 'space-around' }}>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1 }} >
-                <Thumbnail large circular source={require('../assets/profile.jpeg')} />
-            </TouchableOpacity>
-        </CardItem>
-    );
-}
+// RenderReactions = (props) => {
+//     return (
+//         <CardItem style={{ justifyContent: 'space-around' }}>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//             <TouchableOpacity style={{ flex: 1 }} >
+//                 <Thumbnail large circular source={require('../assets/profile.jpeg')} />
+//             </TouchableOpacity>
+//         </CardItem>
+//     );
+// }
 // props.post.created_by
 
 const FeedCards = (props) => {
 
     const navigation = useNavigation();
     const [name, setName] = useState('')
-    const [reaction, setReaction] = useState(-1)
+    const [reaction, setReaction] = useState()
     const [likes, setLikes] = useState(0)
     const [dislikes, setDislikes] = useState(0)
     const [userComment, setComment] = useState('')
@@ -59,18 +59,19 @@ const FeedCards = (props) => {
     // };
 
     useEffect(() => {
-        countLike()
+        countLike(props.post.post_id)
             .then(setLikes)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        countDisike()
+        countDisike(props.post.post_id)
             .then(setDislikes)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        checkReaction()
-            .then(setReaction)
+        checkReaction(props.user.uid,props.post.post_id)
+            .then(setReaction
+                )
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
@@ -91,27 +92,27 @@ const FeedCards = (props) => {
     }
 
     const likeHandler = async () => {
-        var reactions = await checkReaction()       //this.props.user.uid  /////
+        var reactions = await checkReaction(props.post.post_id,props.user.uid )
         console.log(reactions)
         if (reactions === 0) {
-            unlikePost()
+            unlikePost(props.user.uid,props.post.post_id)
             setReaction(-1)
         }
         else {
-            likePost()
+            likePost(props.user.uid,props.post.post_id)
             setReaction(0)
         }
     }
 
     const dislikeHandler = async () => {
-        var reactions = await checkReaction()
+        var reactions = await checkReaction(props.post.post_id,props.user.uid)
         console.log(reactions)
         if (reactions === 1) {
-            unlikePost()
+            unlikePost(props.user.uid,props.post.post_id)
             setReaction(-1)
         }
         else {
-            dislikePost()
+            dislikePost(props.user.uid,props.post.post_id)
             setReaction(1)
         }
     }
@@ -150,7 +151,7 @@ const FeedCards = (props) => {
                 >
                     <Icon name="thumbs-down" active={false}
                         style={{ color: (reaction === 1) ? colors.color3 : colors.color1, }} />
-                    <Text>{reaction === 1 ? dislikes - 1 : dislikes}</Text>
+                    <Text>{reaction === 1 ? dislikes + 1 : dislikes}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
