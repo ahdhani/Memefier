@@ -4,7 +4,7 @@ import { View, StyleSheet, Picker, TextInput, Image, FlatList, TouchableOpacity 
 import { Container, Button, Item, Input, Header, Content, Text, Left, Body, Title, Icon, Thumbnail, Right } from 'native-base'
 import colors from '../../../../constants/colors'
 import { fetchAllComments, fetchAllReplies, addComment, addReply } from '../../../functions/comments'
-import { fetchUserId } from '../../../functions/general'
+import { fetchUser } from '../../../functions/general'
 
 import { db } from '../../../../config';
 import { connect } from 'react-redux'
@@ -12,29 +12,42 @@ import { connect } from 'react-redux'
 
 const Comment = (props) => {
 
-    const [replyText, setReplyText] = useState('')
-    const [userId, setUserId] = useState('')
+    const [replyText, setReplyText] = useState('ha')
+    const [user, setUser] = useState()
+    const [reply, setReply] = useState()
     const [replyIndex, setReplyIndex] = useState()
 
     useEffect(() => {
-
-        fetchUserId(props.comment.created_by)
-            .then(setUserId)
+        async () => await fetchUser(props.comment.created_by)
+            .then(setUser)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
+        // console.log(props.comment.comment_id)
+        // async () => await fetchAllReplies(props.comment.comment_id)
+        //     .then(setReply)
+        //     .catch(error => {
+        //         console.warn(JSON.stringify(error, null, 2));
+        //     });
+        var replies = [{
+            content: 'huhu',
+            created_by: 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3',
+            comment_id: '4qnfPIOheetLW7MTUZIl',
+        },];
+        setReply(replies)
+        console.log(reply)
+
+
     }, []);
 
     return (
-        <Item style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}
-        // onPress={() => this.props.navigation.navigate('PostScrollScreen')}
-        >
+        <Item style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
             <View style={{ flexDirection: 'row', width: '100%' }} >
-                <Thumbnail small resizeMode='cover'
-                    source={require('../../../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
-                {/* <Thumbnail source={{ uri:  }} />  */}
+                {/* <Thumbnail small resizeMode='cover'
+                    source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} /> */}
                 <View style={{ margin: 5 }}>
-                    <Text style={{ color: '#fff' }}>@{userId}</Text>
+                    <Text style={{ color: '#fff' }}>@aalknf</Text>
+                    {/* <Text style={{ color: '#fff' }}>@{user.userId}</Text> */}
                     <Text style={{ color: '#fff' }}>{props.comment.content}</Text>
                 </View>
                 <Text style={{ position: 'absolute', right: 20, margin: 10, color: colors.color3 }}
@@ -43,8 +56,8 @@ const Comment = (props) => {
             </View>
 
 
-            {/* <FlatList
-                // data={item.replies}     /////Reply data
+            <FlatList
+                data={reply}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index }) => (
                     <View style={{
@@ -53,36 +66,44 @@ const Comment = (props) => {
                     >
                         <Thumbnail small resizeMode='cover'
                             source={require('../../../../assets/dp/default.png')} style={{ margin: 5, marginTop: 10 }} />
-                        // <Thumbnail source={{ uri:  }} /> 
                         <View style={{ margin: 5, flexGrow: 1 }}>
-                            <Text style={{ color: '#fff' }}>@userID</Text>
-                            <Text style={{ color: '#fff' }}>{item.reply}</Text>
+                            {/* <Text style={{ color: '#fff' }}>@{item.created_by}</Text> */}
+                            <Text style={{ color: '#fff' }}>@</Text>
+                            <Text style={{ color: '#fff' }}>{item.content}</Text>
                         </View>
                     </View>
                 )}
                 style={{ left: 50, width: '100%' }}
                 ListFooterComponent={() => (
-                    replyIndex === index ?
-                        <View style={{
-                            flexDirection: 'row', backgroundColor: '#253237',
-                            alignItems: 'center', width: '100%'
-                        }}>
-                            <Thumbnail resizeMode='cover' source={require('../../../../assets/dp/default.png')}
-                                style={{ marginHorizontal: 5 }} small />
-                            <View>
-                                <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
-                                <Input style={{ color: '#fff', width: 200 }}
-                                    placeholder='Reply...'
-                                    onChangeText={(text) => setReplyText(text)}
-                                    value={replyText} />
-                            </View>
-
-                            <Icon name='send' style={{ margin: 15 }} onPress={(index) => this.addReply(index)} />
+                    // replyIndex === props.index ?
+                    <View style={{
+                        flexDirection: 'row', backgroundColor: '#253237',
+                        alignItems: 'center', width: '100%'
+                    }}>
+                        <Thumbnail resizeMode='cover' source={require('../../../../assets/dp/default.png')}
+                            style={{ marginHorizontal: 5 }} small />
+                        <View>
+                            <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
+                            <Input style={{ color: '#fff', width: 200 }}
+                                placeholder='Reply...'
+                                // onChangeText={(text) => setReplyText(text)}
+                                // value={replyText} 
+                                onSubmitEditing={(text) => setReplyText(text)}
+                            />
                         </View>
-                        : null
+
+                        <Icon name='send' style={{ margin: 15 }} onPress={() => {
+                            addReply(props.comment.comment_id, replyText, props.userId)
+                            setReply(
+                                [...reply,{ content: replyText, postId: props.comment.comment_id, created_by: props.userId }]
+                                )
+                        }
+                        } />
+                    </View>
+                    // : null
                 )}
 
-            /> */}
+            />
 
 
         </Item>
@@ -90,16 +111,3 @@ const Comment = (props) => {
 }
 
 export default Comment
-
-// const mapStateToProps = (state) => ({
-//     // user: state.auth.user,
-//     // user: state.auth.user,
-//     // following: state.auth.following
-// })
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         // fetchPosts_: () => dispatch(fetchPosts())
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Comment)

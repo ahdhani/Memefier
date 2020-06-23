@@ -1,14 +1,18 @@
 import { db } from '../../config'
 
-export const fetchUserId = async (user_uid) => {
-    var userId = ''
+export const fetchUser = async (user_uid) => {
+    var userDetails = {}
     await db.collection("userDetails")
         .doc(user_uid)
         .get()
         .then(user => {
-            userId = user.data().userId
-            // console.log(userId)
+            userDetails = {
+                userId: user.data().userId,
+                dp: user.data().dp
+            }
+            // userId = user.data().userId
+            console.log(userDetails)
         }).catch(error => console.log(error.message))
-    return userId
+    return userDetails
 
 }
