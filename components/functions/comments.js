@@ -35,6 +35,7 @@ export const fetchAllComments = async (post_id = "57j6qQbKXOz8cXD7z0hr") => {
 }
 
 export const fetchAllReplies = async (comment_id = "4qnfPIOheetLW7MTUZIl") => {
+    console.log("Inside fetchAllReplies fn")
     let query = db.collection("replies")
         .where('comment_id' , '==' , comment_id)
     let replies = []
