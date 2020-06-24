@@ -14,7 +14,7 @@ const Like = (props) => {
         checkReaction(props.postId, props.userId)
             .then(reactions => {
                 setReaction(reactions)
-                console.log("Reactions:  ", reactions)
+                // console.log("Reactions:  ", reactions)
 
             })
             .catch(error => {
@@ -22,7 +22,7 @@ const Like = (props) => {
             });
         countLike(props.postId)
             .then(like => {
-                console.log("like" , like)
+                // console.log("like" , like)
                 setLikes(like)
             })
             .catch(error => {
@@ -37,7 +37,7 @@ const Like = (props) => {
 
     const likeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
-        console.log(reactions)
+        // console.log(reactions)
         if (reactions === 0) {
             unlikePost(props.userId, props.postId)
             setLikes(likes-1)
@@ -54,7 +54,7 @@ const Like = (props) => {
 
     const dislikeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
-        console.log(reactions)
+        // console.log(reactions)
         if (reactions === 1) {
             unlikePost(props.userId, props.postId)
             setDislikes(dislikes-1)
