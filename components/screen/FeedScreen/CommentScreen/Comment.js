@@ -19,7 +19,7 @@ const Comment = (props) => {
 
     useEffect(() => {
         fetchUser(props.comment.created_by)
-            .then(setUser)
+            .then(user => console.log("USER : " , user))
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
@@ -47,11 +47,11 @@ const Comment = (props) => {
     return (
         <Item style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
             <View style={{ flexDirection: 'row', width: '100%' }} >
-                {/* <Thumbnail small resizeMode='cover'
-                    source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} /> */}
+                <Thumbnail small resizeMode='cover'
+                    source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} />
                 <View style={{ margin: 5 }}>
-                    <Text style={{ color: '#fff' }}>@aalknf</Text>
-                    {/* <Text style={{ color: '#fff' }}>@{user.userId}</Text> */}
+                    {/* <Text style={{ color: '#fff' }}>@aalknf</Text> */}
+                    <Text style={{ color: '#fff' }}>@{user.userId}</Text>
                     <Text style={{ color: '#fff' }}>{props.comment.content}</Text>
                 </View>
                 <Text style={{ position: 'absolute', right: 20, margin: 10, color: colors.color3 }}
@@ -87,7 +87,7 @@ const Comment = (props) => {
                         <Thumbnail resizeMode='cover' source={require('../../../../assets/dp/default.png')}
                             style={{ marginHorizontal: 5 }} small />
                         <View>
-                            <Text style={{ color: '#fff', marginLeft: 6 }}>@ahdhani</Text>
+                            <Text style={{ color: '#fff', marginLeft: 6 }}>@{user.userId}</Text>
                             <Input style={{ color: '#fff', width: 200 }}
                                 placeholder='Reply...'
                                 // onChangeText={(text) => setReplyText(text)}
