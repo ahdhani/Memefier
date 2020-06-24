@@ -14,29 +14,32 @@ const Comment = (props) => {
 
     const [replyText, setReplyText] = useState('ha')
     const [user, setUser] = useState()
-    const [reply, setReply] = useState()
+    const [reply, setReply] = useState([])
     const [replyIndex, setReplyIndex] = useState()
 
     useEffect(() => {
-        async () => await fetchUser(props.comment.created_by)
+        fetchUser(props.comment.created_by)
             .then(setUser)
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
             
         // console.log(props.comment.comment_id)
-        // async () => await fetchAllReplies(props.comment.comment_id)
-        //     .then(setReply)
-        //     .catch(error => {
-        //         console.warn(JSON.stringify(error, null, 2));
-        //     });
-        var replies = [{
-            content: 'huhu',
-            created_by: 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3',
-            comment_id: '4qnfPIOheetLW7MTUZIl',
-        },];
-        setReply(replies)
-        console.log(reply)
+        fetchAllReplies(props.comment.comment_id)
+            .then(res => {
+                setReply(res)
+                // console.log("Response :\n" , res)
+            })
+            .catch(error => {
+                console.warn(JSON.stringify(error, null, 2));
+            });
+        // var replies = [{
+        //     content: 'huhu',
+        //     created_by: 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3',
+        //     comment_id: '4qnfPIOheetLW7MTUZIl',
+        // },];
+        
+        // console.log(reply)
 
 
     }, []);
