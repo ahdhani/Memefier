@@ -13,13 +13,15 @@ import { connect } from 'react-redux'
 const Comment = (props) => {
 
     const [replyText, setReplyText] = useState('ha')
-    const [user, setUser] = useState()
+    const [user, setUser] = useState({
+        dp : "https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9"
+    })
     const [reply, setReply] = useState([])
     const [replyIndex, setReplyIndex] = useState()
 
     useEffect(() => {
         fetchUser(props.comment.created_by)
-            .then(user => console.log("USER : " , user))
+            .then(user => setUser(user))
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
