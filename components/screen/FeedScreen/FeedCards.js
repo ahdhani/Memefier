@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import colors from '../../../constants/colors'
+import Reaction from './Reaction'
 
 import { db } from '../../../config';
 import { connect } from 'react-redux'
-
-import { likePost, unlikePost, dislikePost, checkReaction, countLike, countDisike } from '../../functions/reactions'
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -40,42 +39,12 @@ const FeedCards = (props) => {
 
     const navigation = useNavigation();
     const [name, setName] = useState('')
-    const [reaction, setReaction] = useState()
-    const [likes, setLikes] = useState(0)
-    const [dislikes, setDislikes] = useState(0)
     const [userComment, setComment] = useState('')
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
 
+    // useEffect(() => {
 
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await fetch('http://localhost/wptest2/?rest_route=/delayedCoupons/1.0/loadAllCoupons');
-    //         const data = await response.json();
-
-    //         return data;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // };
-
-    useEffect(() => {
-        countLike(props.post.post_id)
-            .then(setLikes)
-            .catch(error => {
-                console.warn(JSON.stringify(error, null, 2));
-            });
-        countDisike(props.post.post_id)
-            .then(setDislikes)
-            .catch(error => {
-                console.warn(JSON.stringify(error, null, 2));
-            });
-        checkReaction(props.user.uid, props.post.post_id)
-            .then(setReaction
-            )
-            .catch(error => {
-                console.warn(JSON.stringify(error, null, 2));
-            });
-    }, []);
+    // }, []);
 
     const fetchUser = async (user_uid) => {
         db.collection("userDetails")
@@ -89,32 +58,6 @@ const FeedCards = (props) => {
                 setName(name);
                 setDp(user.data().dp)
             }).catch(error => console.log(error.message))
-    }
-
-    const likeHandler = async () => {
-        var reactions = await checkReaction(props.post.post_id, props.user.uid)
-        console.log(reactions)
-        if (reactions === 0) {
-            unlikePost(props.user.uid, props.post.post_id)
-            setReaction(-1)
-        }
-        else {
-            likePost(props.user.uid, props.post.post_id)
-            setReaction(0)
-        }
-    }
-
-    const dislikeHandler = async () => {
-        var reactions = await checkReaction(props.post.post_id, props.user.uid)
-        console.log(reactions)
-        if (reactions === 1) {
-            unlikePost(props.user.uid, props.post.post_id)
-            setReaction(-1)
-        }
-        else {
-            dislikePost(props.user.uid, props.post.post_id)
-            setReaction(1)
-        }
     }
 
     fetchUser(props.post.created_by);
@@ -145,29 +88,7 @@ const FeedCards = (props) => {
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-            <CardItem style={{ justifyContent: 'space-around' }}>
-                <TouchableOpacity style={styles.button}
-                    onPress={() => dislikeHandler()}
-                >
-                    <Icon name="thumbs-down" active={false}
-                        style={{ color: (reaction === 1) ? colors.color3 : colors.color1, }} />
-                    <Text>{reaction === 1 ? dislikes + 1 : dislikes}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}>
-                    <Icon name="share" style={{ width: 20 }} />
-                    {/* <Text>Share</Text> */}
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}
-                    onPress={() => likeHandler()}
-                >
-                    <Icon name="thumbs-up" active={false}
-                        style={{ color: (reaction === 0) ? colors.color3 : colors.color1 }} />
-                    <Text>{reaction === 0 ? likes + 1 : likes}</Text>
-                </TouchableOpacity>
-
-            </CardItem>
+            <Reaction postId={props.post.post_id} userId={props.user.uid}/>
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
@@ -180,7 +101,7 @@ const FeedCards = (props) => {
                     })
                 }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    0 | {props.post.post_id}
+                    More Comments
                 </Text>
 
             </CardItem>
@@ -196,16 +117,6 @@ const FeedCards = (props) => {
         </Card>
     )
 }
-
-const styles = StyleSheet.create({
-    button: {
-        flexDirection: 'row',
-        padding: 3,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        backgroundColor: '#cccccc55',
-    }
-});
 
 const mapStateToProps = (state) => ({
     // user: state.auth.user,

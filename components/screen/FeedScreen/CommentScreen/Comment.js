@@ -23,6 +23,7 @@ const Comment = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
+            
         // console.log(props.comment.comment_id)
         // async () => await fetchAllReplies(props.comment.comment_id)
         //     .then(setReply)
