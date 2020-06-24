@@ -14,15 +14,17 @@ const Like = (props) => {
         checkReaction(props.postId, props.userId)
             .then(reactions => {
                 setReaction(reactions)
-                console.log("Reactions:  ", reactions)
+                // console.log("Reactions:  ", reactions)
 
             })
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        console.log("haha  ")
         countLike(props.postId)
-            .then(setLikes)
+            .then(like => {
+                // console.log("like" , like)
+                setLikes(like)
+            })
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
@@ -35,7 +37,7 @@ const Like = (props) => {
 
     const likeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
-        console.log(reactions)
+        // console.log(reactions)
         if (reactions === 0) {
             unlikePost(props.userId, props.postId)
             setLikes(likes-1)
@@ -52,7 +54,7 @@ const Like = (props) => {
 
     const dislikeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
-        console.log(reactions)
+        // console.log(reactions)
         if (reactions === 1) {
             unlikePost(props.userId, props.postId)
             setDislikes(dislikes-1)

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
 import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
-import { addComment , fetchAllComments , testFunction } from '../../functions/comments'
+import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
 
 class CommunityScreen extends Component {
 
@@ -16,7 +16,7 @@ class CommunityScreen extends Component {
     likeCount = async () => {
         var like = await countLike()
 
-        console.log(like)
+        // console.log(like)
     }
 
     checkLike = async () => {
@@ -24,7 +24,7 @@ class CommunityScreen extends Component {
         // Loading begins
         var reaction = await checkReaction()
         // Loading ends
-        console.log("REACTION = " , reaction)
+        // console.log("REACTION = " , reaction)
     }
 
     componentDidMount = () => {
@@ -34,7 +34,7 @@ class CommunityScreen extends Component {
     }
 
     fetchComments = async () => {
-        var comments = await fetchAllComments()
+        var comments = await fetchAllReplies()
 
         console.log(comments)
     }
@@ -110,7 +110,7 @@ class CommunityScreen extends Component {
                         <Text>Add Comment</Text>
                     </Button>
                     <Button transparent onPress={() => this.fetchComments()}>
-                        <Text>Fetch Comments</Text>
+                        <Text>Fetch Replies</Text>
                     </Button>
                     <Button transparent onPress={() => this.checkLike()}>
                         <Text>Check raection</Text>
