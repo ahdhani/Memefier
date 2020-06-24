@@ -20,9 +20,11 @@ const Like = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-        console.log("haha  ")
         countLike(props.postId)
-            .then(setLikes)
+            .then(like => {
+                console.log("like" , like)
+                setLikes(like)
+            })
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
