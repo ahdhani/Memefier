@@ -41,7 +41,8 @@
     "react-uuid": "^1.0.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "util": "^0.12.3"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",
