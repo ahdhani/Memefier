@@ -31,18 +31,22 @@ const Like = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-    }, []);
+    });
 
     const likeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
         console.log(reactions)
         if (reactions === 0) {
             unlikePost(props.userId, props.postId)
+            setLikes(likes-1)
             setReaction(-1)
         }
         else {
             likePost(props.userId, props.postId)
+            if(reaction===1)
+                setDislikes(dislikes-1)
             setReaction(0)
+            setLikes(likes+1)
         }
     }
 
@@ -51,11 +55,15 @@ const Like = (props) => {
         console.log(reactions)
         if (reactions === 1) {
             unlikePost(props.userId, props.postId)
+            setDislikes(dislikes-1)
             setReaction(-1)
         }
         else {
             dislikePost(props.userId, props.postId)
+            if(reaction===0)
+                setLikes(likes-1)
             setReaction(1)
+            setDislikes(dislikes+1)
         }
     }
 
@@ -66,7 +74,7 @@ const Like = (props) => {
             >
                 <Icon name="thumbs-down" active={false}
                     style={{ color: (reaction === 1) ? colors.color3 : '#ddd', }} />
-                <Text>{reaction === 1 ? dislikes + 1 : dislikes}</Text>
+                <Text>{dislikes}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button}>
@@ -79,7 +87,7 @@ const Like = (props) => {
             >
                 <Icon name="thumbs-up" active={false}
                     style={{ color: (reaction === 0) ? colors.color3 : "#ddd"}} />
-                <Text>{reaction === 0 ? likes + 1 : likes}</Text>
+                <Text>{likes}</Text>
             </TouchableOpacity>
 
         </CardItem>
