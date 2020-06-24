@@ -23,7 +23,7 @@ const Comment = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-            
+
         // console.log(props.comment.comment_id)
         // async () => await fetchAllReplies(props.comment.comment_id)
         //     .then(setReply)
@@ -95,8 +95,13 @@ const Comment = (props) => {
 
                         <Icon name='send' style={{ margin: 15 }} onPress={() => {
                             addReply(props.comment.comment_id, replyText, props.userId)
-                            setReply(
-                                [...reply,{ content: replyText, postId: props.comment.comment_id, created_by: props.userId }]
+                            reply ?
+                                setReply(
+                                    [...reply, { content: replyText, postId: props.comment.comment_id, created_by: props.userId }]
+                                )
+                                :
+                                setReply(
+                                    [{ content: replyText, postId: props.comment.comment_id, created_by: props.userId },]
                                 )
                         }
                         } />
