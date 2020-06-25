@@ -61,6 +61,7 @@ class EditProfileScreen extends Component {
                 // console.log("URI :" , result.uri)
                 // this.setState({ dp: result.uri });
                 const IMG_URI = result.uri;
+                console.log("IMG URI : " , IMG_URI)
                 const imageName = this.props.user.uid;
                 try {
                     const response = await fetch(IMG_URI);

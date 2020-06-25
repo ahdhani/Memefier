@@ -6,6 +6,7 @@ import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
 import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
 import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
+import { changeDisplayPicture } from '../../functions/general'
 
 class CommunityScreen extends Component {
 
@@ -36,13 +37,13 @@ class CommunityScreen extends Component {
     fetchComments = async () => {
         var comments = await fetchAllReplies()
 
-        console.log(comments)
+        // console.log(comments)
     }
 
     test = () => {
         var ret = testFunction()
 
-        console.log(ret)
+        // console.log(ret)
     }
 
     fetchUsers = () => {
@@ -120,6 +121,9 @@ class CommunityScreen extends Component {
                     </Button>
                     <Button transparent onPress={() => this.likeCount()}>
                         <Text>Count Like</Text>
+                    </Button>
+                    <Button transparent onPress={() => changeDisplayPicture()}>
+                        <Text>Change Display Picture</Text>
                     </Button>
                     <FlatList
                         data={this.state.users}
