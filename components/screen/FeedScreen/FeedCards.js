@@ -97,11 +97,12 @@ const FeedCards = (props) => {
                 <Text onPress={() => {
                     navigation.navigate('CommentScreen', {
                         postId: props.post.post_id,
-                        userId: props.user.uid,
+                        uuid: props.user.uid,
+                        userId: props.userDetails.userId,
                     })
                 }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    More Comments
+                    More Comments{props.user.uid}
                 </Text>
 
             </CardItem>
@@ -119,7 +120,7 @@ const FeedCards = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    // user: state.auth.user,
+    userDetails: state.auth.userDetails,
     user: state.auth.user,
     // following: state.auth.following
 })

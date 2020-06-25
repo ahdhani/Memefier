@@ -10,7 +10,7 @@ import { db } from '../../../config';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // import DpModal from '../DpModal'
-
+// hai
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Picker, TextInput, Image, TouchableOpacity } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, DatePicker, Body, Right, Title, Icon } from 'native-base'
+import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, DatePicker, Body, Right, Title, Icon, Spinner } from 'native-base'
 import LoaderModal from '../LoaderModal'
 
 
@@ -9,13 +9,9 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
-
-// import { loginUser } from '../../redux'
 import { connect } from "react-redux";
-import { db } from '../../../config'
+import { db, storage } from '../../../config'
 import { updateUserDetails } from '../../../redux';
-
-// const screenHeight = Dimensions.get('screen').height;
 
 
 class EditProfileScreen extends Component {
@@ -26,18 +22,21 @@ class EditProfileScreen extends Component {
         lastname: this.props.userDetails.lastname,
         bio: this.props.userDetails.bio,
         dp: this.props.userDetails.dp,
-        gender: 0,
+        gender: this.props.userDetails.gender,
         dob: new Date(1999, 1, 1),
         userIdValid: null,
         isLoading: false,
         progress: 0,
-        datePickerVisible: false
+        datePickerVisible: false,
+        dpLoaded: true,
     }
 
     componentDidMount() {
         this.getPermissionAsync();
 
     }
+
+
 
     getPermissionAsync = async () => {
         if (Constants.platform.ios) {
@@ -49,6 +48,7 @@ class EditProfileScreen extends Component {
     };
 
     _pickImage = async () => {
+        this.setState({ dpLoaded: false })
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -57,7 +57,9 @@ class EditProfileScreen extends Component {
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ dp: result.uri });
+
+                // console.log("URI :" , result.uri)
+                // this.setState({ dp: result.uri });
                 const IMG_URI = result.uri;
                 const imageName = this.props.user.uid;
                 try {
@@ -65,7 +67,7 @@ class EditProfileScreen extends Component {
                     const blob = await response.blob();
 
                     const uploadTask = storage.ref().child("dp/" + imageName).put(blob);
-
+                    // setLoading(true)
                     uploadTask.on('state_changed',
                         (snapshot) => {
                             // Progress function
@@ -78,11 +80,12 @@ class EditProfileScreen extends Component {
                         },
                         // Profile picture uploaded success ===============================================================
                         () => {
+                            // setLoading(false)
                             storage.ref('dp').child(imageName).getDownloadURL().then(url => {
                                 this.setState({
                                     dp: url,
+                                    dpLoaded: true,
                                 })
-                                // this.props.changeDisplayPicture(url)
                             })
                         })
                 } catch (error) {
@@ -96,10 +99,10 @@ class EditProfileScreen extends Component {
     };
 
     onChangeUserId = async (text) => {              //Please resolve the await problem 
-                                                        //setstate clashes two consecutive query
+        //setstate clashes two consecutive query
         console.log('text ', text)
         console.log('user ', this.state.userId)
-        this.setState({ userId: text },async () => {
+        this.setState({ userId: text }, async () => {
             console.log('userAfter ', this.state.userId)
             if (this.state.userId != '') {
                 await db.collection('userId').doc(this.state.userId)
@@ -161,6 +164,24 @@ class EditProfileScreen extends Component {
 
         this.setState({ isLoading: false });
     }
+    // { if.this.props.mail ? 
+    //     [
+    //         <Route key={0} path="inbox" component={Inbox} />,
+    //         <Route key={1} path="contacts" component={Contacts} />
+    //     ]
+    // : null }
+
+    // { if.this.props.mail ? 
+    //     <React.Fragment>
+    //         <Route path="inbox" component={Inbox} />,
+    //         <Route path="contacts" component={Contacts} />
+    //     </React.Fragment>
+    // : null }
+
+    // spinner = () => {
+    //     return (<Spinner />
+    //     <Text>{this.state.progress}</Text>)
+    // }
 
     render() {
 
@@ -201,6 +222,15 @@ class EditProfileScreen extends Component {
 
                             />
                         </TouchableOpacity>
+
+                        {!this.state.dpLoaded ?
+                            <View>
+                                <Spinner />
+                                <Text style={{ alignSelf: 'center', color: '#fff', fontSize: 10 }}>{this.state.progress}%</Text>
+                            </View>
+                            : null}
+
+
 
                         <Form>
                             <Item stackedLabel error={this.state.userIdValid === false}>
@@ -330,6 +360,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     userDetails: state.auth.userDetails,
+    user: state.auth.user,
 })
 const mapDispatchToProps = (dispatch) => {
     return {

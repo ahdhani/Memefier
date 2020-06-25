@@ -138,9 +138,9 @@ class SignUp extends Component {
                 password: this.state.password,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
-                // dob: this.state.dob,
+                dob: new Date(1999, 1 ,1),
                 userId: this.state.userId,
-                // gender: this.state.gender,
+                gender: 0,
                 // phone: '007'
             }
             console.log(user);
