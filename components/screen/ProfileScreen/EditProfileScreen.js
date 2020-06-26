@@ -48,7 +48,6 @@ class EditProfileScreen extends Component {
     };
 
     _pickImage = async () => {
-        this.setState({ dpLoaded: false })
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -57,6 +56,7 @@ class EditProfileScreen extends Component {
                 quality: 1,
             });
             if (!result.cancelled) {
+                this.setState({ dpLoaded: false })
 
                 // console.log("URI :" , result.uri)
                 // this.setState({ dp: result.uri });
