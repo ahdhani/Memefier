@@ -71,6 +71,7 @@ export default class CommentScreen extends Component {
                                 .then(id => console.log("comment added successfully " ,id))
                             this.setState({ comments: [...this.state.comments, 
                                 { content: this.state.commentText,postId: postId,created_by: uuid }], commentText: '' })
+
                         }
                         } />
                     </View>
