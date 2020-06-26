@@ -26,13 +26,13 @@ const Reply = (props) => {
     }, []);
 
     
-    // if (replyIndex === index)
     return (
         <View style={{
             flexDirection: 'row', alignItems: 'flex-start',
         }}
         >
             <Thumbnail small resizeMode='cover'
+                defaultSource={require('../../../../assets/dp/default.png')}
                 source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} />
             <View style={{ margin: 5, flexGrow: 1 }}>
                 <Text style={{ color: '#fff' }}>@{user.userId}</Text>

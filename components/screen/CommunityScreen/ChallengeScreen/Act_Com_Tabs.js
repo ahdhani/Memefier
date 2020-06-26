@@ -3,10 +3,6 @@
 import React from "react";
 import { Card, CardItem, Right, Button } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions } from "react-native";
-import { createAppContainer, NavigationEvents } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import JoinChallScreen from './JoinChallScreen';
-
 
 const { width } = Dimensions.get("window");
 
@@ -61,42 +57,42 @@ export default class Act_Com_Tabs extends React.Component {
 
 
     render() {
-        const {navigate} =this.props.navigation;
-       
-        let ActiveChall = [];                            //Active Challenges
-        let ComChall = [];                               //Completed Challenges
-      
+        const { navigate } = this.props.navigation;
+
+        let ActiveChall = [];                            //Active Challenges array
+        let ComChall = [];                               //Completed Challenges array
+
         ActiveChall.push(
-          <Card style={{ padding: 0, borderRadius: 8 }}>
-            <CardItem>
-              <View>
-                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
-                <Text style={{ fontSize: 12 }} >Offered by Coursera</Text>
-              </View>
-              <Right>
-                <Text >Ends in 5hrs</Text>
-                <Button height={30} width={75} onPress={()=>navigate('JoinChallScreen')}>
-                  <Text style={{ color: "white", fontSize: 17 }}>     Join</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
+            <Card style={{ padding: 0, borderRadius: 8 }}>
+                <CardItem>
+                    <View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
+                        <Text style={{ fontSize: 12 }} >Offered by Coursera</Text>
+                    </View>
+                    <Right>
+                        <Text >Ends in 5hrs</Text>
+                        <Button height={30} width={75} onPress={() => navigate('JoinChallScreen')}>
+                            <Text style={{ color: "white", fontSize: 17 }}>     Join</Text>
+                        </Button>
+                    </Right>
+                </CardItem>
+            </Card>
         );
-      
+
         ComChall.push(
-          <Card style={{ padding: 0, borderRadius: 8 }}>
-            <CardItem style={{ backgroundColor: "#e6ebe7" }}>
-              <View>
-                <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'grey' }}>Corona Challenge</Text>
-                <Text style={{ fontSize: 12, color: 'grey' }} >Offered by China</Text>
-              </View>
-              <Right>
-                <Text style={{ color: 'red' }} >Ended</Text>
-              </Right>
-            </CardItem>
-          </Card>
+            <Card style={{ padding: 0, borderRadius: 8 }}>
+                <CardItem style={{ backgroundColor: "#e6ebe7" }}>
+                    <View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'grey' }}>Corona Challenge</Text>
+                        <Text style={{ fontSize: 12, color: 'grey' }} >Offered by China</Text>
+                    </View>
+                    <Right>
+                        <Text style={{ color: 'red' }} >Ended</Text>
+                    </Right>
+                </CardItem>
+            </Card>
         );
-        
+
 
         let {
             xTabOne,
@@ -225,10 +221,9 @@ export default class Act_Com_Tabs extends React.Component {
                             }
                         >
 
-                        {ActiveChall}
+                            {ActiveChall}
 
                         </Animated.View>
-
 
                         <Animated.View
                             style={{
@@ -243,11 +238,13 @@ export default class Act_Com_Tabs extends React.Component {
                                 ]
                             }}
                         >
+
                             {ComChall}
+
                         </Animated.View>
+
                     </ScrollView>
                 </View>
-
             </View>
         );
     }

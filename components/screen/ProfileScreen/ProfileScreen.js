@@ -90,19 +90,19 @@ class ProfileScreen extends Component {
                                 marginTop: -110,
                             }}>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>0</H1>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.userDetails.followers}</H1>
                                     <Text note>Followers</Text>
                                 </View>
                                 <ImageBackground
                                     style={{
-                                        paddingVertical: 30,
+                                        borderRadius: 150,
                                         width: 150,
                                         height: 150,
                                         alignSelf: 'center',
-                                        borderRadius: 75,
                                         backgroundColor: colors.color3,
                                     }}
-                                    resizeMode='cover'
+                                    imageStyle = {{borderRadius: 150}}
+                                    resizeMode='center'
                                     source={{ uri: this.props.userDetails.dp }}
 
                                 >
@@ -120,7 +120,7 @@ class ProfileScreen extends Component {
 
                                 </ImageBackground>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.following.length}</H1>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.userDetails.following}</H1>
                                     <Text note>Following</Text>
                                 </View>
                             </View>

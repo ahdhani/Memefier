@@ -99,10 +99,11 @@ const FeedCards = (props) => {
                         postId: props.post.post_id,
                         uuid: props.user.uid,
                         userId: props.userDetails.userId,
+                        userDp: props.userDetails.dp,
                     })
                 }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    More Comments{props.user.uid}
+                    More Comments{props.userDetails.dp}
                 </Text>
 
             </CardItem>
