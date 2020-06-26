@@ -1,3 +1,5 @@
+//Challenge Screen
+
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Left, Right, Body, Title, Button, Tab, Item, Tabs } from 'native-base';
@@ -12,15 +14,14 @@ export default function ChallengeScreen({ navigation }) {
   return (
     <Container>
       <Content>
-        
+
         <CardItem style={{ flexDirection: 'column' }}>
           <Button block onPress={makeChallenge}>
             <Text style={{ color: "white", fontSize: 18 }}>Make a Challenge</Text>
           </Button>
         </CardItem>
 
-
-        <View
+        <View                                 //The line
           style={{
             marginTop: 0,
             borderBottomColor: '#3F51B5',
@@ -29,10 +30,10 @@ export default function ChallengeScreen({ navigation }) {
             marginLeft: 17
           }}
         />
+
         <Act_Com_Tabs navigation={navigation} />
 
       </Content>
     </Container>
   );
-
 }
