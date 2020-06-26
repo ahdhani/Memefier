@@ -52,12 +52,13 @@ export const fetchAllReplies = async (comment_id = "4qnfPIOheetLW7MTUZIl") => {
 }
 
 export const addComment = (post_id="57j6qQbKXOz8cXD7z0hr" , content="test comment" , created_by="3eduXNW0vGTAlAeZBjMvYs45JfF3") => {
-    db.collection('comments').add({
+    return db.collection('comments').add({
         post_id ,
         content ,
         created_by
     }).then( ref => {
-        console.log("comment added successfully")
+        // console.log("comment added successfully " , ref.id)
+        return ref.id
     }).catch(error => console.log(error.message))
 }
 
