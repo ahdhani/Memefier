@@ -95,14 +95,14 @@ class ProfileScreen extends Component {
                                 </View>
                                 <ImageBackground
                                     style={{
-                                        paddingVertical: 30,
+                                        borderRadius: 150,
                                         width: 150,
                                         height: 150,
                                         alignSelf: 'center',
-                                        borderRadius: 75,
                                         backgroundColor: colors.color3,
                                     }}
-                                    resizeMode='cover'
+                                    imageStyle = {{borderRadius: 150}}
+                                    resizeMode='center'
                                     source={{ uri: this.props.userDetails.dp }}
 
                                 >

@@ -12,13 +12,18 @@ export default class CommentScreen extends Component {
     state = {
         commentText: '',
         comments: [],
+        replyIndex: null,
     }
 
     componentDidMount = async () => {
         let comments = await fetchAllComments(this.props.route.params.postId)
-        // console.log(comments)
         this.setState({ comments: comments })
 
+
+    }
+
+    setReplyIndex = (index) => {
+        this.setState({ replyIndex: index })
     }
 
     render() {
@@ -26,6 +31,7 @@ export default class CommentScreen extends Component {
         const { postId } = this.props.route.params;
         const { userId } = this.props.route.params;
         const { uuid } = this.props.route.params;
+        const { userDp } = this.props.route.params;
 
         return (
             <Container style={{ backgroundColor: '#253237' }}>
@@ -48,7 +54,8 @@ export default class CommentScreen extends Component {
                         flexDirection: 'row',
                     }}>
                         <Thumbnail resizeMode='cover'
-                            source={require('../../../../assets/dp/default.png')}
+                            source={{ uri: userDp }}
+                            defaultSource={require('../../../../assets/dp/default.png')}
                             style={{ marginHorizontal: 5 }} small />
                         <View style={{ flex: 1 }}>
                             <Text style={{ color: '#fff', marginLeft: 6 }}>@{userId}</Text>
@@ -60,9 +67,11 @@ export default class CommentScreen extends Component {
 
                         <Icon name='send' style={{ margin: 15 }} onPress={() => {
                             //
-                            addComment(postId,this.state.commentText,uuid)
-                            this.setState({ comments: [...this.state.comments, 
-                                { content: this.state.commentText,postId: postId,created_by: uuid }], commentText: '' })
+                            addComment(postId, this.state.commentText, uuid)
+                            this.setState({
+                                comments: [...this.state.comments,
+                                { content: this.state.commentText, postId: postId, created_by: uuid }], commentText: ''
+                            })
                         }
                         } />
                     </View>
@@ -70,7 +79,9 @@ export default class CommentScreen extends Component {
                         data={this.state.comments}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <Comment comment={item} index={index} userId={userId} uuid={uuid}/>
+                            <Comment comment={item} index={index} userId={userId}
+                                uuid={uuid} userDp={userDp} replyIndex={this.state.replyIndex} 
+                                setReplyIndex={index => this.setReplyIndex(index)} />
                         )}
                     />
 

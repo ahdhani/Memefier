@@ -22,22 +22,25 @@ const Comment = (props) => {
 
     useEffect(() => {
         fetchUser(props.comment.created_by)
-            .then(user => {setUser(user)
-            console.log(user)})
-            .catch(error => {
-                console.warn(JSON.stringify(error, null, 2));
-            });
-
-        // console.log(props.comment.comment_id)
-        fetchAllReplies(props.comment.comment_id)
-            .then(res => {
-                setReply(res)
-                // console.log("Response :\n" , res)
+            .then(user => {
+                setUser(user)
+                console.log(user)
             })
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
 
+        // console.log(props.comment.comment_id)
+        if (props.replyIndex === props.index) {
+            fetchAllReplies(props.comment.comment_id)
+                .then(res => {
+                    setReply(res)
+                    // console.log("Response :\n" , res)
+                })
+                .catch(error => {
+                    console.warn(JSON.stringify(error, null, 2));
+                });
+        }
     }, []);
 
     return (
@@ -50,48 +53,51 @@ const Comment = (props) => {
                     <Text style={{ color: '#fff' }}>{props.comment.content}</Text>
                 </View>
                 <Text style={{ position: 'absolute', right: 20, margin: 10, color: colors.color3 }}
-                // onPress={() => setReplyIndex(props.index)}
+                    onPress={() => props.setReplyIndex(props.index)}
                 >Reply</Text>
             </View>
 
+            {props.replyIndex === props.index ?
+                <FlatList
+                    data={reply}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index }) => (
+                        <Reply reply={item} />
+                    )}
+                    style={{ left: 50, width: '100%' }}
+                    ListFooterComponent={() => (
+                        <View style={{
+                            flexDirection: 'row', backgroundColor: '#253237',
+                            alignItems: 'center', width: '100%'
+                        }}>
+                            <Thumbnail resizeMode='cover' source={{ uri: props.userDp }}
+                                defaultSource={require('../../../../assets/dp/default.png')}
+                                style={{ marginHorizontal: 5 }} small />
+                            <View>
+                                <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
+                                <Input style={{ color: '#fff', width: 200 }}
+                                    placeholder='Reply...'
+                                    // onChangeText={(text) => setReplyText(text)}
+                                    // value={replyText} 
+                                    onSubmitEditing={(text) => setReplyText(text)}
+                                />
+                            </View>
 
-            <FlatList
-                data={reply}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
-                    <Reply reply={item} />
-                )}
-                style={{ left: 50, width: '100%' }}
-                ListFooterComponent={() => (
-                    // replyIndex === props.index ?
-                    <View style={{
-                        flexDirection: 'row', backgroundColor: '#253237',
-                        alignItems: 'center', width: '100%'
-                    }}>
-                        <Thumbnail resizeMode='cover' source={require('../../../../assets/dp/default.png')}
-                            style={{ marginHorizontal: 5 }} small />
-                        <View>
-                            <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
-                            <Input style={{ color: '#fff', width: 200 }}
-                                placeholder='Reply...'
-                                // onChangeText={(text) => setReplyText(text)}
-                                // value={replyText} 
-                                onSubmitEditing={(text) => setReplyText(text)}
-                            />
+                            <Icon name='send' style={{ margin: 15 }} onPress={() => {
+                                console.log(props.comment.comment_id)
+                                addReply(props.comment.comment_id, replyText, props.uuid)
+                                setReply(
+                                    [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
+                                )
+                            }
+                            } />
                         </View>
+                    )}
 
-                        <Icon name='send' style={{ margin: 15 }} onPress={() => {
-                            addReply(props.comment.comment_id, replyText, props.userId)
-                            setReply(
-                                [...reply, { content: replyText, postId: props.comment.comment_id, created_by: props.userId }]
-                            )
-                        }
-                        } />
-                    </View>
-                    // : null
-                )}
-
-            />
+                />
+                :
+                null
+            }
 
 
         </Item>
