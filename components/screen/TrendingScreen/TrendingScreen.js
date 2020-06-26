@@ -73,7 +73,7 @@ export default class TrendingScreen extends Component {
                     trendingPosts : arr
                 })
 
-                console.log("trending Posts\n" , this.state.trendingPosts)
+                // console.log("trending Posts\n" , this.state.trendingPosts)
             }).
             catch(error => console.log("ERR : ", error.message))
 

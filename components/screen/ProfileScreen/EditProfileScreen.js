@@ -3,7 +3,7 @@ import { View, StyleSheet, Picker, TextInput, Image, TouchableOpacity } from 're
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, DatePicker, Body, Right, Title, Icon, Spinner } from 'native-base'
 import LoaderModal from '../LoaderModal'
-
+import {changeDisplayPicture} from '../../../redux'
 
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -61,6 +61,7 @@ class EditProfileScreen extends Component {
                 // console.log("URI :" , result.uri)
                 // this.setState({ dp: result.uri });
                 const IMG_URI = result.uri;
+                console.log("IMG URI : " , IMG_URI)
                 const imageName = this.props.user.uid;
                 try {
                     const response = await fetch(IMG_URI);
@@ -86,6 +87,7 @@ class EditProfileScreen extends Component {
                                     dp: url,
                                     dpLoaded: true,
                                 })
+                                this.props.changeDisplayPicture(url)
                             })
                         })
                 } catch (error) {
@@ -364,7 +366,8 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateUser: (data) => dispatch(updateUserDetails(data))
+        updateUser: (data) => dispatch(updateUserDetails(data)) ,
+        changeDisplayPicture : (img_url) => dispatch(changeDisplayPicture(img_url))
     }
 }
 

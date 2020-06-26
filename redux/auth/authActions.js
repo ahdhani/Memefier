@@ -96,7 +96,7 @@ export const loginUser = ({ email, password }) => {
                             then(snapshot_followers => {
                                 console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
                                 // console.log(snapshot_followers.data())
-                                console.log(snapshot_followers.docs);
+                                // console.log(snapshot_followers.docs);
 
                                 dispatch({
                                     type: LOGIN_SUCCESS,
@@ -141,7 +141,7 @@ export const loadUser = () => {
                             .then(snapshot_followers => {
                                 console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
                                 // console.log(snapshot_followers.data())
-                                console.log(snapshot_followers.docs);
+                                // console.log(snapshot_followers.docs);
                                 let arr = []
                                 snapshot_followers.docs.forEach(item => {
                                     arr = [...arr, item.data().following]
@@ -198,7 +198,7 @@ export const follow_user = (user_uid) => { // user_uid is the id of the user to 
 
             console.log("FOLLOW USER SUCCESS");
 
-            console.log(getState().auth.following);
+            // console.log(getState().auth.following);
 
         }).catch(error => console.log("CANT FOLLOW", error.message))
     }
@@ -220,7 +220,7 @@ export const unfollow_user = (user_uid) => { // user_uid is the id of the user t
             })
 
             console.log("UNFOLLOW USER SUCCESS");
-            console.log(getState().auth.following);
+            // console.log(getState().auth.following);
         });
     }
 }
@@ -244,7 +244,7 @@ export const changeDisplayPicture = (img_url) => {
                         dp: img_url
                     }
                 })
-                console.log(getState().auth.userDetails)
+                // console.log(getState().auth.userDetails)
 
                 // console.log(ref.ZE.path.segments[1])
                 // console.log(getState().post)
@@ -268,7 +268,7 @@ export const updateUserDetails = (updatedUserdetails) => {
                     }
                 })
 
-                console.log("Dispatched")
+                // console.log("Dispatched")
             })
             .catch(error => console.log(error.message))
     }

@@ -2,7 +2,7 @@ import { db } from '../../config'
 
 export const testFunction = () => {
 
-    console.log("In testFunction")
+    // console.log("In testFunction")
     return 'hello'
 }
 
