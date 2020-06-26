@@ -102,7 +102,7 @@ class ProfileScreen extends Component {
                                         backgroundColor: colors.color3,
                                     }}
                                     imageStyle = {{borderRadius: 150}}
-                                    resizeMode='center'
+                                    resizeMode='cover'
                                     source={{ uri: this.props.userDetails.dp }}
 
                                 >

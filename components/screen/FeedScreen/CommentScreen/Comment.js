@@ -24,7 +24,7 @@ const Comment = (props) => {
         fetchUser(props.comment.created_by)
             .then(user => {
                 setUser(user)
-                console.log(user)
+                // console.log(user)
             })
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
@@ -77,18 +77,18 @@ const Comment = (props) => {
                                 <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
                                 <Input style={{ color: '#fff', width: 200 }}
                                     placeholder='Reply...'
-                                    // onChangeText={(text) => setReplyText(text)}
-                                    // value={replyText} 
-                                    onSubmitEditing={(text) => setReplyText(text)}
+                                    onChange={(event) => setReplyText(event.target.value)}
+                                    value={replyText} 
+                                    // onSubmitEditing={(text) => setReplyText(text)}
                                 />
                             </View>
 
                             <Icon name='send' style={{ margin: 15 }} onPress={() => {
-                                console.log(props.comment.comment_id)
-                                addReply(props.comment.comment_id, replyText, props.uuid)
-                                setReply(
-                                    [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
-                                )
+                                console.log('Reply  : ',replyText)
+                                // addReply(props.comment.comment_id, replyText, props.uuid)
+                                // setReply(
+                                //     [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
+                                // )
                             }
                             } />
                         </View>

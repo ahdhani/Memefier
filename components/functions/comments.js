@@ -63,7 +63,7 @@ export const addComment = (post_id="57j6qQbKXOz8cXD7z0hr" , content="test commen
 
 export const addReply = (comment_id , content , created_by) => {
     db.collection('replies').add({
-        comment_id ,
+        comment_id , 
         content ,
         created_by
     }).then( ref => {
