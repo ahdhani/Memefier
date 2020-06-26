@@ -66,12 +66,11 @@ export default class CommentScreen extends Component {
                         </View>
 
                         <Icon name='send' style={{ margin: 15 }} onPress={() => {
-                            //
-                            addComment(postId, this.state.commentText, uuid)
-                            this.setState({
-                                comments: [...this.state.comments,
-                                { content: this.state.commentText, postId: postId, created_by: uuid }], commentText: ''
-                            })
+                            // write your code in then
+                            addComment(postId,this.state.commentText,uuid)
+                                .then(id => console.log("comment added successfully " ,id))
+                            this.setState({ comments: [...this.state.comments, 
+                                { content: this.state.commentText,postId: postId,created_by: uuid }], commentText: '' })
                         }
                         } />
                     </View>
