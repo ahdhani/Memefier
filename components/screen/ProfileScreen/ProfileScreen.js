@@ -51,9 +51,7 @@ class ProfileScreen extends Component {
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
-                () => 
-                this.fetchUserPosts(this.props.user.uid)
-                )
+                () => this.fetchUserPosts(this.props.user.uid))
         }
     }
 
