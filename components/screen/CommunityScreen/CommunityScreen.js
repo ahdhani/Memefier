@@ -7,6 +7,7 @@ import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
 import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
 import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
 import { changeDisplayPicture } from '../../functions/general'
+import { addChallenge } from '../../functions/challenges'
 
 class CommunityScreen extends Component {
 
@@ -124,6 +125,13 @@ class CommunityScreen extends Component {
                     </Button>
                     <Button transparent onPress={() => changeDisplayPicture()}>
                         <Text>Change Display Picture</Text>
+                    </Button>
+                    <Button transparent onPress={() => {
+                        addChallenge("Ch_name" , "desc" , "user.uid" , "ex")
+                            .then(ref => console.log("ref " , ref))
+                            .catch(error => console.log(error.message))
+                    }}>
+                        <Text>ADD chall</Text>
                     </Button>
                     <FlatList
                         data={this.state.users}
