@@ -29,7 +29,7 @@ export default class TrendingScreen extends Component {
                 .then(snapshot => {
                     snapshot.docs.forEach(doc => {
                         if (doc.data().firstname.includes(text) || doc.data().lastname.includes(text)) {
-                            search_list = [...search_list, doc.data()]
+                            search_list = [...search_list,{ ...doc.data(),uuid: doc.id}]
 
                         }
                     })
@@ -58,7 +58,7 @@ export default class TrendingScreen extends Component {
     }
 
     fetchPosts = async () => {
-        
+
         // console.log("USER.UID , ", this.props.user.uid)
         await db.collection('posts')
             // .where('created_by', 'in', [...this.props.following, this.props.user.uid])
@@ -66,11 +66,11 @@ export default class TrendingScreen extends Component {
             .then(async snapshot => {
                 var arr = []
                 await snapshot.docs.forEach(doc => {
-                    arr = [{...doc.data() , post_id : doc.id }, ...arr]
+                    arr = [{ ...doc.data(), post_id: doc.id }, ...arr]
                 })
 
                 await this.setState({
-                    trendingPosts : arr
+                    trendingPosts: arr
                 })
 
                 // console.log("trending Posts\n" , this.state.trendingPosts)
@@ -104,10 +104,11 @@ export default class TrendingScreen extends Component {
                                 onChangeText={text => this.onChangeTextSearch(text)}
                                 value={this.state.searchText}
                                 underlineColorAndroid="transparent"
-                                onBlur={() => this.setState({
-                                    searchResult: [],
-                                    searchText: '',
-                                })} />
+                                // onBlur={() => this.setState({
+                                //     searchResult: [],
+                                //     searchText: '',
+                                // })}
+                                 />
                             <Icon name="ios-people" />
                         </Item>
                     </Body>
@@ -129,7 +130,12 @@ export default class TrendingScreen extends Component {
                     }
                     data={this.state.searchResult}
                     renderItem={({ item }) => (
-                        <Item style={{ flexDirection: 'row', padding: 4 }}>
+                        <Item onPress={() => this.props.navigation.push('ProfileStack', {
+                                screen: 'ProfileScreen',
+                                params: { uuid: item.uuid }
+                            })
+                        }
+                            style={{ flexDirection: 'row', padding: 4 }}>
                             <Thumbnail source={require('../../../assets/profile.jpeg')} />
                             <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                         </Item>

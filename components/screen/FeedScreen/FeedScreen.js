@@ -67,13 +67,12 @@ class FeedScreen extends Component {
                     <FlatList
                         data={this.state.posts}
                         renderItem={({ item }) => <FeedCards post={item} />}
-                        // keyExtractor={item => uuid()}
-                        // keyExtractor={item => item.id}
                         keyExtractor={(item, index) => `id_${index}`}
                         pagingEnabled={true}
                         decelerationRate={'fast'}
-                        snapToAlignment={'top'}
-                        viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
+                        // snapToInterval={400}
+                        snapToAlignment={'center'}
+                        // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
                         refreshing={this.state.isRefreshing}
                         onRefresh={() => this.onRefresh()}
                         onEndReachedThreshold={0.5}

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PostScrollScreen from '../PostScrollScreen'
 import TrendingScreen from './TrendingScreen'
 import CommentScreen from '../FeedScreen/CommentScreen/CommentScreen'
+import ProfileStack from '../ProfileScreen/ProfileStack'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -41,6 +42,13 @@ export default class TrendingStack extends Component {
                     <Stack.Screen
                         name="CommentScreen"
                         component={CommentScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProfileStack"
+                        component={ProfileStack}
                         options={{
                             headerShown: false
                         }}

@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 const tabHeight = 55;
 
 const screenWidth = Dimensions.get('window').width;
-const cardHeight = Dimensions.get('window').height - tabHeight - 10;
+// const cardHeight = Dimensions.get('window').height - tabHeight - 10;
 const postHeight = screenWidth * 1.25;
 
 // RenderReactions = (props) => {
@@ -63,7 +63,7 @@ const FeedCards = (props) => {
     fetchUser(props.post.created_by);
 
     return (
-        <Card style={{ height: cardHeight, justifyContent: 'space-between' }} >
+        <Card style={{  justifyContent: 'space-between' }} >
             <CardItem>
                 <Left>
                     <Thumbnail source={{ uri: dp }} />
@@ -107,7 +107,7 @@ const FeedCards = (props) => {
                     })
                 }}>
                     <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    More Comments{props.userDetails.dp}
+                    More Comments
                 </Text>
 
             </CardItem>
