@@ -155,7 +155,7 @@ class ProfileScreen extends Component {
                             </View>
 
                             <H1 style={{ alignSelf: 'center', marginTop: 20, color: colors.color3 }}>
-                                {uuid &&
+                                {uuid && uuid!= this.props.user.uid &&
                                     <Text onPress={() => this.toggleFollow(uuid)}
                                     >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
                                 {this.state.userDetails.firstname} {this.state.userDetails.lastname}  
