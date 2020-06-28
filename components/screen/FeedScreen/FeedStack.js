@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import FeedScreen from './FeedScreen'
 import CommentScreen from './CommentScreen/CommentScreen'
+import ProfileStack from '../ProfileScreen/ProfileStack'
+
+
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,7 +19,7 @@ export default class FeedStack extends Component {
             <NavigationContainer independent={true}>
                 <Stack.Navigator
                 
-                    initialRouteName="Feed"
+                    initialRouteName="FeedScreen"
                     screenOptions={{
                         gestureEnabled: true
                     }}>
@@ -31,6 +34,13 @@ export default class FeedStack extends Component {
                     <Stack.Screen
                         name="CommentScreen"
                         component={CommentScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProfileStack"
+                        component={ProfileStack}
                         options={{
                             headerShown: false
                         }}

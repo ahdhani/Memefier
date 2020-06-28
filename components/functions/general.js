@@ -1,5 +1,4 @@
 import { db , storage } from '../../config'
-import uuid from 'react-uuid'
 
 export const fetchUser = async (user_uid) => {
     var userDetails = {}

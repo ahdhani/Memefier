@@ -68,7 +68,11 @@ const FeedCards = (props) => {
                 <Left>
                     <Thumbnail source={{ uri: dp }} />
                     <Body>
-                        <Text>{name}</Text>
+                        <Text onPress={() => navigation.navigate('ProfileStack', {
+                            screen: 'ProfileScreen',
+                            params: {uuid: props.post.created_by,}
+                            
+                        })}>{name}</Text>
                         <Text note>category</Text>
                     </Body>
                 </Left>
@@ -88,7 +92,7 @@ const FeedCards = (props) => {
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-            <Reaction postId={props.post.post_id} userId={props.user.uid}/>
+            <Reaction postId={props.post.post_id} userId={props.user.uid} />
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
                     <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
