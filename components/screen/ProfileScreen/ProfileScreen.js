@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../../redux';
 
 import { db } from '../../../config';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+import { fetchUserDetails } from '../../functions/user'
 // import DpModal from '../DpModal'
 // hai
 
@@ -31,8 +30,6 @@ class ProfileScreen extends Component {
                 snapshot.docs.forEach(doc => {
                     arr = [doc.data(), ...arr]
                 })
-
-                console.log("User post", arr)
                 this.setState({
                     userPosts: arr
                 })
@@ -40,36 +37,32 @@ class ProfileScreen extends Component {
             catch(error => console.log("ERR : ", error.message))
     }
 
-    componentDidMount() {
+    componentDidMount = async () => {
         // this.props.navigation.addListener(
         //     'didFocus',
         //     payload => {
         //       this.forceUpdate();
         //     }
         //   );
-        if (this.props.route.params.uuid != null)
-            alert('ViewProfile')
-        this.fetchUserPosts(this.props.user.uid);
-        console.log("User post fetching..")
-
+        if (this.props.route.params.uuid != null) {
+            const user = await fetchUserDetails(this.props.route.params.uuid)
+            this.setState({ userDetails: user },
+                () => this.fetchUserPosts(this.props.route.params.uuid))
+        }
+        else {
+            this.setState({ userDetails: this.props.userDetails },
+                () => 
+                this.fetchUserPosts(this.props.user.uid)
+                )
+        }
     }
 
     toggleFollow = (uuid) => {
         if (this.props.following.includes(uuid)) {
-            this.unfollowUser(uuid)
+            this.props.unfollow(uuid);
         } else {
-            this.followUser(uuid)
+            this.props.follow(uuid);
         }
-    }
-
-    followUser = (uuid) => {
-        console.log("Follow user clicked");
-        this.props.follow(uuid);
-    }
-
-    unfollowUser = (uuid) => {
-        console.log("Unfollow clicked");
-        this.props.unfollow(uuid);
     }
 
     signOutClicked = () => {
@@ -88,13 +81,13 @@ class ProfileScreen extends Component {
                         {/* <Title>Profile</Title> */}
                     </Body>
                     <Right>
-                        {uuid ?
-                            <Button transparent 
-                            // onPress={() => this.signOutClicked()}
-                            >
-                                <Text style={{ color: colors.color1 }} >Follow</Text>
-                            </Button>
-                            :
+                        {!uuid &&
+                            // <Button transparent
+                            // // onPress={() => this.signOutClicked()}
+                            // >
+                            //     <Text style={{ color: colors.color1 }} >Follow</Text>
+                            // </Button>
+                            // :
                             <Button transparent onPress={() => this.signOutClicked()}>
                                 <Text style={{ color: colors.color1 }} >SignOut</Text>
                             </Button>
@@ -109,7 +102,7 @@ class ProfileScreen extends Component {
                     }}>
 
                         <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
-                            @{this.props.userDetails.userId}
+                            @{this.state.userDetails.userId}
                         </H1>
                         <Text note style={{
                             alignSelf: 'center',
@@ -125,10 +118,7 @@ class ProfileScreen extends Component {
                                 flexDirection: 'row', justifyContent: 'space-around',
                                 marginTop: -110,
                             }}>
-                                <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.userDetails.followers}</H1>
-                                    <Text note>Followers</Text>
-                                </View>
+                                
                                 <ImageBackground
                                     style={{
                                         borderRadius: 150,
@@ -139,7 +129,7 @@ class ProfileScreen extends Component {
                                     }}
                                     imageStyle={{ borderRadius: 150 }}
                                     resizeMode='cover'
-                                    source={{ uri: this.props.userDetails.dp }}
+                                    source={{ uri: this.state.userDetails.dp }}
 
                                 >
                                     {!uuid &&
@@ -157,20 +147,25 @@ class ProfileScreen extends Component {
                                     }
                                 </ImageBackground>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.userDetails.following}</H1>
-                                    <Text note>Following</Text>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.followers}</H1>
+                                    <Text note>Followers</Text>
                                 </View>
+                                {/* <View style={{ justifyContent: 'center' }}>
+                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.following}</H1>
+                                    <Text note>Following</Text>
+                                </View> */}
                             </View>
 
                             <H1 style={{ alignSelf: 'center', marginTop: 20, color: colors.color3 }}>
-                                {this.props.userDetails.firstname} {this.props.userDetails.lastname} {uuid &&
-                                <Text style={{ marginLeft: 150 }}
-                                    onPress={() => this.toggleFollow(uuid)}
-                                >{(this.props.following.includes(uuid)) ? 'Unfollow ' : 'Follow'}</Text>}
+                                {uuid &&
+                                    <Text onPress={() => this.toggleFollow(uuid)}
+                                    >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
+                                {this.state.userDetails.firstname} {this.state.userDetails.lastname}  
+
                             </H1>
                             <Text note style={{
                                 alignSelf: 'center',
-                            }}>{this.props.userDetails.bio}</Text>
+                            }}>{this.state.userDetails.bio}</Text>
 
                             <FlatList
                                 // getItemLayout={(data, index) => { return {length: cardHeight+2, index, offset: (cardHeight+2) * index} }}
@@ -282,7 +277,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
 ===============================================================================
 For display picture uri
 
-this.props.userDetails.dp
+this.state.userDetails.dp
 default 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
 
 */
