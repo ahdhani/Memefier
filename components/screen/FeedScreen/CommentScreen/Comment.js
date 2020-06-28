@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 
 const Comment = (props) => {
 
-    const [replyText, setReplyText] = useState('ha')
+    const [replyText, setReplyText] = useState('')
     const [user, setUser] = useState({
         dp: "https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9"
     })
@@ -21,6 +21,7 @@ const Comment = (props) => {
     const [replyIndex, setReplyIndex] = useState()
 
     useEffect(() => {
+        console.log('keriiii ',props.index )
         fetchUser(props.comment.created_by)
             .then(user => {
                 setUser(user)
@@ -77,7 +78,7 @@ const Comment = (props) => {
                                 <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
                                 <Input style={{ color: '#fff', width: 200 }}
                                     placeholder='Reply...'
-                                    onChange={(event) => setReplyText(event.target.value)}
+                                    onChange={event => setReplyText(event.target.value)}
                                     value={replyText} 
                                     // onSubmitEditing={(text) => setReplyText(text)}
                                 />
@@ -85,10 +86,10 @@ const Comment = (props) => {
 
                             <Icon name='send' style={{ margin: 15 }} onPress={() => {
                                 console.log('Reply  : ',replyText)
-                                // addReply(props.comment.comment_id, replyText, props.uuid)
-                                // setReply(
-                                //     [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
-                                // )
+                                addReply(props.comment.comment_id, replyText, props.uuid)
+                                setReply(
+                                    [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
+                                )
                             }
                             } />
                         </View>

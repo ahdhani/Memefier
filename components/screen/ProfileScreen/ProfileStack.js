@@ -11,14 +11,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 export default class ProfileStack extends Component {
 
 
-
     render() {
+        // const { uuid } = this.props.route.params;
+
         const Stack = createStackNavigator();
 
         return (
             <NavigationContainer independent={true}>
                 <Stack.Navigator
-                
+
                     initialRouteName="ProfileScreen"
                     screenOptions={{
                         gestureEnabled: true
@@ -30,6 +31,7 @@ export default class ProfileStack extends Component {
                         options={{
                             headerShown: false
                         }}
+                        initialParams={{ uuid: null }}
                     />
                     <Stack.Screen
                         name="PostScrollScreen"

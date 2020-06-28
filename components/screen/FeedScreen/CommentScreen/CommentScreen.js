@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Picker, TextInput, Image, FlatList, TouchableOpacity } from 'react-native'
-import { Container, Button, Item, Input, Header, Content, Text, Left, Body, Title, Icon, Thumbnail, Right } from 'native-base'
+import { Container, Button, Spinner ,Input, Header, Content, Text, Left, Body, Title, Icon, Thumbnail, Right } from 'native-base'
 import colors from '../../../../constants/colors'
 import { fetchAllComments, fetchAllReplies, addComment, addReply } from '../../../functions/comments'
 import { fetchUserId } from '../../../functions/general'
@@ -13,6 +13,7 @@ export default class CommentScreen extends Component {
         commentText: '',
         comments: [],
         replyIndex: null,
+        loading: false,
     }
 
     componentDidMount = async () => {
@@ -44,6 +45,12 @@ export default class CommentScreen extends Component {
                     <Body>
                         <Title>Comments</Title>
                     </Body>
+                    <Right>
+                    {   this.state.loading &&
+                        <Spinner color='#ccc'/>
+                    }
+                    </Right>
+
                 </Header>
                 <View style={{
                     backgroundColor: '#253237',
@@ -67,10 +74,11 @@ export default class CommentScreen extends Component {
 
                         <Icon name='send' style={{ margin: 15 }} onPress={() => {
                             // write your code in then
+                            this.setState({loading: true})
                             addComment(postId,this.state.commentText,uuid)
-                                .then(id => console.log("comment added successfully " ,id))
-                            this.setState({ comments: [...this.state.comments, 
-                                { content: this.state.commentText,postId: postId,created_by: uuid }], commentText: '' })
+                                .then(id => this.setState({ comments: [...this.state.comments, 
+                                    { content: this.state.commentText,postId: postId,created_by: uuid,comment_id: id }],
+                                     commentText: '' ,loading: false}))
 
                         }
                         } />

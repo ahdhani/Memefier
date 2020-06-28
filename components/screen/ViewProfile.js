@@ -7,25 +7,20 @@ import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user } from '../../../redux';
 
 import { db } from '../../../config';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-// import DpModal from '../DpModal'
-// hai
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
 
-class ProfileScreen extends Component {
+class ViewProfile extends Component {
 
     state = {
         userPosts: [],
-        userDetails: [],
     }
 
-    fetchUserPosts = async (uuid) => {
+    fetchUserPosts = async () => {
         var arr = []
         await db.collection('posts')
-            .where('created_by', '==', uuid)   //KUDU please check this statement
+            .where('created_by', '==', this.props.user.uid)   //KUDU please check this statement
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
@@ -41,35 +36,9 @@ class ProfileScreen extends Component {
     }
 
     componentDidMount() {
-        // this.props.navigation.addListener(
-        //     'didFocus',
-        //     payload => {
-        //       this.forceUpdate();
-        //     }
-        //   );
-        if (this.props.route.params.uuid != null)
-            alert('ViewProfile')
-        this.fetchUserPosts(this.props.user.uid);
+        this.fetchUserPosts();
         console.log("User post fetching..")
 
-    }
-
-    toggleFollow = (uuid) => {
-        if (this.props.following.includes(uuid)) {
-            this.unfollowUser(uuid)
-        } else {
-            this.followUser(uuid)
-        }
-    }
-
-    followUser = (uuid) => {
-        console.log("Follow user clicked");
-        this.props.follow(uuid);
-    }
-
-    unfollowUser = (uuid) => {
-        console.log("Unfollow clicked");
-        this.props.unfollow(uuid);
     }
 
     signOutClicked = () => {
@@ -77,49 +46,46 @@ class ProfileScreen extends Component {
     }
 
     render() {
-        const { uuid } = this.props.route.params;
-
         return (
             <Container>
-
                 <Header style={{ backgroundColor: colors.color5 }}>
-                    <Left />
+                    <Left>
+                        <Button transparent onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                            <Text>Edit</Text>
+                        </Button>
+                    </Left>
                     <Body>
                         {/* <Title>Profile</Title> */}
                     </Body>
                     <Right>
-                        {uuid ?
-                            <Button transparent 
-                            // onPress={() => this.signOutClicked()}
-                            >
-                                <Text style={{ color: colors.color1 }} >Follow</Text>
-                            </Button>
-                            :
-                            <Button transparent onPress={() => this.signOutClicked()}>
-                                <Text style={{ color: colors.color1 }} >SignOut</Text>
-                            </Button>
-                        }
-
+                        <Button transparent onPress={() => this.signOutClicked()}>
+                            <Text style={{ color: colors.color1 }} >SignOut</Text>
+                        </Button>
                     </Right>
                 </Header>
-
-                <Content style={{ backgroundColor: colors.color5, height: '100%', }}>
+                <Content style={{ backgroundColor: colors.color5, flex: 1}}>
                     <View style={{
-                        flex: 1, flexGrow: 1, height: '100%'
+                        flex: 2,
+                        // height: '100%'
                     }}>
-
-                        <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
-                            @{this.props.userDetails.userId}
-                        </H1>
-                        <Text note style={{
-                            alignSelf: 'center',
-                            marginBottom: 150,
-                        }}>
-                            Rank 0
-                        </Text>
                         <View style={{
-                            flex: 1, flexGrow: 2, backgroundColor: '#fff',
-                            borderTopLeftRadius: 30, borderTopRightRadius: 30, height: '100%' ////
+                        flex: 1,
+                        // height: '100%'
+                        }}>
+
+                            <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
+                                @{this.props.userDetails.userId}
+                            </H1>
+                            <Text note style={{
+                                alignSelf: 'center',
+                                marginBottom: 150,
+                            }}>
+                                Rank 0
+                            </Text>
+                        </View>
+                        <View style={{
+                            flexGrow: 1, backgroundColor: '#fff',
+                            borderTopLeftRadius: 30, borderTopRightRadius: 30, height: '100%',
                         }}>
                             <View style={{
                                 flexDirection: 'row', justifyContent: 'space-around',
@@ -142,19 +108,18 @@ class ProfileScreen extends Component {
                                     source={{ uri: this.props.userDetails.dp }}
 
                                 >
-                                    {!uuid &&
-                                        <TouchableOpacity style={{
-                                            position: 'absolute', bottom: 5,
-                                            right: 5, backgroundColor: colors.color1,
-                                            borderRadius: 20,
-                                            height: 40, width: 40,
-                                            alignItems: 'center', justifyContent: 'center'
-                                        }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
-                                            <Icon name='create' style={{
-                                                fontSize: 20
-                                            }} />
-                                        </TouchableOpacity>
-                                    }
+                                    <TouchableOpacity style={{
+                                        position: 'absolute', bottom: 5,
+                                        right: 5, backgroundColor: colors.color1,
+                                        borderRadius: 20,
+                                        height: 40, width: 40,
+                                        alignItems: 'center', justifyContent: 'center'
+                                    }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                                        <Icon name='create' style={{
+                                            fontSize: 20
+                                        }} />
+                                    </TouchableOpacity>
+
                                 </ImageBackground>
                                 <View style={{ justifyContent: 'center' }}>
                                     <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.props.userDetails.following}</H1>
@@ -163,10 +128,7 @@ class ProfileScreen extends Component {
                             </View>
 
                             <H1 style={{ alignSelf: 'center', marginTop: 20, color: colors.color3 }}>
-                                {this.props.userDetails.firstname} {this.props.userDetails.lastname} {uuid &&
-                                <Text style={{ marginLeft: 150 }}
-                                    onPress={() => this.toggleFollow(uuid)}
-                                >{(this.props.following.includes(uuid)) ? 'Unfollow ' : 'Follow'}</Text>}
+                                {this.props.userDetails.firstname} {this.props.userDetails.lastname}
                             </H1>
                             <Text note style={{
                                 alignSelf: 'center',
@@ -230,7 +192,7 @@ class ProfileScreen extends Component {
                                     </Item>
                                 )}
                                 numColumns={2}
-                                style={{ marginTop: 20, paddingTop: 5 }}
+                                style={{ marginTop: 20,}}
                             // enableEmptySections={true}
                             />
                         </View>
@@ -275,14 +237,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
-
-/*
-@reference :
-===============================================================================
-For display picture uri
-
-this.props.userDetails.dp
-default 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
-
-*/
+export default connect(mapStateToProps, mapDispatchToProps)(ViewProfile)
