@@ -2,7 +2,7 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, FETCH_POST_REQUES
 
 
 const initialState = {
-    posts : null ,
+    posts : [] ,
     loading : false ,
     error : null
 }
