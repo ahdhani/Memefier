@@ -95,7 +95,7 @@ const FeedCards = (props) => {
             <Reaction postId={props.post.post_id} userId={props.user.uid} />
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
-                    <Text style={{ fontWeight: 'bold' }}> Caption : </Text>
+                    {/* <Text style={{ fontWeight: 'bold' }}> Caption : </Text> */}
                     {props.post.caption}
                 </Text>
                 <Text onPress={() => {

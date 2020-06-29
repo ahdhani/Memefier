@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import PostScrollScreen from '../PostScrollScreen'
 import ProfileScreen from './ProfileScreen'
 import EditProfileScreen from './EditProfileScreen'
+import CommentScreen from '../FeedScreen/CommentScreen/CommentScreen'
+import UploadScreen from '../UploadScreen/UploadScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -43,6 +45,20 @@ export default class ProfileStack extends Component {
                     <Stack.Screen
                         name="EditProfileScreen"
                         component={EditProfileScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="CommentScreen"
+                        component={CommentScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="UploadScreen"
+                        component={UploadScreen}
                         options={{
                             headerShown: false
                         }}

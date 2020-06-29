@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground, TouchableOpacityBase } from 'react-native'
-import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1 } from 'native-base'
+import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1, CardItem } from 'native-base'
 import colors from '../../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
@@ -94,12 +94,9 @@ class ProfileScreen extends Component {
                     </Right>
                 </Header>
 
-                <Content style={{ backgroundColor: colors.color5, height: '100%', }}>
-                    <View style={{
-                        flex: 1, flexGrow: 1, height: '100%'
-                    }}>
-
-                        <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
+                <Content style={{ backgroundColor: '#fff', }}>
+                    <View style={{ backgroundColor: colors.color5 ,height: 180}}>
+                        {/* <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
                             @{this.state.userDetails.userId}
                         </H1>
                         <Text note style={{
@@ -107,126 +104,121 @@ class ProfileScreen extends Component {
                             marginBottom: 150,
                         }}>
                             Rank 0
-                        </Text>
+                        </Text> */}
+                    </View>
+                    <View style={{
+                        backgroundColor: '#fff', marginTop: -30,
+                        borderTopLeftRadius: 30, borderTopRightRadius: 30
+                    }}>
                         <View style={{
-                            flex: 1, flexGrow: 2, backgroundColor: '#fff',
-                            borderTopLeftRadius: 30, borderTopRightRadius: 30, height: '100%' ////
+                            flexDirection: 'row', justifyContent: 'space-around',
+                            marginTop: -110,
                         }}>
-                            <View style={{
-                                flexDirection: 'row', justifyContent: 'space-around',
-                                marginTop: -110,
-                            }}>
-                                
-                                <ImageBackground
-                                    style={{
-                                        borderRadius: 150,
-                                        width: 150,
-                                        height: 150,
-                                        alignSelf: 'center',
-                                        backgroundColor: colors.color3,
-                                    }}
-                                    imageStyle={{ borderRadius: 150 }}
-                                    resizeMode='cover'
-                                    source={{ uri: this.state.userDetails.dp }}
 
-                                >
-                                    {!uuid &&
-                                        <TouchableOpacity style={{
-                                            position: 'absolute', bottom: 5,
-                                            right: 5, backgroundColor: colors.color1,
-                                            borderRadius: 20,
-                                            height: 40, width: 40,
-                                            alignItems: 'center', justifyContent: 'center'
-                                        }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
-                                            <Icon name='create' style={{
-                                                fontSize: 20
-                                            }} />
-                                        </TouchableOpacity>
-                                    }
-                                </ImageBackground>
-                                <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.followers}</H1>
-                                    <Text note>Followers</Text>
-                                </View>
-                                {/* <View style={{ justifyContent: 'center' }}>
-                                    <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.following}</H1>
-                                    <Text note>Following</Text>
-                                </View> */}
+                            <ImageBackground
+                                style={{
+                                    borderRadius: 150,
+                                    width: 150,
+                                    height: 150,
+                                    alignSelf: 'center',
+                                    backgroundColor: colors.color3,
+                                    zIndex: 10,
+                                    elevation: 10,
+                                }}
+                                imageStyle={{ borderRadius: 150 }}
+                                resizeMode='cover'
+                                source={{ uri: this.state.userDetails.dp }}
+
+                            >
+                                {!uuid &&
+                                    <TouchableOpacity style={{
+                                        position: 'absolute', bottom: 5,
+                                        right: 5, backgroundColor: colors.color1,
+                                        borderRadius: 20,
+                                        height: 40, width: 40,
+                                        alignItems: 'center', justifyContent: 'center',
+                                        zIndex: 10, elevation: 10,
+                                    }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                                        <Icon name='create' style={{ fontSize: 20, textAlign: 'center' }} />
+                                    </TouchableOpacity>
+                                }
+                            </ImageBackground>
+                            {/* <View style={{ justifyContent: 'center' }}>
+                                <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.followers}</H1>
+                                <Text note>Followers</Text>
+                            </View> */}
+                            <View style={{alignItems: 'center'}}>
+                                <H1 style={{color: colors.color1 }}>
+                                    @{this.state.userDetails.userId}
+                                </H1>
+                                <Text note>Rank 0</Text>
                             </View>
-
-                            <H1 style={{ alignSelf: 'center', marginTop: 20, color: colors.color3 }}>
-                                {uuid && uuid!= this.props.user.uid &&
+                        </View>
+                        <View style={{ paddingLeft: 40, marginTop: 20, }}>
+                            <H1 style={{ color: colors.color3 }}>
+                                {this.state.userDetails.firstname} {this.state.userDetails.lastname}
+                                {uuid && uuid != this.props.user.uid &&
                                     <Text onPress={() => this.toggleFollow(uuid)}
                                     >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
-                                {this.state.userDetails.firstname} {this.state.userDetails.lastname}  
 
                             </H1>
-                            <Text note style={{
-                                alignSelf: 'center',
-                            }}>{this.state.userDetails.bio}</Text>
-
-                            <FlatList
-                                // getItemLayout={(data, index) => { return {length: cardHeight+2, index, offset: (cardHeight+2) * index} }}
-                                // key={this.state.postExpand}
-                                data={this.state.userPosts}
-                                keyExtractor={(item, index) => index.toString()}
-                                // ref={(ref) => { this.flatListRef = ref; }}
-                                // initialNumToRender={2}
-                                renderItem={({ item, index }) => (
-                                    <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                                        post: this.state.userPosts,
-                                        index: index,
-                                    })}>
-                                        <ImageBackground resizeMode='contain' source={{ uri: item.img }}
-                                            style={{
-                                                // flex: 1,width: '100%',
-                                                width: cardWidth, height: cardHeight, margin: 1,
-                                                borderRadius: 15, justifyContent: 'flex-end'
-                                            }}>
-                                            <View style={{ flexDirection: 'row', }}>
-                                                <Left>
-                                                    {/* <TouchableOpacity
-                                                        onPress={() => {
-                                                            this.toggleFollow(index)
-                                                        }}
-                                                    > */}
-
-                                                    <Text style={{
-                                                        margin: 10, color: '#fff',
-                                                        shadowColor: '#111', textShadowColor: '#111',
-                                                        textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                                    }}>
-                                                        <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
-                                                              4</Text>
-                                                    {/* </TouchableOpacity> */}
-
-                                                </Left>
-                                                <Right>
-                                                    {/* <TouchableOpacity
-                                                        onPress={() => {
-                                                            this.toggleFollow(index)
-                                                        }}
-                                                    > */}
-
-                                                    <Text style={{
-                                                        margin: 10, color: '#fff',
-                                                        shadowColor: '#111', textShadowColor: '#111',
-                                                        textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                                    }}>
-                                                        <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
-                                                              54</Text>
-                                                    {/* </TouchableOpacity> */}
-
-                                                </Right>
-                                            </View>
-                                        </ImageBackground>
-                                    </Item>
-                                )}
-                                numColumns={2}
-                                style={{ marginTop: 20, paddingTop: 5 }}
-                            // enableEmptySections={true}
-                            />
+                            <Text note>{this.state.userDetails.bio}</Text>
                         </View>
+                        <Card>
+                            <CardItem style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <TouchableOpacity style={{
+                                    flexDirection: 'row', backgroundColor: colors.color1,
+                                    borderRadius: 5, padding: 5
+                                }} onPress={() => this.props.navigation.navigate('UploadScreen')}>
+                                    <Icon name='add' style={{ textAlign: 'center' }} />
+                                    <Text>Create  </Text>
+                                </TouchableOpacity>
+                            </CardItem>
+
+                            <CardItem cardBody>
+                                <FlatList
+                                    data={this.state.userPosts}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item, index }) => (
+                                        <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
+                                            post: this.state.userPosts,
+                                            index: index,
+                                        })}>
+                                            <ImageBackground resizeMode='contain' source={{ uri: item.img }}
+                                                style={{
+                                                    // flex: 1,width: '100%',
+                                                    width: cardWidth, height: cardHeight, margin: 1,
+                                                    borderRadius: 15, justifyContent: 'flex-end'
+                                                }}>
+                                                <View style={{ flexDirection: 'row', }}>
+                                                    <Left>
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
+                                                              4</Text>
+                                                    </Left>
+                                                    <Right>
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
+                                                              54</Text>
+                                                    </Right>
+                                                </View>
+                                            </ImageBackground>
+                                        </Item>
+                                    )}
+                                    numColumns={2}
+                                    style={{ marginTop: 20, paddingTop: 5 }}
+                                // enableEmptySections={true}
+                                />
+                            </CardItem>
+                        </Card>
                     </View>
 
                 </Content>
@@ -267,15 +259,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
-
-/*
-@reference :
-===============================================================================
-For display picture uri
-
-this.state.userDetails.dp
-default 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9'
-
-*/
