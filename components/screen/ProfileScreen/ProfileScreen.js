@@ -95,24 +95,14 @@ class ProfileScreen extends Component {
                 </Header>
 
                 <Content style={{ backgroundColor: '#fff', }}>
-                    <View style={{ backgroundColor: colors.color5 ,height: 180}}>
-                        {/* <H1 style={{ alignSelf: 'center', marginTop: 30, color: colors.color1 }}>
-                            @{this.state.userDetails.userId}
-                        </H1>
-                        <Text note style={{
-                            alignSelf: 'center',
-                            marginBottom: 150,
-                        }}>
-                            Rank 0
-                        </Text> */}
-                    </View>
+                    <View style={{ backgroundColor: colors.color5, height: 180 }} />
                     <View style={{
                         backgroundColor: '#fff', marginTop: -30,
                         borderTopLeftRadius: 30, borderTopRightRadius: 30
                     }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
-                            marginTop: -110,
+                            marginTop: -110,alignItems: 'center'
                         }}>
 
                             <ImageBackground
@@ -143,26 +133,30 @@ class ProfileScreen extends Component {
                                     </TouchableOpacity>
                                 }
                             </ImageBackground>
-                            {/* <View style={{ justifyContent: 'center' }}>
-                                <H1 style={{ alignSelf: 'center', color: colors.color1 }}>{this.state.userDetails.followers}</H1>
-                                <Text note>Followers</Text>
-                            </View> */}
-                            <View style={{alignItems: 'center'}}>
-                                <H1 style={{color: colors.color1 }}>
+
+                            <View style={{ alignItems: 'center' }}>
+                                <H1 style={{ color: colors.color1 }}>
                                     @{this.state.userDetails.userId}
                                 </H1>
                                 <Text note>Rank 0</Text>
                             </View>
                         </View>
-                        <View style={{ paddingLeft: 40, marginTop: 20, }}>
-                            <H1 style={{ color: colors.color3 }}>
-                                {this.state.userDetails.firstname} {this.state.userDetails.lastname}
-                                {uuid && uuid != this.props.user.uid &&
-                                    <Text onPress={() => this.toggleFollow(uuid)}
-                                    >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
+                        <View style={{ flexDirection: 'row',justifyContent: 'space-between',
+                                        alignItems: 'flex-end',marginTop: 20, }}>
+                            <View style={{ paddingLeft: 40 }}>
+                                <H1 style={{ color: colors.color3 }}>
+                                    {this.state.userDetails.firstname} {this.state.userDetails.lastname}
+                                    {uuid && uuid != this.props.user.uid &&
+                                        <Text onPress={() => this.toggleFollow(uuid)}
+                                        >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
 
-                            </H1>
-                            <Text note>{this.state.userDetails.bio}</Text>
+                                </H1>
+                                <Text note>{this.state.userDetails.bio}</Text>
+                            </View>
+                            <View style={{ justifyContent: 'center',marginRight: 40,}}>
+                                <H1 style={{ alignSelf: 'center', color: colors.color3 }}>{this.state.userDetails.followers}</H1>
+                                <Text note>Followers</Text>
+                            </View>
                         </View>
                         <Card>
                             <CardItem style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
