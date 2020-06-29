@@ -43,6 +43,7 @@ export const fetchPosts = () => {
 
         db.collection('posts')
             .get()
+            .where('created_by', '==', getState().auth.user.uid)
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     dispatch({
@@ -51,10 +52,7 @@ export const fetchPosts = () => {
                             new_meme : doc
                         }
                     })
-                }
-                )
-
-                
+                })           
             }).
             catch(error => console.log("ERR : " , error.message))
     }
