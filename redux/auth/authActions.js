@@ -182,6 +182,8 @@ export const loadUser = () => {
 export const follow_user = (user_uid) => { // user_uid is the id of the user to be followed
     return function (dispatch, getState) {
         var doc_name = getState().auth.user.uid + '_' + user_uid
+
+        console.log(getState().auth.user.uid)
         db.collection("followers").doc(doc_name).set({
             followed_by: getState().auth.user.uid,
             following: user_uid

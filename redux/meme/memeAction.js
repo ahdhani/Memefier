@@ -11,7 +11,8 @@ export const addPost = (img_url , caption) => {
         let addDoc = db.collection('posts').add({
             img : img_url ,
             caption : caption ,
-            created_by : getState().auth.user.uid
+            created_by : getState().auth.user.uid ,
+            created_at : Date.now()
         }).then(ref => {
             console.log("ADD_POST_SUCCESS");
             dispatch({
