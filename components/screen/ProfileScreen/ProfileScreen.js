@@ -23,7 +23,7 @@ class ProfileScreen extends Component {
     fetchUserPosts = async (uuid) => {
         var arr = []
         await db.collection('posts')
-            .where('created_by', '==', uuid)   //KUDU please check this statement
+            .where('created_by', '==', uuid)   //KUDU pleas e check this statement
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
