@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
         padding: 3,
         paddingHorizontal: 20,
         borderRadius: 5,
-        backgroundColor: '#cccccc55',
+        backgroundColor: '#eee',
+        zIndex: 3,
+        elevation: 3,
     }
 });
 

@@ -4,12 +4,11 @@ import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, 
 import colors from '../../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
-import { logoutUser, unfollow_user, follow_user } from '../../../redux';
+import { logoutUser, unfollow_user, follow_user, fetchPosts } from '../../../redux';
 
 import { db } from '../../../config';
 import { fetchUserDetails } from '../../functions/user'
 // import DpModal from '../DpModal'
-// hai
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -44,6 +43,7 @@ class ProfileScreen extends Component {
         //       this.forceUpdate();
         //     }
         //   );
+        console.log(this.props.userPosts)
         if (this.props.route.params.uuid != null) {
             const user = await fetchUserDetails(this.props.route.params.uuid)
             this.setState({ userDetails: user },
@@ -51,7 +51,12 @@ class ProfileScreen extends Component {
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
-                () => this.fetchUserPosts(this.props.user.uid))
+                async () => {
+                    await this.props.fetchPosts()
+                    this.setState({ userPosts: this.props.userPosts })
+                }
+            )
+            // this.fetchUserPosts(this.props.user.uid))
         }
     }
 
@@ -102,7 +107,7 @@ class ProfileScreen extends Component {
                     }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
-                            marginTop: -110,alignItems: 'center'
+                            marginTop: -110, alignItems: 'center'
                         }}>
 
                             <ImageBackground
@@ -141,8 +146,10 @@ class ProfileScreen extends Component {
                                 <Text note>Rank 0</Text>
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row',justifyContent: 'space-between',
-                                        alignItems: 'flex-end',marginTop: 20, }}>
+                        <View style={{
+                            flexDirection: 'row', justifyContent: 'space-between',
+                            alignItems: 'flex-end', marginTop: 20,
+                        }}>
                             <View style={{ paddingLeft: 40 }}>
                                 <H1 style={{ color: colors.color3 }}>
                                     {this.state.userDetails.firstname} {this.state.userDetails.lastname}
@@ -153,7 +160,7 @@ class ProfileScreen extends Component {
                                 </H1>
                                 <Text note>{this.state.userDetails.bio}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center',marginRight: 40,}}>
+                            <View style={{ justifyContent: 'center', marginRight: 40, }}>
                                 <H1 style={{ alignSelf: 'center', color: colors.color3 }}>{this.state.userDetails.followers}</H1>
                                 <Text note>Followers</Text>
                             </View>
@@ -162,7 +169,8 @@ class ProfileScreen extends Component {
                             <CardItem style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity style={{
                                     flexDirection: 'row', backgroundColor: colors.color1,
-                                    borderRadius: 5, padding: 5
+                                    borderRadius: 5, padding: 5,
+                                    elevation: 5, zIndex: 5,
                                 }} onPress={() => this.props.navigation.navigate('UploadScreen')}>
                                     <Icon name='add' style={{ textAlign: 'center' }} />
                                     <Text>Create  </Text>
@@ -241,6 +249,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     userDetails: state.auth.userDetails,
+    userPosts: state.post.posts,
     following: state.auth.following,
     user: state.auth.user
 })
@@ -249,7 +258,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         logoutUser: () => dispatch(logoutUser()),
         unfollow: (user_id) => dispatch(unfollow_user(user_id)),
-        follow: (user_id) => dispatch(follow_user(user_id))
+        follow: (user_id) => dispatch(follow_user(user_id)),
+        fetchPosts: () => dispatch(fetchPosts()),
+
     }
 }
 

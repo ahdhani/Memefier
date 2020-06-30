@@ -66,7 +66,7 @@ const FeedCards = (props) => {
         <Card style={{  justifyContent: 'space-between' }} >
             <CardItem>
                 <Left>
-                    <Thumbnail source={{ uri: dp }} />
+                    <Thumbnail source={{ uri: dp }} style={{zIndex: 2}} />
                     <Body>
                         <Text onPress={() => navigation.navigate('ProfileStack', {
                             screen: 'ProfileScreen',
