@@ -47,6 +47,9 @@ const FeedCards = (props) => {
     // useEffect(() => {
 
     // }, []);
+    const closePostOptions = () => {
+        setOptionsModal(false);
+    }
 
     const fetchUser = async (user_uid) => {
         db.collection("userDetails")
@@ -66,7 +69,7 @@ const FeedCards = (props) => {
 
     return (
         <Card style={{  justifyContent: 'space-between' }} >
-            <PostOptions loading={optionsModal} />
+            <PostOptions loading={optionsModal} close={() => closePostOptions()}/>
             <CardItem>
                 <Left>
                     <Thumbnail source={{ uri: dp }} style={{zIndex: 2}} />
