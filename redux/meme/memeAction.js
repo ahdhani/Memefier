@@ -1,5 +1,5 @@
 import { db } from '../../config'
-import { ADD_POST_REQUEST, ADD_POST_SUCCESS ,ADD_POST_FAILURE } from './memeTypes';
+import { ADD_POST_REQUEST, ADD_POST_SUCCESS ,ADD_POST_FAILURE, CLEAR_POSTS } from './memeTypes';
 
 export const addPost = (img_url , caption) => {
     return function (dispatch, getState) {
@@ -21,8 +21,8 @@ export const addPost = (img_url , caption) => {
                     new_meme : ref.ZE.path.segments[1]
                 }
             })
-            console.log(getState().post)
-            // console.log(ref.ZE.path.segments[1])
+            console.log(getState().post.posts)
+            console.log(ref.ZE.path.segments[1])
             // console.log(getState().post)
         }).catch(error => {
             console.log("ADD_POST_FAILURE" , error.message);
@@ -38,22 +38,28 @@ export const addPost = (img_url , caption) => {
 
 // Fetch posts for a user
 export const fetchPosts = () => {
-    return function (dispatch, getState) {
-        console.log(getState().post);
+    return async function (dispatch, getState) {
+        console.log("fetchPosts");
+        dispatch({
+            type : CLEAR_POSTS
+        })
 
-        db.collection('posts')
-            .get()
+        await db.collection('posts')
             .where('created_by', '==', getState().auth.user.uid)
+            .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     dispatch({
                         type : ADD_POST_SUCCESS ,
                         payload : {
-                            new_meme : doc
+                            new_meme : doc.data()
                         }
                     })
                 })           
             }).
             catch(error => console.log("ERR : " , error.message))
+
+
+        console.log(getState().post.posts)
     }
 }
