@@ -11,7 +11,7 @@ const Like = (props) => {
     const [dislikes, setDislikes] = useState()
 
     useEffect(() => {
-        
+        console.log('kerruuu : ')
         checkReaction(props.postId, props.userId)
             .then(reactions => {
                 setReaction(reactions)
@@ -34,7 +34,7 @@ const Like = (props) => {
             .catch(error => {
                 console.warn(JSON.stringify(error, null, 2));
             });
-    });
+    },[]);
 
     const likeHandler = async () => {
         var reactions = await checkReaction(props.postId, props.userId)
