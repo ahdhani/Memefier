@@ -46,8 +46,7 @@ class ProfileScreen extends Component {
         console.log(this.props.userPosts)
         if (this.props.route.params.uuid != null) {
             const user = await fetchUserDetails(this.props.route.params.uuid)
-            this.setState({ userDetails: user },
-                () => this.fetchUserPosts(this.props.route.params.uuid))
+            this.setState({ userDetails: user }) // ithentha udheshiche!!
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
@@ -179,11 +178,11 @@ class ProfileScreen extends Component {
 
                             <CardItem cardBody>
                                 <FlatList
-                                    data={this.state.userPosts}
+                                    data={this.props.userPosts}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item, index }) => (
                                         <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                                            post: this.state.userPosts,
+                                            post: this.props.userPosts,
                                             index: index,
                                         })}>
                                             <ImageBackground resizeMode='contain' source={{ uri: item.img }}

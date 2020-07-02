@@ -1,4 +1,4 @@
-import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, FETCH_POST_REQUEST, FETCH_POST_SUCCESS, FETCH_POST_FAILURE, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, DELETE_POST_FAILURE } from "./memeTypes"
+import { CLEAR_POSTS , ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, FETCH_POST_REQUEST, FETCH_POST_SUCCESS, FETCH_POST_FAILURE, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, DELETE_POST_FAILURE } from "./memeTypes"
 
 
 const initialState = {
@@ -10,6 +10,11 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
     switch (type) {
 
+    case CLEAR_POSTS :
+        return {
+            ...state ,
+            posts : []
+        }
     case ADD_POST_REQUEST:
         return { 
             ...state,
