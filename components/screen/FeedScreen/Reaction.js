@@ -11,6 +11,7 @@ const Like = (props) => {
     const [dislikes, setDislikes] = useState()
 
     useEffect(() => {
+        
         checkReaction(props.postId, props.userId)
             .then(reactions => {
                 setReaction(reactions)

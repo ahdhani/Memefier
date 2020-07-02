@@ -23,7 +23,7 @@ class ProfileScreen extends Component {
     fetchUserPosts = async (uuid) => {
         var arr = []
         await db.collection('posts')
-            .where('created_by', '==', uuid)   //KUDU pleas e check this statement
+            .where('created_by', '==', uuid)   //KUDU please check this statement
             .get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
@@ -46,7 +46,8 @@ class ProfileScreen extends Component {
         console.log(this.props.userPosts)
         if (this.props.route.params.uuid != null) {
             const user = await fetchUserDetails(this.props.route.params.uuid)
-            this.setState({ userDetails: user }) // ithentha udheshiche!!
+            this.setState({ userDetails: user },
+                () => this.fetchUserPosts(this.props.route.params.uuid))
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
@@ -178,11 +179,11 @@ class ProfileScreen extends Component {
 
                             <CardItem cardBody>
                                 <FlatList
-                                    data={this.props.userPosts}
+                                    data={this.state.userPosts}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item, index }) => (
                                         <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                                            post: this.props.userPosts,
+                                            post: this.state.userPosts,
                                             index: index,
                                         })}>
                                             <ImageBackground resizeMode='contain' source={{ uri: item.img }}

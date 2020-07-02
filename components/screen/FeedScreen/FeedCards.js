@@ -3,6 +3,7 @@ import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import colors from '../../../constants/colors'
 import Reaction from './Reaction'
+import PostOptions from './PostOptions'
 
 import { db } from '../../../config';
 import { connect } from 'react-redux'
@@ -39,6 +40,7 @@ const FeedCards = (props) => {
 
     const navigation = useNavigation();
     const [name, setName] = useState('')
+    const [optionsModal, setOptionsModal] = useState(false)
     const [userComment, setComment] = useState('')
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
 
@@ -64,6 +66,7 @@ const FeedCards = (props) => {
 
     return (
         <Card style={{  justifyContent: 'space-between' }} >
+            <PostOptions loading={optionsModal} />
             <CardItem>
                 <Left>
                     <Thumbnail source={{ uri: dp }} style={{zIndex: 2}} />
@@ -77,7 +80,7 @@ const FeedCards = (props) => {
                     </Body>
                 </Left>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={()=> setOptionsModal(true)}>
                         <Icon active name="menu" />
                     </Button>
                 </Right>
