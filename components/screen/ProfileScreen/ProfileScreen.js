@@ -51,12 +51,12 @@ class ProfileScreen extends Component {
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
-                async () => {
-                    await this.props.fetchPosts()
-                    this.setState({ userPosts: this.props.userPosts })
-                }
+            () => this.fetchUserPosts(this.props.user.uid)
+                // async () => {
+                    // await this.props.fetchPosts()
+                    // this.setState({ userPosts: this.props.userPosts })
+                // }
             )
-            // this.fetchUserPosts(this.props.user.uid))
         }
     }
 
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     userDetails: state.auth.userDetails,
-    userPosts: state.post.posts,
+    // userPosts: state.post.posts,
     following: state.auth.following,
     user: state.auth.user
 })
@@ -259,7 +259,7 @@ const mapDispatchToProps = (dispatch) => {
         logoutUser: () => dispatch(logoutUser()),
         unfollow: (user_id) => dispatch(unfollow_user(user_id)),
         follow: (user_id) => dispatch(follow_user(user_id)),
-        fetchPosts: () => dispatch(fetchPosts()),
+        // fetchPosts: () => dispatch(fetchPosts()),
 
     }
 }
