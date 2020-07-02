@@ -4,8 +4,9 @@ import { Container, Content, CardItem, Card, Button } from 'native-base';
 import { addChallenge } from './../../../functions/challenges';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import { connect } from 'react-redux';
 
-export default class MakeChallScreen extends Component {
+class MakeChallScreen extends Component {
 
     state = {
         chalName: '',
@@ -56,6 +57,7 @@ export default class MakeChallScreen extends Component {
                                 <Button style={{ height: 40, width: 100, paddingLeft: 23, borderRadius: 8 }} onPress={this.showDatePicker} >
                                     <Text style={{ color: "white", fontSize: 14 }}>Deadline</Text>
                                 </Button>
+                                
                                 <DateTimePickerModal
                                     minimumDate={Date.now()}
                                     isVisible={this.state.dateBool}
@@ -71,7 +73,7 @@ export default class MakeChallScreen extends Component {
                         <Button onPress={() => {
                             console.log(this.state.endDate)
                             console.log(this.state.endTime)
-                            addChallenge(this.state.chalName, this.state.chalDesc, "user.uid",
+                            addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid ,
                                 this.state.endDate, this.state.endTime).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
                         }}
                             block >
@@ -105,3 +107,10 @@ const styles = StyleSheet.create(
         }
     }
 );
+
+
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+})
+
+export default connect(mapStateToProps)(MakeChallScreen)
