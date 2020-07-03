@@ -1,5 +1,4 @@
 import { db } from '../../config'
-import { API_KEY, APP_ID } from 'react-native-dotenv'
 
 export const countLike = async (post_id = '57j6qQbKXOz8cXD7z0hr' ) => {
     var like = 0
@@ -49,9 +48,6 @@ export const checkReaction = async (post_id = '57j6qQbKXOz8cXD7z0hr', user_uid =
 
 export const likePost = (user_uid = 'TNB7jMDAKrRVJAtnvDLkf5K7jIB3' , post_id = '57j6qQbKXOz8cXD7z0hr' , reaction = 0) => {   
     var doc_name = user_uid + '_' + post_id
-
-    console.log("API KEY = " , API_KEY , APP_ID)
-
     db.collection("reactions").doc(doc_name).set({
         user_uid , post_id , reaction
     }).then(() => {
