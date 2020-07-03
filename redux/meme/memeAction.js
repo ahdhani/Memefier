@@ -12,7 +12,10 @@ export const addPost = (img_url , caption) => {
             img : img_url ,
             caption : caption ,
             created_by : getState().auth.user.uid ,
-            created_at : Date.now()
+            created_at : Date.now() ,
+            likeCount : 0 ,
+            dislikeCount : 0 ,
+            commentCount : 0
         }).then(ref => {
             console.log("ADD_POST_SUCCESS");
             dispatch({
