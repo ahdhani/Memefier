@@ -69,7 +69,8 @@ const FeedCards = (props) => {
 
     return (
         <Card style={{  justifyContent: 'space-between' }} >
-            <PostOptions loading={optionsModal} close={() => closePostOptions()}/>
+            <PostOptions loading={optionsModal} close={() => 
+                closePostOptions()}/>
             <CardItem>
                 <Left>
                     <Thumbnail source={{ uri: dp }} style={{zIndex: 2}} />
@@ -98,10 +99,11 @@ const FeedCards = (props) => {
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-            <Reaction postId={props.post.post_id} userId={props.user.uid} />
+            <Reaction postId={props.post.post_id} userId={props.user.uid} 
+                        dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}/>
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
-                    {/* <Text style={{ fontWeight: 'bold' }}> Caption : </Text> */}
+            {/* <Text>{props.post.dislikeCountlikeCount}</Text> */}
                     {props.post.caption}
                 </Text>
                 <Text onPress={() => {
