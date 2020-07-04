@@ -46,7 +46,7 @@ const Like = (props) => {
     }
 
     return (
-        <CardItem style={{ justifyContent: 'space-around' }}>
+        <CardItem style={{ justifyContent: 'space-between' }}>
             <TouchableOpacity style={styles.button}
                 onPress={() => dislikeHandler()}
             >
@@ -59,9 +59,9 @@ const Like = (props) => {
                 }
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
-                <Text>See Comments {props.commentCount}</Text>
-                {/* <Icon name="share" style={{ width: 20 }} /> */}
+            <TouchableOpacity style={styles.button}
+                    onPress = {() => props.commentOpen()}>
+                <Text>Comment</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button}

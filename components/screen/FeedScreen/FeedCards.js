@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button, Card, Text, CardItem, Left, Icon, Body, Right, Thumbnail, Input } from 'native-base'
 import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import colors from '../../../constants/colors'
@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 const tabHeight = 55;
 
 const screenWidth = Dimensions.get('window').width;
-// const cardHeight = Dimensions.get('window').height - tabHeight - 10;
+const cardHeight = Dimensions.get('window').height - tabHeight - 10;
 const postHeight = screenWidth * 1.25;
 
 // RenderReactions = (props) => {
@@ -39,9 +39,11 @@ const postHeight = screenWidth * 1.25;
 const FeedCards = (props) => {
 
     const navigation = useNavigation();
+    const commentInput = useRef();
     const [name, setName] = useState('')
     const [optionsModal, setOptionsModal] = useState(false)
     const [userComment, setComment] = useState('')
+    const [commentOpen, setCommentOpen] = useState(false)
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
 
     // useEffect(() => {
@@ -68,23 +70,23 @@ const FeedCards = (props) => {
     fetchUser(props.post.created_by);
 
     return (
-        <Card style={{  justifyContent: 'space-between' }} >
-            <PostOptions loading={optionsModal} close={() => 
-                closePostOptions()}/>
+        <Card style={{ height: cardHeight }} >
+            <PostOptions loading={optionsModal} close={() =>
+                closePostOptions()} />
             <CardItem>
                 <Left>
-                    <Thumbnail source={{ uri: dp }} style={{zIndex: 2}} />
+                    <Thumbnail source={{ uri: dp }} style={{ zIndex: 2 }} />
                     <Body>
                         <Text onPress={() => navigation.navigate('ProfileStack', {
                             screen: 'ProfileScreen',
-                            params: {uuid: props.post.created_by,}
-                            
+                            params: { uuid: props.post.created_by, }
+
                         })}>{name}</Text>
                         <Text note>category</Text>
                     </Body>
                 </Left>
                 <Right>
-                    <Button transparent onPress={()=> setOptionsModal(true)}>
+                    <Button transparent onPress={() => setOptionsModal(true)}>
                         <Icon active name="menu" />
                     </Button>
                 </Right>
@@ -99,15 +101,23 @@ const FeedCards = (props) => {
 
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
-            <Reaction postId={props.post.post_id} userId={props.user.uid} 
-                        dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}
-                        commentCount={props.post.commentCount}/>
-            <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
-                <Text>
-            {/* <Text>{props.post.dislikeCountlikeCount}</Text> */}
-                    {props.post.caption}
-                </Text>
-                <Text onPress={() => {
+            <Reaction postId={props.post.post_id} userId={props.user.uid}
+                dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}
+                commentCount={props.post.commentCount} commentOpen={() => {
+                    setCommentOpen(true);
+                    // commentInput.focus();
+                    // this._commentIn._root.focus()
+                }
+
+                } />
+            <CardItem cardBody style={{
+                flexDirection: 'column', alignItems: 'flex-start',
+                paddingHorizontal: 15, paddingBottom: 20,
+                backgroundColor: '#eee', borderRadius: 5,
+                marginHorizontal: 15, zIndex: 3, elevation: 3
+            }}
+            >
+                <TouchableOpacity onPress={() => {
                     navigation.navigate('CommentScreen', {
                         postId: props.post.post_id,
                         uuid: props.user.uid,
@@ -115,22 +125,45 @@ const FeedCards = (props) => {
                         userDp: props.userDetails.dp,
                     })
                 }}>
-                    <Text style={{ fontWeight: 'bold' }}> Comment : </Text>
-                    More Comments
-                </Text>
+                    <Text style={{ alignContent: 'space-between' }}>
+                        {props.post.caption} {'  '}
+                        {props.post.commentCount > 1 &&
+                                <Text style={{ fontSize: 12 }}>{props.post.commentCount} Comments</Text>
+                        }
+                        {props.post.commentCount > 1 &&
+                                <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
+                        }
 
+                    </Text>
+                    <Text >
+                        More Comments
+                    </Text>
+                </TouchableOpacity>
             </CardItem>
-            <View style={{ height: 60, flexDirection: 'row', backgroundColor: '#253237' }}>
-                <Input style={{ color: '#fff' }}
-                    placeholder='Comment...'
-                    onChangeText={(text) => setComment(text)}
-                    value={userComment} />
-                <Icon name='send' style={{ margin: 15 }} />
-            </View>
-
+            {
+                commentOpen &&
+                <View style={{
+                    height: 60, flexDirection: 'row', backgroundColor: '#253237',
+                    position: 'absolute', bottom: 0, width: screenWidth,
+                    zIndex: 6, elevation: 6
+                }}>
+                    <Input
+                        getRef={(c) => this._commentIn = c}
+                        // ref={commentInput}
+                        blurOnSubmit
+                        onBlur={() => setCommentOpen(false)}
+                        style={{ color: '#fff' }}
+                        placeholder='Comment...'
+                        onChangeText={(text) => setComment(text)}
+                        value={userComment} />
+                    <Icon name='send' style={{ margin: 15 }} />
+                </View>
+            }
 
         </Card>
+
     )
+
 }
 
 const mapStateToProps = (state) => ({
