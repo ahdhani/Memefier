@@ -1,5 +1,6 @@
 import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER, CHANGE_DP_SUCCESS, UPDATE_USER_DETAILS } from './authTypes'
 import { auth, db } from '../../config'
+import { algoliaPopulateUser } from '../../components/functions/algolia'
 
 export const logoutUser = () => {
     return function (dispatch, getState) {
@@ -40,6 +41,10 @@ export const createUser = (user) => {
                     bio: '',
                     rank: 0
                 }
+
+                algoliaPopulateUser(cred.user.uid , userDetails)
+                    .then(() => console.log("ALGOLIA PUSH SUCCESS"))
+                    .catch(error => console.log("ERR : ALGOLIA PUSH ," , error.message))
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
                     .then(() => {
