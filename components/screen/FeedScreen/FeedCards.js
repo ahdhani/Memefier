@@ -105,8 +105,6 @@ const FeedCards = (props) => {
                 dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}
                 commentCount={props.post.commentCount} commentOpen={() => {
                     setCommentOpen(true);
-                    // commentInput.focus();
-                    // this._commentIn._root.focus()
                 }
 
                 } />
@@ -148,8 +146,7 @@ const FeedCards = (props) => {
                     zIndex: 6, elevation: 6
                 }}>
                     <Input
-                        getRef={(c) => this._commentIn = c}
-                        // ref={commentInput}
+                        autoFocus
                         blurOnSubmit
                         onBlur={() => setCommentOpen(false)}
                         style={{ color: '#fff' }}
