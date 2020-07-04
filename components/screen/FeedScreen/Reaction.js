@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { CardItem, Text, Icon, } from 'native-base'
 import colors from '../../../constants/colors'
-import { likePost, unlikePost, dislikePost, checkReaction,} from '../../functions/reactions'
+import { likePost, unlikePost, dislikePost, checkReaction, } from '../../functions/reactions'
+import { useNavigation } from '@react-navigation/native';
+
 
 const Like = (props) => {
 
+    const navigation = useNavigation();
     const [reaction, setReaction] = useState()
 
     useEffect(() => {
@@ -19,8 +22,8 @@ const Like = (props) => {
     }, []);
 
     const likeHandler = async () => {
-        // var reactions = await checkReaction(props.postId, props.userId)
-        if (reaction === 0) {
+        var reactions = await checkReaction(props.postId, props.userId)
+        if (reactions === 0) {
             unlikePost(props.userId, props.postId)
             setReaction(-1)
         }
@@ -31,8 +34,8 @@ const Like = (props) => {
     }
 
     const dislikeHandler = async () => {
-        // var reactions = await checkReaction(props.postId, props.userId)
-        if (reaction === 1) {
+        var reactions = await checkReaction(props.postId, props.userId)
+        if (reactions === 1) {
             unlikePost(props.userId, props.postId)
             setReaction(-1)
         }
@@ -57,19 +60,20 @@ const Like = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button}>
-                <Icon name="share" style={{ width: 20 }} />
+                <Text>See Comments {props.commentCount}</Text>
+                {/* <Icon name="share" style={{ width: 20 }} /> */}
             </TouchableOpacity>
-            
+
             <TouchableOpacity style={styles.button}
                 onPress={() => likeHandler()}
             >
                 <Icon name="thumbs-up" active={false}
                     style={{ color: (reaction === 0) ? colors.color3 : "#ddd" }} />
                 {reaction === 0 ?
-                <Text>{props.likeCount + 1}</Text>
-                :
-                <Text>{props.likeCount}</Text>
-            }
+                    <Text>{props.likeCount + 1}</Text>
+                    :
+                    <Text>{props.likeCount}</Text>
+                }
             </TouchableOpacity>
 
         </CardItem>

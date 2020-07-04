@@ -100,7 +100,8 @@ const FeedCards = (props) => {
             {/* {props.post.isReactions && <RenderReactions isReactions={props.post.isReactions} />} */}
 
             <Reaction postId={props.post.post_id} userId={props.user.uid} 
-                        dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}/>
+                        dislikeCount={props.post.dislikeCount} likeCount={props.post.likeCount}
+                        commentCount={props.post.commentCount}/>
             <CardItem cardBody style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 10, paddingBottom: 20 }}>
                 <Text>
             {/* <Text>{props.post.dislikeCountlikeCount}</Text> */}

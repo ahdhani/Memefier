@@ -24,7 +24,7 @@ class EditProfileScreen extends Component {
         dp: this.props.userDetails.dp,
         gender: this.props.userDetails.gender,
         dob: new Date(1999, 1, 1),
-        userIdValid: null,
+        userIdValid: true,
         isLoading: false,
         progress: 0,
         datePickerVisible: false,
@@ -133,13 +133,20 @@ class EditProfileScreen extends Component {
     }
 
     isValidUserId = () => {
-        if (this.state.userId != '') {
-            return this.state.userIdValid
-        }
-        else {
-            this.setState({
-                userIdValid: false
-            }, () => alert('Invalid User ID'));
+        // if (this.state.userId != '') {
+        //     return this.state.userIdValid
+        // }
+        // else {
+        //     this.setState({
+        //         userIdValid: false
+        //     }, () => alert('Invalid User ID'));
+        //     return false
+        // }
+
+        if(this.state.userIdValid)
+            return true
+        else{
+            alert('Invalid User ID')
             return false
         }
     }
@@ -149,6 +156,7 @@ class EditProfileScreen extends Component {
         this.setState({
             isLoading: true,
         })
+        console.log(this.isValidUserId(),' ', (this.state.lastname !== '') , '  ', (this.state.firstname !== ''))
         if (this.isValidUserId() && (this.state.lastname !== '') && (this.state.firstname !== '')) {
             await this.props.updateUser({
                 firstname: this.state.firstname,
@@ -162,7 +170,7 @@ class EditProfileScreen extends Component {
             this.props.navigation.goBack();
 
         }
-        console.log(this.props.userDetails)
+        // console.log(this.props.userDetails)
 
         this.setState({ isLoading: false });
     }
