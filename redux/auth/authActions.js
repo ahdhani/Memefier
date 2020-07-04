@@ -32,7 +32,7 @@ export const createUser = (user) => {
                     firstname: user.firstname,
                     lastname: user.lastname,
                     gender: 0,
-                    dob: new Date(2000,1,1),
+                    dob: new Date(2000, 1, 1),
                     // phone: user.phone,
                     followers: 0,
                     following: 0,
@@ -42,29 +42,30 @@ export const createUser = (user) => {
                     rank: 0
                 }
 
-                algoliaPopulateUser(cred.user.uid , userDetails)
+                algoliaPopulateUser(cred.user.uid, userDetails)
                     .then(() => console.log("ALGOLIA PUSH SUCCESS"))
-                    .catch(error => console.log("ERR : ALGOLIA PUSH ," , error.message))
+                    .catch(error => console.log("ERR : ALGOLIA PUSH ,", error.message))
 
                 db.collection("userDetails").doc(cred.user.uid).set(userDetails)
                     .then(() => {
                         console.log("USER DETAILS PUSHED");
 
                         var userIdDetails = {
-                            uid : cred.user.uid ,
-                            userId : userDetails.userId
+                            uid: cred.user.uid,
+                            userId: userDetails.userId
                         }
 
                         db.collection("userId").doc(userIdDetails.userId).set(userIdDetails)
                             .then(() => {
                                 console.log("USERID ADDED")
-                                
+
                                 dispatch({
                                     type: REGISTER_SUCCESS,
                                     payload: {
-                                        user, userDetails, following: []
+                                        user: cred.user, userDetails, following: []
                                     }
                                 })
+                                console.log(cred.user)
                             })
                             .catch(error => console.log(error.message))
                     })
@@ -161,10 +162,9 @@ export const loadUser = () => {
                                     }
                                 })
 
+                                console.log(user)
                             })
 
-
-                        // console.log(getState().auth)
                     })
                     .catch(error => {
                         console.log("AUTH ERROR", error.message)
