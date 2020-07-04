@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Container, Content, CardItem, Card, Button } from 'native-base';
 import { addChallenge } from './../../../functions/challenges';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -11,9 +11,10 @@ class MakeChallScreen extends Component {
     state = {
         chalName: '',
         chalDesc: '',
-        endDate: '',
-        endTime: '',
-        dateBool: false
+        dateBool: false,
+        buttonDisplay: 'Deadline',
+        buttonTextColor: 'white',
+        deadline: 0
     };
 
     hideDatePicker = () => {
@@ -25,8 +26,9 @@ class MakeChallScreen extends Component {
     handleDateConfirm = (date) => {
         this.hideDatePicker();
         this.setState({
-            endDate: moment(date).format('DD-MM-YYYY'),
-            endTime: moment(date).format('hh:mm A')
+            deadline: Date.parse(date),
+            buttonDisplay: moment(date).format('Do MMM YYYY') + ' at ' + moment(date).format('hh:mm A'),
+            buttonTextColor: 'yellow'
         });
     };
 
@@ -54,10 +56,12 @@ class MakeChallScreen extends Component {
                             </CardItem>
 
                             <CardItem style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 }}>
-                                <Button style={{ height: 40, width: 100, paddingLeft: 23, borderRadius: 8 }} onPress={this.showDatePicker} >
-                                    <Text style={{ color: "white", fontSize: 14 }}>Deadline</Text>
+                                <Button style={{ height: 40, width: 230, padding: 23, borderRadius: 8 }} onPress={this.showDatePicker} >
+                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+                                        <Text style={{ color: this.state.buttonTextColor, fontSize: 14 }}>{this.state.buttonDisplay}</Text>
+                                    </View>
                                 </Button>
-                                
+
                                 <DateTimePickerModal
                                     minimumDate={Date.now()}
                                     isVisible={this.state.dateBool}
@@ -71,10 +75,9 @@ class MakeChallScreen extends Component {
                     </CardItem>
                     <CardItem style={{ flexDirection: 'column' }}>
                         <Button onPress={() => {
-                            console.log(this.state.endDate)
-                            console.log(this.state.endTime)
-                            addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid ,
-                                this.state.endDate, this.state.endTime).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
+                            console.log(this.state.deadline)
+                            addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid,
+                                this.state.deadline).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
                         }}
                             block >
                             <Text style={{ color: "white", fontSize: 18 }}>Post</Text>
