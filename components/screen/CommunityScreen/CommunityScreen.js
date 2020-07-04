@@ -8,6 +8,7 @@ import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '
 import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
 import { changeDisplayPicture } from '../../functions/general'
 import { addChallenge } from '../../functions/challenges'
+import { algoliaTest } from '../../functions/algolia'
 
 class CommunityScreen extends Component {
 
@@ -123,8 +124,10 @@ class CommunityScreen extends Component {
                     <Button transparent onPress={() => this.likeCount()}>
                         <Text>Count Like</Text>
                     </Button>
-                    <Button transparent onPress={() => changeDisplayPicture()}>
-                        <Text>Change Display Picture</Text>
+                    <Button transparent onPress={() => {
+                            algoliaTest().then(() => console.log("success"))
+                        }}>
+                        <Text>ALGOLIA TEST</Text>
                     </Button>
                     <Button transparent onPress={() => {
                         addChallenge("Ch_name" , "desc" , "user.uid" , "ex")
