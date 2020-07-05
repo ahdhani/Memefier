@@ -63,8 +63,9 @@ class FeedScreen extends Component {
                     </Body>
                     <Right />
                 </Header> */}
-                <View style={{ flex: 1,backgroundColor: colors.color5 }}>
+                {/* <View style={{ flex: 1,backgroundColor: colors.color5 }}> */}
                     <FlatList
+                        // scroll
                         data={this.state.posts}
                         renderItem={({ item }) => <FeedCards post={item} />}
                         keyExtractor={(item, index) => `id_${index}`}
@@ -82,8 +83,9 @@ class FeedScreen extends Component {
                             console.log('reached');
                             //   this.onEndReached()
                         }}
+                        // ItemSeparatorComponent={() => null}
                     />
-                </View>
+                {/* </View> */}
             </Container>
         )
     }

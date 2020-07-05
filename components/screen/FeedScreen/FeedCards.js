@@ -4,6 +4,8 @@ import { Image, View, Dimensions, TouchableOpacity, StyleSheet } from 'react-nat
 import colors from '../../../constants/colors'
 import Reaction from './Reaction'
 import PostOptions from './PostOptions'
+import { fetchAllComments, addComment } from '../../functions/comments'
+
 
 import { db } from '../../../config';
 import { connect } from 'react-redux'
@@ -108,11 +110,10 @@ const FeedCards = (props) => {
                 }
 
                 } />
-            <CardItem cardBody style={{
-                flexDirection: 'column', alignItems: 'flex-start',
-                paddingHorizontal: 15, paddingBottom: 20,
+            <View style={{
+                paddingHorizontal: 15, marginHorizontal: 15,
                 backgroundColor: '#eee', borderRadius: 5,
-                marginHorizontal: 15, zIndex: 3, elevation: 3
+                paddingBottom: 20
             }}
             >
                 <TouchableOpacity onPress={() => {
@@ -126,18 +127,16 @@ const FeedCards = (props) => {
                     <Text style={{ alignContent: 'space-between' }}>
                         {props.post.caption} {'  '}
                         {props.post.commentCount > 1 &&
-                                <Text style={{ fontSize: 12 }}>{props.post.commentCount} Comments</Text>
+                            <Text style={{ fontSize: 12 }}>{props.post.commentCount} Comments</Text>
                         }
                         {props.post.commentCount > 1 &&
-                                <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
+                            <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
                         }
 
                     </Text>
-                    <Text >
-                        More Comments
-                    </Text>
+                    <Text >More Comments</Text>
                 </TouchableOpacity>
-            </CardItem>
+            </View>
             {
                 commentOpen &&
                 <View style={{
@@ -148,12 +147,27 @@ const FeedCards = (props) => {
                     <Input
                         autoFocus
                         blurOnSubmit
-                        onBlur={() => setCommentOpen(false)}
+                        returnKeyType='send'
+                        onSubmitEditing={() => 
+                            addComment(props.post.post_id, userComment, props.user.uid)
+                            .then(() => {
+                                setComment('');
+                                setCommentOpen(false);
+                            })
+                        }
+                        // onBlur={() => setCommentOpen(false)}
                         style={{ color: '#fff' }}
                         placeholder='Comment...'
                         onChangeText={(text) => setComment(text)}
                         value={userComment} />
-                    <Icon name='send' style={{ margin: 15 }} />
+                    <Icon name='send' style={{ margin: 15 }}
+                        onPress={() => {
+                            addComment(props.post.post_id, userComment, props.user.uid)
+                                .then(() => {
+                                    setComment('');
+                                    setCommentOpen(false);
+                                })
+                            }} />
                 </View>
             }
 
