@@ -1,6 +1,6 @@
 import { USER_LOADED, USER_LOADING, AUTH_ERROR, REGISTER_FAIL, REGISTER_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS, FOLLOW_USER, UNFOLLOW_USER, CHANGE_DP_SUCCESS, UPDATE_USER_DETAILS } from './authTypes'
 import { auth, db } from '../../config'
-import { algoliaPopulateUser } from '../../components/functions/algolia'
+import { algoliaPopulateUser , algoliaUpdate } from '../../components/functions/algolia'
 
 export const logoutUser = () => {
     return function (dispatch, getState) {
@@ -236,6 +236,7 @@ export const changeDisplayPicture = (img_url) => {
     return function (dispatch, getState) {
         // Add a new document with a generated id.
         console.log("DP CHANGE REQUEST");
+        algoliaUpdate(getState().auth.user.uid , {"dp" : img_url})
 
         let addDoc = db.collection('userDetails')
             .doc(getState().auth.user.uid)

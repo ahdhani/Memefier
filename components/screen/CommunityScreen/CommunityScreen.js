@@ -8,7 +8,7 @@ import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '
 import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
 import { changeDisplayPicture } from '../../functions/general'
 import { addChallenge } from '../../functions/challenges'
-import { algoliaTest , algoliaSearch } from '../../functions/algolia'
+import { algoliaTest , algoliaSearch , algoliaUpdate} from '../../functions/algolia'
 
 class CommunityScreen extends Component {
 
@@ -125,14 +125,10 @@ class CommunityScreen extends Component {
                         <Text>Count Like</Text>
                     </Button>
                     <Button transparent onPress={() => {
-                            algoliaSearch()
-                                .then(({hits}) => {
-                                    hits.forEach(hit => {
-                                        console.log(hit.firstname , hit.lastname)
-                                    })
-                                })
-                                .catch(error => console.log(error.message))
-                        }}>
+                        algoliaUpdate("T2GeunsUfxaEYCesHHjg1ktbrt42" , {"bio" : "new bio"})
+                            .then(res => console.log(res))
+                            .catch(error => console.log(error.message))
+                    }}>
                         <Text>ALGOLIA TEST</Text>
                     </Button>
                     <Button transparent onPress={() => {
