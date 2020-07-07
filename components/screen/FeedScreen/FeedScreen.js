@@ -72,6 +72,7 @@ class FeedScreen extends Component {
                         pagingEnabled={true}
                         decelerationRate={'fast'}
                         // snapToInterval={400}
+                        // disableScrollViewPanResponder
                         snapToAlignment={'center'}
                         // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
                         refreshing={this.state.isRefreshing}

@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import { db } from '../../../config';
-import { algoliaTest, algoliaSearch } from '../../functions/algolia'
 
-const cardWidth = Dimensions.get('window').width / 2;
-const cardHeight = cardWidth * 1.25;
-
-export default class TrendingScreen extends Component {
+export default class SearchScreen extends Component {
 
     state = {
         searchText: '',
@@ -25,14 +20,22 @@ export default class TrendingScreen extends Component {
                 searchText: text,
             })
             var search_list = []
-            algoliaSearch(text)
-                .then(({ hits }) => {
+            db.collection('userDetails')
+                .get()
+                .then(snapshot => {
+                    snapshot.docs.forEach(doc => {
+                        if (doc.data().firstname.includes(text) || doc.data().lastname.includes(text)) {
+                            search_list = [...search_list,{ ...doc.data(),uuid: doc.id}]
+
+                        }
+                    })
                     this.setState({
-                        searchResult: hits,
+                        searchResult: search_list,
                         searchLoading: false,
                     })
                 })
                 .catch(error => console.log(error.message))
+
         }
         else {
             this.setState({
@@ -97,7 +100,12 @@ export default class TrendingScreen extends Component {
                                 onChangeText={text => this.onChangeTextSearch(text)}
                                 value={this.state.searchText}
                                 underlineColorAndroid="transparent"
-                            />
+                                autoFocus
+                                // onBlur={() => this.setState({
+                                //     searchResult: [],
+                                //     searchText: '',
+                                // })}
+                                 />
                             <Icon name="ios-people" />
                         </Item>
                     </Body>
@@ -120,9 +128,9 @@ export default class TrendingScreen extends Component {
                     data={this.state.searchResult}
                     renderItem={({ item }) => (
                         <Item onPress={() => this.props.navigation.push('ProfileStack', {
-                            screen: 'ProfileScreen',
-                            params: { uuid: item.uuid }
-                        })
+                                screen: 'ProfileScreen',
+                                params: { uuid: item.uuid }
+                            })
                         }
                             style={{ flexDirection: 'row', padding: 4 }}>
                             <Thumbnail source={require('../../../assets/profile.jpeg')} />
@@ -181,13 +189,3 @@ export default class TrendingScreen extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#aaa',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-    },
-});

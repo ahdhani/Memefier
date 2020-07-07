@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import PostScrollScreen from '../PostScrollScreen'
 import TrendingScreen from './TrendingScreen'
+import SearchScreen from './SearchScreen'
 import CommentScreen from '../FeedScreen/CommentScreen/CommentScreen'
 import ProfileStack from '../ProfileScreen/ProfileStack'
 
@@ -42,6 +43,13 @@ export default class TrendingStack extends Component {
                     <Stack.Screen
                         name="CommentScreen"
                         component={CommentScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="SearchScreen"
+                        component={SearchScreen}
                         options={{
                             headerShown: false
                         }}
