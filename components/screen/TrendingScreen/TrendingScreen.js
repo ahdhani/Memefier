@@ -125,7 +125,7 @@ export default class TrendingScreen extends Component {
                         })
                         }
                             style={{ flexDirection: 'row', padding: 4 }}>
-                            <Thumbnail source={require('../../../assets/profile.jpeg')} />
+                            <Thumbnail source={{uri: item.dp}} />
                             <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
                         </Item>
                     )}
