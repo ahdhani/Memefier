@@ -28,6 +28,11 @@ export const algoliaSearch = (query) => {
   return user
     .search(query)
 }
+
+export const algoliaUpdate = (objectID , data) => {
+  return user
+    .partialUpdateObject({objectID , ...data})
+}
 /*
 WORKING function algoliaTest
 export const algoliaTest = () => {
