@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Right, Button, Container } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { width } = Dimensions.get("window");
 
