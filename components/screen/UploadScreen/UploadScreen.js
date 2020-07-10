@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
-import { Image, View, StyleSheet, TextInput, FlatList } from 'react-native';
+import { Container, Button, Card, Text, CardItem, Input, Header, Spinner, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
+import { Image, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -67,27 +67,6 @@ class UploadScreen extends Component {
         })
     }
 
-    dispTag = () => {                                   //displays the tags in the state array
-        return (
-            this.state.hashtags.map((hashtag, index) => {
-                return (
-                    <View style={styles.tag}>
-                        <View style={{ maxWidth: 250 }}>
-                            <Text numberOfLines={1} style={{ color: 'white' }}>{hashtag}</Text>
-                        </View>
-                        <MaterialCommunityIcons
-                            onPress={() => { this.refreshTag(index) }}
-                            style={{ backgroundColor: 'white', borderRadius: 8, marginLeft: 4 }}
-                            name="close"
-                            color="#3F51B5"
-                            size={15}
-                        />
-                    </View>
-                );
-            })
-        )
-    }
-
     render() {
         let { image } = this.state;
         return (
@@ -97,12 +76,16 @@ class UploadScreen extends Component {
                     <Body>
                         <Title>Create</Title>
                     </Body>
-                    <Right />
+                    <Right>
+                    {   this.state.postOnProgress &&
+                        <Spinner color='#ccc'/>
+                    }
+                    </Right>
                 </Header>
                 <Content>
                     <Card>
 
-                        <CardItem style={{ paddingBottom: 0 }}>
+                        <CardItem>
                             <Left>
                                 <Thumbnail resizeMode='cover' source={{ uri: this.props.userDetails.dp }} />
                                 <Body>
@@ -125,23 +108,25 @@ class UploadScreen extends Component {
                             </Right>
                         </CardItem>
 
-                        {this.state.image!=null ?
-                            <CardItem>
-                                {image && <Image resizeMode='contain' source={{ uri: image }}
-                                    style={{ width: '100%', height: 400 }} />}
-                            </CardItem>:null 
-                        }
+
 
                         <CardItem >
-                            <View style={styles.title}>
+                            <Card style={styles.inputBox}>
                                 <Input onChangeText={(text) => this.setState({ title: text })}
                                     placeholder='Title...' placeholderTextColor='#ccc'
                                     style={{ fontSize: 15, paddingLeft: 0 }} multiline />
-                            </View>
+                            </Card>
                         </CardItem>
 
+                        {this.state.image != null &&
+                            <CardItem cardBody>
+                                {image && <Image resizeMode='contain' source={{ uri: image }}
+                                    style={{ width: '100%', height: 400 }} />}
+                            </CardItem>
+                        }
+
                         <CardItem>
-                            <Card style={styles.desc}>
+                            <Card style={styles.inputBox}>
                                 <TextInput
                                     onChangeText={(text) => this.setState({ description: text })}
                                     style={{ padding: 5, marginTop: 5 }}
@@ -152,21 +137,34 @@ class UploadScreen extends Component {
                         </CardItem>
 
                         <CardItem>
-                            <Card style={styles.tagBox}>
+                            <Card style={styles.inputBox}>
                                 <View style={{ maxWidth: '90%', flexWrap: 'wrap', flexDirection: 'row', alignItems: 'flex-start', marginTop: 5, marginBottom: 5 }}>
-                                    {this.dispTag()}
-                                    {(this.state.hashLength < 5) ?
-                                        <TextInput
-                                            style={{ padding: 5 }}
-                                            placeholder='Enter Tags...'
-                                            returnKeyType='next'
-                                            onChangeText={(text) => this.setState({ inputTag: text })}
-                                            onSubmitEditing={(event) => {
-                                                this.addTag(event.nativeEvent.text);
-                                            }}
-                                            value={this.state.inputTag}
-                                        /> : null}
+                                    {this.state.hashtags.map((hashtag, index) => {
+                                        return (
+                                            <TouchableOpacity style={styles.tag} onPress={() => { this.refreshTag(index) }}>
+                                                <Text style={{ color: 'white' }}>{hashtag}</Text>
+                                                <MaterialCommunityIcons
+                                                    style={{ backgroundColor: 'white', borderRadius: 8, marginLeft: 5 }}
+                                                    name="close"
+                                                    color="#3F51B5"
+                                                    size={15}
+                                                />
+                                            </TouchableOpacity>
+                                        );
+                                    })}
                                 </View>
+
+                                {(this.state.hashLength < 5) &&
+                                    <TextInput
+                                        style={{ padding: 5, marginVertical: 5 }}
+                                        placeholder='Hashtags...'
+                                        returnKeyType='next'
+                                        onChangeText={(text) => this.setState({ inputTag: text })}
+                                        onSubmitEditing={(event) => {
+                                            this.addTag(event.nativeEvent.text);
+                                        }}
+                                        value={this.state.inputTag}
+                                    />}
                             </Card>
                         </CardItem>
 
@@ -242,15 +240,16 @@ class UploadScreen extends Component {
                         console.error(error.message);
                     },
                     () => {
-                        storage.ref('memes').child(imageName).getDownloadURL().then(url => {
+                        storage.ref('memes').child(imageName).getDownloadURL().then(async url => {
                             // console.log(url);
-                            this.props.addPost(url, post_desc)
+                            await this.props.addPost(url, post_desc)
                             this.setState({
                                 ...this.state,
                                 image: null,
                                 progress: null,
                                 postOnProgress: false,
                             })
+                            this.props.navigation.goBack()
                         })
                     })
             } catch (error) {
@@ -279,33 +278,17 @@ const mapStateToProps = (state) => ({
 
 const styles = StyleSheet.create(
     {
-        title: {
-            borderBottomWidth: 1,
-            borderBottomColor: '#ccc',
-            paddingTop: 0,
-            width: '100%'
-        },
-        desc: {
-            paddingLeft: 4,
-            height: 100,
+        inputBox: {
             width: '100%',
-            padding: 0,
-            borderRadius: 8
-
-        },
-        tagBox: {
-            paddingLeft: 4,
-            height: 200,
-            width: '100%',
-            borderRadius: 8
-
+            padding: 5,
+            borderRadius: 8,
+            margin: 0
         },
         tag: {
             flexDirection: 'row',
             alignItems: 'center',
             margin: 1,
             padding: 5,
-
             borderRadius: 6,
             backgroundColor: '#3F51B5'
         }

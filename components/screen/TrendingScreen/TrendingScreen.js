@@ -121,7 +121,7 @@ export default class TrendingScreen extends Component {
                     renderItem={({ item }) => (
                         <Item onPress={() => this.props.navigation.push('ProfileStack', {
                             screen: 'ProfileScreen',
-                            params: { uuid: item.uuid }
+                            params: { uuid: item.objectId }
                         })
                         }
                             style={{ flexDirection: 'row', padding: 4 }}>
