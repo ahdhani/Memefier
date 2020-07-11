@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Button, Card, Text, CardItem, Input, Header, Spinner, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
-import { Image, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Image, View, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -9,6 +9,7 @@ import { storage } from '../../../config';
 import { addPost } from '../../../redux';
 import { connect } from 'react-redux';
 import uuid from 'react-uuid'
+import * as Animatable from 'react-native-animatable'
 
 class UploadScreen extends Component {
     state = {
@@ -17,9 +18,10 @@ class UploadScreen extends Component {
         image: null,
         postOnProgress: false,
         progress: null,
+        titleError: false,
 
-        title: 'My Meme',
-        description: "Dedicated to all my friends",
+        title: '',
+        description: "",
         hashtags: [],
 
 
@@ -77,9 +79,9 @@ class UploadScreen extends Component {
                         <Title>Create</Title>
                     </Body>
                     <Right>
-                    {   this.state.postOnProgress &&
-                        <Spinner color='#ccc'/>
-                    }
+                        {this.state.postOnProgress &&
+                            <Spinner color='#ccc' />
+                        }
                     </Right>
                 </Header>
                 <Content>
@@ -108,14 +110,17 @@ class UploadScreen extends Component {
                             </Right>
                         </CardItem>
 
-
-
-                        <CardItem >
+                        <CardItem style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                             <Card style={styles.inputBox}>
                                 <Input onChangeText={(text) => this.setState({ title: text })}
                                     placeholder='Title...' placeholderTextColor='#ccc'
-                                    style={{ fontSize: 15, paddingLeft: 0 }} multiline />
+                                    style={{ fontSize: 15, paddingLeft: 0 }} multiline maxLength={50} />
                             </Card>
+                            {this.state.titleError ?
+                                <Animatable.View animation='fadeIn' duration={500}>
+                                    <Text style={{ color: 'red', fontSize: 12 }}>Title must not be empty</Text>
+                                </Animatable.View> : null
+                            }
                         </CardItem>
 
                         {this.state.image != null &&
@@ -125,13 +130,14 @@ class UploadScreen extends Component {
                             </CardItem>
                         }
 
-                        <CardItem>
+                        <CardItem >
                             <Card style={styles.inputBox}>
                                 <TextInput
                                     onChangeText={(text) => this.setState({ description: text })}
                                     style={{ padding: 5, marginTop: 5 }}
                                     multiline
                                     placeholder='Description...'
+                                    maxLength={2200}
                                 />
                             </Card>
                         </CardItem>
@@ -153,7 +159,6 @@ class UploadScreen extends Component {
                                         );
                                     })}
                                 </View>
-
                                 {(this.state.hashLength < 5) &&
                                     <TextInput
                                         style={{ padding: 5, marginVertical: 5 }}
@@ -169,7 +174,27 @@ class UploadScreen extends Component {
                         </CardItem>
 
                         <CardItem style={{ flexDirection: 'column' }}>
-                            <Button block onPress={this.onPost} disabled={this.state.postOnProgress}>
+                            <Button
+                                block
+                                onPress={() => {
+                                    if (this.state.title.length != 0 && this.state.image != null) {
+                                        this.setState({
+                                            titleError: false
+                                        });
+                                        this.onPost;
+                                    }
+                                    else {
+                                        if (this.state.image == null) {
+                                            Alert.alert('OOPS!', 'You haven\'t selected the image yet.')
+                                        }
+                                        else if (this.state.title.length == 0)
+                                            this.setState({
+                                                titleError: true
+                                            })
+                                    }
+                                }}
+                                disabled={this.state.postOnProgress}
+                            >
                                 <Text>Post</Text>
                             </Button>
                         </CardItem>
