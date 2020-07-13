@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ImageBackground, TouchableOpacityBase } from 'react-native'
+import { View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Dimensions, ImageBackground,YellowBox } from 'react-native'
 import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1, CardItem } from 'native-base'
 import colors from '../../../constants/colors'
 // imports for state management
@@ -8,7 +8,11 @@ import { logoutUser, unfollow_user, follow_user, fetchPosts } from '../../../red
 
 import { db } from '../../../config';
 import { fetchUserDetails } from '../../functions/user'
-// import DpModal from '../DpModal'
+
+YellowBox.ignoreWarnings([
+    'VirtualizedLists should never be nested',
+    'H1 should have only string or number', // TODO: Remove when fixed
+  ])
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -77,6 +81,7 @@ class ProfileScreen extends Component {
 
         return (
             <Container>
+                <ScrollView>
 
                 <Header style={{ backgroundColor: colors.color5 }}>
                     <Left />
@@ -85,12 +90,6 @@ class ProfileScreen extends Component {
                     </Body>
                     <Right>
                         {!uuid &&
-                            // <Button transparent
-                            // // onPress={() => this.signOutClicked()}
-                            // >
-                            //     <Text style={{ color: colors.color1 }} >Follow</Text>
-                            // </Button>
-                            // :
                             <Button transparent onPress={() => this.signOutClicked()}>
                                 <Text style={{ color: colors.color1 }} >SignOut</Text>
                             </Button>
@@ -99,7 +98,6 @@ class ProfileScreen extends Component {
                     </Right>
                 </Header>
 
-                <Content style={{ backgroundColor: '#fff', }}>
                     <View style={{ backgroundColor: colors.color5, height: 180 }} />
                     <View style={{
                         backgroundColor: '#fff', marginTop: -30,
@@ -154,9 +152,10 @@ class ProfileScreen extends Component {
                                 <H1 style={{ color: colors.color3 }}>
                                     {this.state.userDetails.firstname} {this.state.userDetails.lastname}
                                     {uuid && uuid != this.props.user.uid &&
-                                        <Text onPress={() => this.toggleFollow(uuid)}
-                                        >{(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}</Text>}
-
+                                        <Text onPress={() => this.toggleFollow(uuid)}>
+                                            {(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}
+                                        </Text>
+                                    }
                                 </H1>
                                 <Text note>{this.state.userDetails.bio}</Text>
                             </View>
@@ -223,7 +222,7 @@ class ProfileScreen extends Component {
                         </Card>
                     </View>
 
-                </Content>
+                </ScrollView>
             </Container>
         )
     }
