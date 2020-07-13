@@ -64,3 +64,29 @@ export const fetchFeedPosts = (arr) => {
         .catch(err => console.log(err.message))
 
 }
+
+export const fetchGroupPosts = (group_id) => {
+    // order by timestamp missing
+    return db.collection('posts')
+        .where("created_by" , "==" , group_id)
+        .where("allowed" , "==" , true)
+        .get()
+        .then(snapshots => {
+            return snapshots.docs
+        })
+        .catch(err => console.log(err.message))
+
+}
+
+export const fetchGroupPostsForReview = (group_id) => {
+    // order by timestamp missing
+    return db.collection('posts')
+        .where("created_by" , "==" , group_id)
+        .where("allowed" , "==" , false)
+        .get()
+        .then(snapshots => {
+            return snapshots.docs
+        })
+        .catch(err => console.log(err.message))
+
+}
