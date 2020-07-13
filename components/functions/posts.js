@@ -54,6 +54,7 @@ export const fetchUserPosts = (user_uid) => {
 }
 
 export const fetchFeedPosts = (arr) => {
+    // order by timestamp missing
     return db.collection('posts')
         .where("created_by", "in", arr)
         .where("allowed", "==", true)
