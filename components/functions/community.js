@@ -47,6 +47,31 @@ export const unsubscribeGroup = (group_id , user_uid) => {
     // For unsubscribing a particular group by a particular user
     // unsubscribe if already subscribed
     // delete request if pending
+    var message = ''
+    var doc_name = group_id + '_' + user_uid
+    return db.collection('group_member')
+        .doc(doc_name)
+        .get()
+        .then(doc => {
+            if (!doc.exists) {
+                message = "No request present"
+                return message
+            } else {
+                if (doc.approved) {
+                    message = "Unsubscribed Successfully"
+                } else {
+                    message = "Request Deleted Success"    
+                }
+
+                db.collection('group_member')
+                    .doc(doc_name).delete()
+                    .then(() => message)
+            }
+        })
+        .catch(err => {
+            console.log('ERR', err.message);
+        });
+
 }
 
 export const fetchGroups = (user_uid) => {
