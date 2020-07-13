@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
 import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
-import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
-import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
-import { changeDisplayPicture } from '../../functions/general'
-import { addChallenge } from '../../functions/challenges'
-import { algoliaTest , algoliaSearch , algoliaUpdate} from '../../functions/algolia'
+import {dislikePost , checkReaction, countLike } from '../../functions/reactions'
+import { testFunction , fetchAllReplies } from '../../functions/comments'
+import { createGroup } from '../../functions/community'
 
 class CommunityScreen extends Component {
 
@@ -97,47 +95,20 @@ class CommunityScreen extends Component {
     render() {
         return (
             <Container>
-                {/* <Header>
-                    <Left />
-                    <Body>
-                        <Title>Community</Title>
-                    </Body>
-                    <Right />
-                </Header> */}
                 <Content>
 
-                    <Button transparent onPress={() => likePost()}>
-                        <Text>Like</Text>
-                    </Button>
-                    <Button transparent onPress={() => addComment()}>
-                        <Text>Add Comment</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.fetchComments()}>
-                        <Text>Fetch Replies</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.checkLike()}>
-                        <Text>Check raection</Text>
-                    </Button>
-                    <Button transparent onPress={() => unlikePost()}>
-                        <Text>Unlike</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.likeCount()}>
-                        <Text>Count Like</Text>
-                    </Button>
+                   
                     <Button transparent onPress={() => {
-                        algoliaUpdate("T2GeunsUfxaEYCesHHjg1ktbrt42" , {"bio" : "new bio"})
-                            .then(res => console.log(res))
-                            .catch(error => console.log(error.message))
+                        createGroup("New Group" , this.props.user.uid , "I'll be back" )
+                            .then(res => {
+                                // Success
+                                console.log("Success," , res)
+                            })
+                            .catch(error => console.log("ERR :" , error.message))
                     }}>
-                        <Text>ALGOLIA TEST</Text>
+                        <Text>Create Group</Text>
                     </Button>
-                    <Button transparent onPress={() => {
-                        addChallenge("Ch_name" , "desc" , "user.uid" , "ex")
-                            .then(ref => console.log("ref " , ref))
-                            .catch(error => console.log(error.message))
-                    }}>
-                        <Text>ADD chall</Text>
-                    </Button>
+                    
                     <FlatList
                         data={this.state.users}
                         renderItem={({ item, index }) => (
