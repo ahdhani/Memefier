@@ -54,5 +54,13 @@ export const fetchUserPosts = (user_uid) => {
 }
 
 export const fetchFeedPosts = (arr) => {
-    
+    return db.collection('posts')
+        .where("created_by" , "in" , arr)
+        .where("allowed" , "==" , true)
+        .get()
+        .then(snapshots => {
+            return snapshots.docs
+        })
+        .catch(err => console.log(err.message))
+
 }
