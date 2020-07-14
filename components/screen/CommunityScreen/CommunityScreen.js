@@ -6,7 +6,7 @@ import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
 import {dislikePost , checkReaction, countLike } from '../../functions/reactions'
 import { testFunction , fetchAllReplies } from '../../functions/comments'
-import { createGroup } from '../../functions/community'
+import { createGroup , createRequest , acceptRequest } from '../../functions/community'
 
 class CommunityScreen extends Component {
 
@@ -14,36 +14,10 @@ class CommunityScreen extends Component {
         users: []
     }
 
-    likeCount = async () => {
-        var like = await countLike()
-
-        // console.log(like)
-    }
-
-    checkLike = async () => {
-
-        // Loading begins
-        var reaction = await checkReaction()
-        // Loading ends
-        // console.log("REACTION = " , reaction)
-    }
-
     componentDidMount = () => {
         // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
         // this.props.fetchPosts();
         this.fetchUsers()
-    }
-
-    fetchComments = async () => {
-        var comments = await fetchAllReplies()
-
-        // console.log(comments)
-    }
-
-    test = () => {
-        var ret = testFunction()
-
-        // console.log(ret)
     }
 
     fetchUsers = () => {
@@ -88,10 +62,6 @@ class CommunityScreen extends Component {
         this.props.unfollow(uid);
     }
 
-    updateUserDetailsCheck = async () => {
-        dislikePost()
-    }
-
     render() {
         return (
             <Container>
@@ -108,8 +78,29 @@ class CommunityScreen extends Component {
                     }}>
                         <Text>Create Group</Text>
                     </Button>
+
+                    <Button transparent onPress={() => {
+                        createRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
+                            .then(res => {
+                                // Success
+                                console.log("Success," , res)
+                            })
+                            .catch(error => console.log("ERR :" , error.message))
+                    }}>
+                        <Text>Make Request</Text>
+                    </Button>
+                    <Button transparent onPress={() => {
+                        acceptRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
+                            .then(res => {
+                                // Success
+                                console.log("Success," , res)
+                            })
+                            .catch(error => console.log("ERR :" , error.message))
+                    }}>
+                        <Text>Approve Request</Text>
+                    </Button>
                     
-                    <FlatList
+                    {/* <FlatList
                         data={this.state.users}
                         renderItem={({ item, index }) => (
                             <Item style={{ flexDirection: 'row', padding: 4 }}>
@@ -122,7 +113,7 @@ class CommunityScreen extends Component {
                         )}
                         enableEmptySections={true}
                         keyExtractor={(item, index) => index.toString()}
-                    />
+                    /> */}
                 </Content>
             </Container>
         )
