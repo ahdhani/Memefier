@@ -1,12 +1,15 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, { Component } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {View} from 'react-native';
 
 import FeedStack from './FeedScreen/FeedStack'
 import TrendingStack from './TrendingScreen/TrendingStack'
 import CommunityScreen from './CommunityScreen/CommunityScreen'
 import CommunityStack from './CommunityScreen/CommunityStack'
 import ProfileStack from './ProfileScreen/ProfileStack'
+import ChallengeStack from './CommunityScreen/ChallengeScreen/ChallengeStack'
+import ChallengeScreen from './CommunityScreen/ChallengeScreen/ChallengeScreen';
 // import CommentScreen from './FeedScreen/CommentScreen'
 
 
@@ -14,6 +17,8 @@ const Tab = createMaterialTopTabNavigator();
 
 function MainScreen() {
     return (
+        
+        
         <Tab.Navigator
             initialRouteName="Feed"
             tabBarPosition='bottom'
@@ -35,16 +40,19 @@ function MainScreen() {
 
         >
             
+            
             <Tab.Screen
-                name="Community"
-                component={CommunityStack}
+                name="ChallengeStack"
+                component={ChallengeStack}
                 options={{
-                    tabBarLabel: 'Community',
+                    tabBarLabel: 'Challenge',
                     tabBarIcon: ({ color, focused }) => (
                         <MaterialCommunityIcons name="account-multiple" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />
+                
+            
             <Tab.Screen
                 name="CommunityScreen"
                 component={CommunityScreen}
@@ -87,6 +95,7 @@ function MainScreen() {
                 }}
             />
         </Tab.Navigator>
+        
     );
 }
 
