@@ -106,37 +106,17 @@ class CommunityScreen extends Component {
                 </Header> */}
                 <Content>
 
-                    <Button transparent onPress={() => likePost()}>
-                        <Text>Like</Text>
+                    <Button transparent onPress={() => this.props.navigation.navigate('CreateCommunity')}>
+                        <Text>CreateCommunity</Text>
                     </Button>
-                    <Button transparent onPress={() => addComment()}>
-                        <Text>Add Comment</Text>
+                    <Button transparent onPress={() => this.props.navigation.navigate('CreatePost')}>
+                        <Text>CreatePost</Text>
                     </Button>
-                    <Button transparent onPress={() => this.fetchComments()}>
-                        <Text>Fetch Replies</Text>
+                    <Button transparent onPress={() => this.props.navigation.navigate('AdminScreen')}>
+                        <Text>AdminPrivileges</Text>
                     </Button>
-                    <Button transparent onPress={() => this.checkLike()}>
-                        <Text>Check raection</Text>
-                    </Button>
-                    <Button transparent onPress={() => unlikePost()}>
-                        <Text>Unlike</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.likeCount()}>
-                        <Text>Count Like</Text>
-                    </Button>
-                    <Button transparent onPress={() => {
-                        algoliaUpdate("T2GeunsUfxaEYCesHHjg1ktbrt42" , {"bio" : "new bio"})
-                            .then(res => console.log(res))
-                            .catch(error => console.log(error.message))
-                    }}>
-                        <Text>ALGOLIA TEST</Text>
-                    </Button>
-                    <Button transparent onPress={() => {
-                        addChallenge("Ch_name" , "desc" , "user.uid" , "ex")
-                            .then(ref => console.log("ref " , ref))
-                            .catch(error => console.log(error.message))
-                    }}>
-                        <Text>ADD chall</Text>
+                    <Button transparent onPress={() => this.props.navigation.navigate('CommunityFeed')}>
+                        <Text>CommunityFeed</Text>
                     </Button>
                     <FlatList
                         data={this.state.users}

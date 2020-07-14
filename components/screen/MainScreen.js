@@ -5,11 +5,11 @@ import {View} from 'react-native';
 
 import FeedStack from './FeedScreen/FeedStack'
 import TrendingStack from './TrendingScreen/TrendingStack'
-import CommunityScreen from './CommunityScreen/CommunityScreen'
+// import CommunityScreen from './CommunityScreen/CommunityScreen'
 import CommunityStack from './CommunityScreen/CommunityStack'
 import ProfileStack from './ProfileScreen/ProfileStack'
 import ChallengeStack from './CommunityScreen/ChallengeScreen/ChallengeStack'
-import ChallengeScreen from './CommunityScreen/ChallengeScreen/ChallengeScreen';
+// import ChallengeScreen from './CommunityScreen/ChallengeScreen/ChallengeScreen';
 // import CommentScreen from './FeedScreen/CommentScreen'
 
 
@@ -54,8 +54,8 @@ function MainScreen() {
                 
             
             <Tab.Screen
-                name="CommunityScreen"
-                component={CommunityScreen}
+                name="CommunityStack"
+                component={CommunityStack}
                 options={{
                     tabBarLabel: 'Community',
                     tabBarIcon: ({ color, focused }) => (

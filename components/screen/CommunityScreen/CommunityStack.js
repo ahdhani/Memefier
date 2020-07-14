@@ -1,29 +1,68 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
-import CommunityScreen from './CommunityScreen';
-import ChallengeStack from './ChallengeScreen/ChallengeStack';
-import colors from '../../../constants/colors'
-// import Tab3 from './tabThree';
+
+import CommunityFeed from './CommunityFeed'
+import CreateCommunity from './CreateCommunity'
+import CreatePost from './CreatePost'
+import CommunityScreen from './CommunityScreen'
+import AdminScreen from './AdminScreen'
+
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
 export default class CommunityStack extends Component {
+
+
+
     render() {
+        const Stack = createStackNavigator();
+
         return (
-            <Container>
-                <Tabs tabBarPosition='bottom' locked
-                    tabBarUnderlineStyle={{ backgroundColor: 'black', height: 2 }}>
-                    <Tab heading="Community" tabStyle={{ backgroundColor: colors.color5 }}
-                        activeTabStyle={{ backgroundColor: '#142116' }}
-                        activeTextStyle={{ color: colors.color1,fontSize: 20 }}
-                        textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <CommunityScreen />
-                    </Tab>
-                    <Tab heading="Challenges" tabStyle={{ backgroundColor: colors.color5 }}
-                        activeTabStyle={{ backgroundColor: '#142116' }}
-                        activeTextStyle={{ color: colors.color1,fontSize: 20 }}
-                        textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <ChallengeStack/>
-                    </Tab>
-                </Tabs>
-            </Container>
+            <NavigationContainer independent={true}>
+                <Stack.Navigator
+                
+                    initialRouteName="CommunityScreen"
+                    screenOptions={{
+                        gestureEnabled: true
+                    }}>
+
+                    <Stack.Screen
+                        name="CommunityScreen"
+                        component={CommunityScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="CommunityFeed"
+                        component={CommunityFeed}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="CreateCommunity"
+                        component={CreateCommunity}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="CreatePost"
+                        component={CreatePost}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="AdminScreen"
+                        component={AdminScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
         );
     }
 }
