@@ -7,7 +7,7 @@ export const createGroup = (name , admin , desc , closed = true) => {
         admin ,
         created_at : Date.now() ,
         closed ,
-        members : 0
+        members : 1
     }).then( ref => {
         console.log(ref)
         return ref.id
@@ -17,36 +17,32 @@ export const createGroup = (name , admin , desc , closed = true) => {
 
 export const viewRequests = (group_id) => {
     // view the requests came to a particular group
-}
-
-export const acceptRequest = (group_id , user_uid) => {
-    // For accepting the request of a particular user to a particular group
-
-}
-
-export const rejectRequest = (group_id , user_uid) => {
-    // For rejecting the request of a particular user to a particular group
-}
-
-export const subscribeGroup = (group_id , user_uid) => {
-    // For requesting a particular group by a particular user
-    var doc = {
-        group_id,
-        user_uid,
-        approved : false
-    }
-    var uid =  group_id + '_' + user_uid
-    return db.collection('group_member')
-        .doc(uid)
-        .set(doc)
-        .then(res => res.id)
+    return db.collection("group_member")
+        .where("group_id" , "==" ,group_id)
+        .where("approved" , "==" , false)
+        .get()
+        .then(snapshots => snapshots.docs)
         .catch(err => console.log(err.message))
 }
 
-export const unsubscribeGroup = (group_id , user_uid) => {
-    // For unsubscribing a particular group by a particular user
-    // unsubscribe if already subscribed
-    // delete request if pending
+// modifying
+export const acceptRequest = (group_id , user_uid) => {
+    // For accepting the request of a particular user to a particular group
+    var doc = {
+        group_id,
+        user_uid,
+        approved : true
+    }
+    var doc_name = group_id + '_' + user_uid
+    return db.collection("group_member")
+        .doc(doc_name)
+        .set(doc)
+        .then(() => doc_name)
+}
+
+// Deleting
+export const deleteRequest = (group_id , user_uid) => {
+    // For rejecting the request of a particular user to a particular group
     var message = ''
     var doc_name = group_id + '_' + user_uid
     return db.collection('group_member')
@@ -57,22 +53,32 @@ export const unsubscribeGroup = (group_id , user_uid) => {
                 message = "No request present"
                 return message
             } else {
-                if (doc.approved) {
-                    message = "Unsubscribed Successfully"
-                } else {
-                    message = "Request Deleted Success"    
-                }
-
                 db.collection('group_member')
                     .doc(doc_name).delete()
-                    .then(() => message)
+                    .then(() => true)
             }
         })
         .catch(err => {
             console.log('ERR', err.message);
         });
-
+    
 }
+
+// Creating
+export const createRequest = (group_id , user_uid) => {
+    // For requesting a particular group by a particular user
+    var doc = {
+        group_id,
+        user_uid,
+        approved : false
+    }
+    var uid =  group_id + '_' + user_uid
+    return db.collection('group_member')
+        .doc(uid)
+        .set(doc)
+        .then(() => uid)
+}
+
 
 export const fetchGroups = (user_uid) => {
     // Fetch the groups a particular user is following
