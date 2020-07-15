@@ -54,6 +54,7 @@ export const fetchUserPosts = (user_uid) => {
 }
 
 export const fetchFeedPosts = (arr) => {
+<<<<<<< HEAD
     return db.collection('posts')
         .where("created_by" , "in" , arr)
         .where("allowed" , "==" , true)
@@ -63,4 +64,7 @@ export const fetchFeedPosts = (arr) => {
         })
         .catch(err => console.log(err.message))
 
+=======
+    
+>>>>>>> comm started
 }
