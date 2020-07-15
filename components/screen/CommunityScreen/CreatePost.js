@@ -16,14 +16,6 @@ class CreatePost extends Component {
         let { image } = this.state;
         return (
             <Container>
-                <Header>
-                    <Left />
-                    <Body>
-                        <Title>Create a Post</Title>
-                    </Body>
-                    <Right>
-                    </Right>
-                </Header>
                 <Content>
                     <Card>
 
@@ -66,7 +58,7 @@ class CreatePost extends Component {
                             </Card>
                             {this.state.DescError ?
                                 <Animatable.View animation='fadeIn' duration={500}>
-                                    <Text style={{ color: 'red', fontSize: 12 }}>Description must not be empty</Text>
+                                    <Text style={{ color: 'red', fontSize: 12 }}>*Description must not be empty</Text>
                                 </Animatable.View> : null
                             }
                         </CardItem>
