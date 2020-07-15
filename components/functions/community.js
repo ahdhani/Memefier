@@ -15,6 +15,27 @@ export const createGroup = (name , admin , desc , closed = true) => {
     .catch(error => console.log(error.message));
 }
 
+export const fetchGroupDetails = (group_id) => {
+    return db.collection("groups")
+        .where("group_id" , "==" , group_id)
+        .get()
+        .then(ref => {
+            console.log(ref)
+            return ref
+        })
+        .catch(error => console.log(error.message))
+}
+
+export const fetchGroups = (user_uid) => {
+    // Fetch the groups a particular user is following
+    return db.collection("group_member")
+        .where("user_uid" , "==" , user_uid)
+        .where("approved" , "==" , true)
+        .get()
+        .then(snapshots => snapshots.docs)
+        .catch(err => console.log(err.message))
+}
+
 export const viewRequests = (group_id) => {
     // view the requests came to a particular group
     return db.collection("group_member")
@@ -79,10 +100,6 @@ export const createRequest = (group_id , user_uid) => {
         .then(() => uid)
 }
 
-
-export const fetchGroups = (user_uid) => {
-    // Fetch the groups a particular user is following
-}
 /*
 Fetch the posts associated with a group
 export const fetchPostGroup = () => {
