@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
 import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
-import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
-import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
-import { changeDisplayPicture } from '../../functions/general'
-import { addChallenge } from '../../functions/challenges'
-import { algoliaTest , algoliaSearch , algoliaUpdate} from '../../functions/algolia'
+import {dislikePost , checkReaction, countLike } from '../../functions/reactions'
+import { testFunction , fetchAllReplies } from '../../functions/comments'
+import { createGroup } from '../../functions/community'
 
 class CommunityScreen extends Component {
 
@@ -97,13 +95,6 @@ class CommunityScreen extends Component {
     render() {
         return (
             <Container>
-                {/* <Header>
-                    <Left />
-                    <Body>
-                        <Title>Community</Title>
-                    </Body>
-                    <Right />
-                </Header> */}
                 <Content>
 
                     <Button transparent onPress={() => this.props.navigation.navigate('CreateCommunity')}>
@@ -118,6 +109,7 @@ class CommunityScreen extends Component {
                     <Button transparent onPress={() => this.props.navigation.navigate('CommunityFeed')}>
                         <Text>CommunityFeed</Text>
                     </Button>
+                    
                     <FlatList
                         data={this.state.users}
                         renderItem={({ item, index }) => (
