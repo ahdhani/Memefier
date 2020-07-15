@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { connect } from 'react-redux'
 import { db } from '../../../config'
 import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
-import { likePost , unlikePost , dislikePost , checkReaction, countLike } from '../../functions/reactions'
-import { addComment , fetchAllComments , testFunction , fetchAllReplies } from '../../functions/comments'
-import { changeDisplayPicture } from '../../functions/general'
-import { addChallenge } from '../../functions/challenges'
-import { algoliaTest , algoliaSearch , algoliaUpdate} from '../../functions/algolia'
+import {dislikePost , checkReaction, countLike } from '../../functions/reactions'
+import { testFunction , fetchAllReplies } from '../../functions/comments'
+import { createGroup , createRequest , acceptRequest } from '../../functions/community'
 
 class CommunityScreen extends Component {
 
@@ -16,36 +14,10 @@ class CommunityScreen extends Component {
         users: []
     }
 
-    likeCount = async () => {
-        var like = await countLike()
-
-        // console.log(like)
-    }
-
-    checkLike = async () => {
-
-        // Loading begins
-        var reaction = await checkReaction()
-        // Loading ends
-        // console.log("REACTION = " , reaction)
-    }
-
     componentDidMount = () => {
         // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
         // this.props.fetchPosts();
         this.fetchUsers()
-    }
-
-    fetchComments = async () => {
-        var comments = await fetchAllReplies()
-
-        // console.log(comments)
-    }
-
-    test = () => {
-        var ret = testFunction()
-
-        // console.log(ret)
     }
 
     fetchUsers = () => {
@@ -90,20 +62,9 @@ class CommunityScreen extends Component {
         this.props.unfollow(uid);
     }
 
-    updateUserDetailsCheck = async () => {
-        dislikePost()
-    }
-
     render() {
         return (
             <Container>
-                {/* <Header>
-                    <Left />
-                    <Body>
-                        <Title>Community</Title>
-                    </Body>
-                    <Right />
-                </Header> */}
                 <Content>
 
                     <Button transparent onPress={() => this.props.navigation.navigate('CreateCommunity')}>
@@ -118,7 +79,29 @@ class CommunityScreen extends Component {
                     <Button transparent onPress={() => this.props.navigation.navigate('CommunityFeed')}>
                         <Text>CommunityFeed</Text>
                     </Button>
-                    <FlatList
+
+                    <Button transparent onPress={() => {
+                        createRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
+                            .then(res => {
+                                // Success
+                                console.log("Success," , res)
+                            })
+                            .catch(error => console.log("ERR :" , error.message))
+                    }}>
+                        <Text>Make Request</Text>
+                    </Button>
+                    <Button transparent onPress={() => {
+                        acceptRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
+                            .then(res => {
+                                // Success
+                                console.log("Success," , res)
+                            })
+                            .catch(error => console.log("ERR :" , error.message))
+                    }}>
+                        <Text>Approve Request</Text>
+                    </Button>
+                    
+                    {/* <FlatList
                         data={this.state.users}
                         renderItem={({ item, index }) => (
                             <Item style={{ flexDirection: 'row', padding: 4 }}>
@@ -131,7 +114,7 @@ class CommunityScreen extends Component {
                         )}
                         enableEmptySections={true}
                         keyExtractor={(item, index) => index.toString()}
-                    />
+                    /> */}
                 </Content>
             </Container>
         )
