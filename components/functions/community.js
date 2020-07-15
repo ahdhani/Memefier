@@ -1,4 +1,5 @@
 import {db,storage} from '../../config'
+// check git
 
 export const createGroup = (name , admin , desc , closed = true) => {
     return db.collection('groups').add({
