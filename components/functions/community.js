@@ -101,6 +101,20 @@ export const createRequest = (group_id , user_uid) => {
         .then(() => uid)
 }
 
+export const joinGroup = (group_id , user_uid) => {
+    // For requesting a particular group by a particular user
+    var doc = {
+        group_id,
+        user_uid,
+        approved : true
+    }
+    var uid =  group_id + '_' + user_uid
+    return db.collection('group_member')
+        .doc(uid)
+        .set(doc)
+        .then(() => uid)
+}
+
 /*
 Fetch the posts associated with a group
 export const fetchPostGroup = () => {

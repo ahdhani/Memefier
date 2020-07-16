@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, Dimensions, FlatList, ImageBackground,} from 'react-native'
-import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item} from 'native-base'
+import { View, Text, Dimensions, FlatList, ImageBackground, } from 'react-native'
+import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item, H1 } from 'native-base'
 import { connect } from 'react-redux';
+import colors from '../../../constants/colors'
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -10,14 +11,46 @@ class CommunityFeed extends Component {
 
     state = {
         userPosts: [1, 2, 3, 4],
+        uri: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
     }
-    
+
     render() {
         return (
             <Container>
                 <Content>
-                    <View>
+                    <View style={{
+                        backgroundColor: '#fff',marginTop: 50,
+                        borderTopLeftRadius: 30, borderTopRightRadius: 30
+                    }}>
+                        <View style={{
+                            flexDirection: 'row', justifyContent: 'space-around',
+                            alignItems: 'center'
+                        }}>
 
+                            <ImageBackground
+                                style={{
+                                    borderRadius: 150,
+                                    width: 150,
+                                    height: 150,
+                                    alignSelf: 'center',
+                                    backgroundColor: colors.color3,
+                                    zIndex: 10,
+                                    elevation: 10,
+                                }}
+                                imageStyle={{ borderRadius: 150 }}
+                                resizeMode='cover'
+                                source={{ uri: this.state.uri }}
+
+                            >
+                            </ImageBackground>
+
+                            <View style={{ alignItems: 'center' }}>
+                                <H1 style={{ color: colors.color1 }}>
+                                    FFC Kerala
+                                    </H1>
+                                <Text note>25 Members</Text>
+                            </View>
+                        </View>
                     </View>
                     <FlatList
                         data={this.state.userPosts}
@@ -30,7 +63,7 @@ class CommunityFeed extends Component {
                             // })}
                             >
                                 <ImageBackground resizeMode='contain' source={{
-                                    uri: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61'
+                                    uri: this.state.uri
                                 }}
                                     style={{
                                         // flex: 1,width: '100%',
