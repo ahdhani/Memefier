@@ -10,6 +10,7 @@ const CommunityCard = props => {
 
     useEffect(() => {
         console.log('grp id',props.group_id)
+
         fetchGroupDetails(props.group_id)
             .then(res => { 
                 setGroup(res)

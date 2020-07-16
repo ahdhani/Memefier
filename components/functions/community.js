@@ -18,11 +18,14 @@ export const createGroup = (name , admin , desc , closed = true) => {
 
 export const fetchGroupDetails = (group_id) => {
     return db.collection("groups")
-        .where("group_id" , "==" , group_id)
+        .doc(group_id)
         .get()
         .then(ref => {
-            console.log(ref)
-            return ref
+            if (ref.exists) {
+                return ref.data()
+            }
+            // console.log(ref.data)
+            return null
         })
         .catch(error => console.log(error.message))
 }
