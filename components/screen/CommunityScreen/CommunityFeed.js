@@ -1,47 +1,55 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { Container, Button, Text, Card, CardItem, Content, Right } from 'native-base'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { View , Text} from 'react-native'
+import { Container, Button, Card, CardItem, Content, Right } from 'native-base'
+import { connect } from 'react-redux';
 
 class CommunityFeed extends Component {
     render() {
         return (
             <Container>
                 <Content>
-                    <CardItem style={{ marginVertical: -10 }} >
-                        <Card style={{ margin: 50, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
-                            <CardItem style={{ marginLeft: 15 }}>
-                                <Button onPress={() => this.props.navigation.navigate('CreateCommunity')} style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65} >
-                                    <MaterialCommunityIcons
-                                        name='plus'
-                                        color="white"
-                                        size={30}
-                                    />
-                                </Button>
-                                <Text style={{ marginLeft: 15, fontWeight: 'bold', fontSize: 25 }}>Create a Group</Text>
-                            </CardItem>
-                            <Right>
-                            </Right>
-                        </Card>
-                    </CardItem>
-                    <CardItem style={{ marginVertical: -5 }} >
-                        <Card style={{ padding: 0, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
-                            <CardItem style={{ marginLeft: 15 }}>
-                                <Button style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65} >
-                                </Button>
-                                <View style={{ marginLeft: 15 }}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Fan Fight Club</Text>
-                                    <Text style={{ color: 'rgba(0,0,0,0.35)' }}>5.5k members</Text>
-                                </View>
-                            </CardItem>
-                            <Right>
-                            </Right>
-                        </Card>
-                    </CardItem>
-
-
-
-
+                    <Text>aisudfg</Text>
+                    {/* <FlatList
+                        data={this.state.userPosts}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
+                                post: this.state.userPosts,
+                                index: index,
+                            })}>
+                                <ImageBackground resizeMode='contain' source={{ uri: item.img }}
+                                    style={{
+                                        // flex: 1,width: '100%',
+                                        width: cardWidth, height: cardHeight, margin: 1,
+                                        borderRadius: 15, justifyContent: 'flex-end'
+                                    }}>
+                                    <View style={{ flexDirection: 'row', }}>
+                                        <Left>
+                                            <Text style={{
+                                                margin: 10, color: '#fff',
+                                                shadowColor: '#111', textShadowColor: '#111',
+                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                            }}>
+                                                <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
+                                                              4</Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={{
+                                                margin: 10, color: '#fff',
+                                                shadowColor: '#111', textShadowColor: '#111',
+                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                            }}>
+                                                <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
+                                                              54</Text>
+                                        </Right>
+                                    </View>
+                                </ImageBackground>
+                            </Item>
+                        )}
+                        numColumns={2}
+                        style={{ marginTop: 20, paddingTop: 5 }}
+                    // enableEmptySections={true}
+                    /> */}
                 </Content>
             </Container>
 
@@ -68,8 +76,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityFeed)
-=======
-export default CommunityFeed;
->>>>>>> 5a7718e296779b6e8c5af1ad2652b180c694b416

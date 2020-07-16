@@ -1,148 +1,81 @@
 import React, { Component } from 'react'
-import { StyleSheet, FlatList } from 'react-native'
-import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import { connect } from 'react-redux'
-import { db } from '../../../config'
-import { unfollow_user, follow_user, updateUserDetails } from '../../../redux';
-import {dislikePost , checkReaction, countLike } from '../../functions/reactions'
-import { testFunction , fetchAllReplies } from '../../functions/comments'
-import { createGroup , createRequest , acceptRequest } from '../../functions/community'
+import { View } from 'react-native'
+import { Container, Button, Text, Card, CardItem, Content, Right } from 'native-base'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { connect } from 'react-redux';
+import { FlatList } from 'react-native-gesture-handler';
 
 class CommunityScreen extends Component {
-
     state = {
-        users: []
+        dummyData: [1, 2],
     }
-
-    componentDidMount = () => {
-        // console.log("COMPONENT DID MOUNTED (FEED SCREEN)");
-        // this.props.fetchPosts();
-        this.fetchUsers()
-    }
-
-    fetchUsers = () => {
-        var user_list = []
-        db.collection('userDetails')
-            .get()
-            .then(snapshot => {
-                snapshot.docs.forEach(user => {
-                    // var isFollow = false // if following
-                    // if (user.id in this.props.following) {
-                    //     isFollow = true
-                    // }
-                    // console.log(this.props.user.uid , " == " , user.id)
-                    if (user.id != this.props.user.uid) {
-                        user_list = [{ ...user.data(), uid: user.id }, ...user_list]
-                    }
-
-                })
-                this.setState({
-                    users: user_list
-                })
-
-            })
-            .catch(error => console.log("ERR :", error.message))
-    }
-
-    toggleFollow = (uid) => {
-        if (this.props.following.includes(uid)) {
-            this.unfollowUser(uid)
-        } else {
-            this.followUser(uid)
-        }
-    }
-
-    followUser = (uid) => {
-        console.log("Follow user clicked");
-        this.props.follow(uid);
-    }
-
-    unfollowUser = (uid) => {
-        console.log("Unfollow clicked");
-        this.props.unfollow(uid);
-    }
-
     render() {
         return (
             <Container>
                 <Content>
-
-                    <Button transparent onPress={() => this.props.navigation.navigate('CreateCommunity')}>
-                        <Text>CreateCommunity</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigation.navigate('CreatePost')}>
-                        <Text>CreatePost</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigation.navigate('AdminScreen')}>
-                        <Text>AdminPrivileges</Text>
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigation.navigate('CommunityFeed')}>
-                        <Text>CommunityFeed</Text>
-                    </Button>
-
-                    <Button transparent onPress={() => {
-                        createRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
-                            .then(res => {
-                                // Success
-                                console.log("Success," , res)
-                            })
-                            .catch(error => console.log("ERR :" , error.message))
-                    }}>
-                        <Text>Make Request</Text>
-                    </Button>
-                    <Button transparent onPress={() => {
-                        acceptRequest("rao65J7MU6f3PBLyI5UY" , this.props.user.uid)
-                            .then(res => {
-                                // Success
-                                console.log("Success," , res)
-                            })
-                            .catch(error => console.log("ERR :" , error.message))
-                    }}>
-                        <Text>Approve Request</Text>
-                    </Button>
-                    
-                    {/* <FlatList
-                        data={this.state.users}
-                        renderItem={({ item, index }) => (
-                            <Item style={{ flexDirection: 'row', padding: 4 }}>
-                                <Thumbnail source={{ uri: item.avatar }} />
-                                <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
-                                <Text style={{ marginLeft: 150 }}
-                                    onPress={() => this.toggleFollow(item.uid)}
-                                >{(this.props.following.includes(item.uid)) ? 'unfollow ' : 'follow'}</Text>
-                            </Item>
-                        )}
-                        enableEmptySections={true}
+                    <CardItem style={{ marginBottom: -10 }} >
+                        <Card style={{ margin: 50, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
+                            <CardItem style={{ marginLeft: 15 }}>
+                                <Button onPress={() => this.props.navigation.navigate('CreateCommunity')} style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65} >
+                                    <MaterialCommunityIcons
+                                        name='plus'
+                                        color="white"
+                                        size={30}
+                                    />
+                                </Button>
+                                <Text style={{ marginLeft: 15, fontWeight: 'bold', fontSize: 25 }}>Create a Group</Text>
+                            </CardItem>
+                            <Right>
+                            </Right>
+                        </Card>
+                    </CardItem>
+                    <FlatList
+                        data={this.state.dummyData}
                         keyExtractor={(item, index) => index.toString()}
-                    /> */}
+                        renderItem={({ item, index }) => (
+                            <CardItem style={{ marginVertical: -5 }}>
+                                <Card style={{ padding: 0, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
+                                >
+                                    <CardItem style={{ marginLeft: 15 }}>
+                                        <Button style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65}
+                                            onPress={() => this.props.navigation.navigate('CommunityFeed')} >
+                                        </Button>
+                                        <View style={{ marginLeft: 15 }}>
+                                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Fan Fight Club</Text>
+                                            <Text style={{ color: 'rgba(0,0,0,0.35)' }}>5.5k members</Text>
+                                        </View>
+                                    </CardItem>
+                                    <Right>
+                                    </Right>
+                                </Card>
+                            </CardItem>
+                        )}
+                    />
+
+
                 </Content>
             </Container>
+
         )
     }
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#aaa',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-    },
-});
-
 const mapStateToProps = (state) => ({
-    user: state.auth.user,
-    userDetails: state.auth.userDetails,
-    following: state.auth.following
+    // isAuthenticated: state.auth.isAuthenticated,
+    // userDetails: state.auth.userDetails,
+    // userPosts: state.post.posts,
+    // following: state.auth.following,
+    // user: state.auth.user
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        unfollow: (user_id) => dispatch(unfollow_user(user_id)),
-        follow: (user_id) => dispatch(follow_user(user_id)) ,
-        updateUser : (data) => dispatch(updateUserDetails(data))
+        // logoutUser: () => dispatch(logoutUser()),
+        // unfollow: (user_id) => dispatch(unfollow_user(user_id)),
+        // follow: (user_id) => dispatch(follow_user(user_id)),
+        // fetchPosts: () => dispatch(fetchPosts()),
+
     }
 }
 
