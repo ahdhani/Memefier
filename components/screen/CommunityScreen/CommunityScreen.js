@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
 
+
 class CommunityScreen extends Component {
     state = {
         dummyData: [1, 2],
