@@ -116,4 +116,8 @@ const mapStateToProps = (state) => ({
     user: state.auth.user
 })
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, null)(CreateCommunity)
+=======
+export default connect(mapStateToProps, null)(CreateCommunity)
+>>>>>>> user uid create comm fixed
