@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
+
 import CommunityFeed from './CommunityFeed'
-import CreateCommunity from './CreateCommunity'
 import CreatePost from './CreatePost'
 import CommunityScreen from './CommunityScreen'
 import ProfileStack from '../ProfileScreen/ProfileStack'
 import AdminScreen from './AdminScreen'
+import CreateCommunity from './CreateCommunity'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,7 +22,7 @@ export default class CommunityStack extends Component {
         return (
             <NavigationContainer independent={true}>
                 <Stack.Navigator
-                
+
                     initialRouteName="CommunityScreen"
                     screenOptions={{
                         gestureEnabled: true
@@ -38,21 +39,17 @@ export default class CommunityStack extends Component {
                         name="CommunityFeed"
                         component={CommunityFeed}
                         options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Screen
-                        name="CreateCommunity"
-                        component={CreateCommunity}
-                        options={{
-                            headerShown: false
+                            title:"",
+                            headerStyle: { backgroundColor: '#3F51B5' }
                         }}
                     />
                     <Stack.Screen
                         name="CreatePost"
                         component={CreatePost}
                         options={{
-                            headerShown: false
+                            title: 'Create a Post',
+                            headerStyle: { backgroundColor: '#3F51B5' },
+                            headerTitleStyle: { color: 'white' }
                         }}
                     />
                     <Stack.Screen
@@ -63,12 +60,23 @@ export default class CommunityStack extends Component {
                         }}
                     />
                     <Stack.Screen
+                        name="CreateCommunity"
+                        component={CreateCommunity}
+                        options={{
+                            title: 'Make a Group',
+                            headerStyle: { backgroundColor: '#3F51B5' },
+                            headerTitleStyle: { color: 'white' }
+                        }}
+                    />
+                    <Stack.Screen
                         name="ProfileStack"
                         component={ProfileStack}
                         options={{
                             headerShown: false
                         }}
                     />
+
+
                 </Stack.Navigator>
             </NavigationContainer>
         );

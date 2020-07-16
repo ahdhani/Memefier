@@ -118,7 +118,7 @@ class UploadScreen extends Component {
                             </Card>
                             {this.state.titleError ?
                                 <Animatable.View animation='fadeIn' duration={500}>
-                                    <Text style={{ color: 'red', fontSize: 12 }}>Title must not be empty</Text>
+                                    <Text style={{ color: 'red', fontSize: 12 }}>*Title must not be empty</Text>
                                 </Animatable.View> : null
                             }
                         </CardItem>
