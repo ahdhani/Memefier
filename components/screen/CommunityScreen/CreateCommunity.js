@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Button, Text, Card, CardItem, Input, Content} from 'native-base'
 import * as Animatable from 'react-native-animatable'
+import {createGroup} from './../../functions/community';
 
 class CreateCommunity extends Component {
     state = {
@@ -74,6 +75,7 @@ class CreateCommunity extends Component {
                                             nameError: false,
                                             idError: false
                                         });
+                                        createGroup(this.state.name,'R5EGajrkyahxpXuizmSlZWt5Frq1',this.state.bio);
                                     }
                                     else {
                                         if (this.state.name.length == 0 && this.state.id.length != 0)

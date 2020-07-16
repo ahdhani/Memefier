@@ -8,7 +8,7 @@ export const createGroup = (name , admin , desc , closed = true) => {
         admin ,
         created_at : Date.now() ,
         closed ,
-        members : 1
+        members : 0
     }).then( ref => {
         console.log(ref)
         return ref.id
