@@ -1,23 +1,37 @@
 import React, { Component } from 'react'
-import { View , Text} from 'react-native'
-import { Container, Button, Card, CardItem, Content, Right } from 'native-base'
+import { View, Text, Dimensions, FlatList, ImageBackground,} from 'react-native'
+import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item} from 'native-base'
 import { connect } from 'react-redux';
 
+const cardWidth = (Dimensions.get('window').width / 2) - 4;
+const cardHeight = cardWidth * 1.25;
+
 class CommunityFeed extends Component {
+
+    state = {
+        userPosts: [1, 2, 3, 4],
+    }
+    
     render() {
         return (
             <Container>
                 <Content>
-                    <Text>aisudfg</Text>
-                    {/* <FlatList
+                    <View>
+
+                    </View>
+                    <FlatList
                         data={this.state.userPosts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                                post: this.state.userPosts,
-                                index: index,
-                            })}>
-                                <ImageBackground resizeMode='contain' source={{ uri: item.img }}
+                            <Item
+                            //  onPress={() => this.props.navigation.navigate('PostScrollScreen', {
+                            //     post: this.state.userPosts,
+                            //     index: index,
+                            // })}
+                            >
+                                <ImageBackground resizeMode='contain' source={{
+                                    uri: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61'
+                                }}
                                     style={{
                                         // flex: 1,width: '100%',
                                         width: cardWidth, height: cardHeight, margin: 1,
@@ -31,7 +45,8 @@ class CommunityFeed extends Component {
                                                 textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                             }}>
                                                 <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
-                                                              4</Text>
+                                                4
+                                            </Text>
                                         </Left>
                                         <Right>
                                             <Text style={{
@@ -40,7 +55,8 @@ class CommunityFeed extends Component {
                                                 textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                             }}>
                                                 <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
-                                                              54</Text>
+                                                54
+                                            </Text>
                                         </Right>
                                     </View>
                                 </ImageBackground>
@@ -48,8 +64,7 @@ class CommunityFeed extends Component {
                         )}
                         numColumns={2}
                         style={{ marginTop: 20, paddingTop: 5 }}
-                    // enableEmptySections={true}
-                    /> */}
+                    />
                 </Content>
             </Container>
 
@@ -77,3 +92,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityFeed)
+// export default CommunityFeed

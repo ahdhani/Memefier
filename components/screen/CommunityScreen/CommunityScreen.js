@@ -35,22 +35,26 @@ class CommunityScreen extends Component {
                         data={this.state.dummyData}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <CardItem style={{ marginVertical: -5 }}>
-                                <Card style={{ padding: 0, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
-                                >
-                                    <CardItem style={{ marginLeft: 15 }}>
-                                        <Button style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65}
-                                            onPress={() => this.props.navigation.navigate('CommunityFeed')} >
-                                        </Button>
-                                        <View style={{ marginLeft: 15 }}>
-                                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Fan Fight Club</Text>
-                                            <Text style={{ color: 'rgba(0,0,0,0.35)' }}>5.5k members</Text>
-                                        </View>
-                                    </CardItem>
-                                    <Right>
-                                    </Right>
-                                </Card>
-                            </CardItem>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunityFeed')}>
+                                <CardItem style={{ marginVertical: -5 }}>
+                                    <Card style={{ padding: 0, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
+                                    >
+                                        <CardItem style={{ marginLeft: 15 }}>
+                                            <Button style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65}
+                                                // onPress={() => this.props.navigation.navigate('CommunityFeed')} 
+                                                >
+                                            </Button>
+                                            <View style={{ marginLeft: 15 }}>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Fan Fight Club</Text>
+                                                <Text style={{ color: 'rgba(0,0,0,0.35)' }}>5.5k members</Text>
+                                            </View>
+                                        </CardItem>
+                                        <Right>
+                                        </Right>
+                                    </Card>
+                                </CardItem>
+                            </TouchableOpacity>
+
                         )}
                     />
 
