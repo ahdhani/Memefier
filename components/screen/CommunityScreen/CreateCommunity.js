@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Button, Text, Card, CardItem, Input, Content} from 'native-base'
 import * as Animatable from 'react-native-animatable'
 import {createGroup} from './../../functions/community';
+import { connect } from 'react-redux';
 
 class CreateCommunity extends Component {
     state = {
@@ -75,7 +76,7 @@ class CreateCommunity extends Component {
                                             nameError: false,
                                             idError: false
                                         });
-                                        createGroup(this.state.name,'R5EGajrkyahxpXuizmSlZWt5Frq1',this.state.bio);
+                                        createGroup(this.state.name,this.props.user.uid,this.state.bio);
                                     }
                                     else {
                                         if (this.state.name.length == 0 && this.state.id.length != 0)
@@ -105,4 +106,14 @@ class CreateCommunity extends Component {
         )
     }
 }
-export default CreateCommunity;
+
+
+const mapStateToProps = (state) => ({
+    // isAuthenticated: state.auth.isAuthenticated,
+    // userDetails: state.auth.userDetails,
+    // userPosts: state.post.posts,
+    // following: state.auth.following,
+    user: state.auth.user
+})
+
+export default connect(mapStateToProps, null)(CreateCommunity)
