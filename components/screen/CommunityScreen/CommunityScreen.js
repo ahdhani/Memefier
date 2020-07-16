@@ -97,13 +97,6 @@ class CommunityScreen extends Component {
     render() {
         return (
             <Container>
-                {/* <Header>
-                    <Left />
-                    <Body>
-                        <Title>Community</Title>
-                    </Body>
-                    <Right />
-                </Header> */}
                 <Content>
 
                     <Button transparent onPress={() => this.props.navigation.navigate('CreateCommunity')}>

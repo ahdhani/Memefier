@@ -4,6 +4,7 @@ import CommunityFeed from './CommunityFeed'
 import CreateCommunity from './CreateCommunity'
 import CreatePost from './CreatePost'
 import CommunityScreen from './CommunityScreen'
+import ProfileStack from '../ProfileScreen/ProfileStack'
 import AdminScreen from './AdminScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -57,6 +58,13 @@ export default class CommunityStack extends Component {
                     <Stack.Screen
                         name="AdminScreen"
                         component={AdminScreen}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProfileStack"
+                        component={ProfileStack}
                         options={{
                             headerShown: false
                         }}

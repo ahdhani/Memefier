@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, FlatList } from 'react-native'
-import { Container, Button, Item, Text, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
-import CommunityScreen from './CommunityScreen';
+import { Container, Tab, Tabs, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import MemberReview from './MemberReview';
+import PostReview from './PostReview';
+import colors from '../../../constants/colors'
 
 class AdminScreen extends Component {
 
@@ -15,13 +17,13 @@ class AdminScreen extends Component {
                         activeTabStyle={{ backgroundColor: '#142116' }}
                         activeTextStyle={{ color: colors.color1,fontSize: 20 }}
                         textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <CommunityScreen />
+                        <MemberReview />
                     </Tab>
                     <Tab heading="Post" tabStyle={{ backgroundColor: colors.color5 }}
                         activeTabStyle={{ backgroundColor: '#142116' }}
                         activeTextStyle={{ color: colors.color1,fontSize: 20 }}
                         textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <CommunityScreen />
+                        <PostReview />
                     </Tab>
                 </Tabs>
             </Container>
