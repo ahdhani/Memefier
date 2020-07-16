@@ -116,4 +116,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user
 })
 
-export default connect(mapStateToProps, null)(CommunityScreen)
+export default connect(mapStateToProps, null)(CreateCommunity)
