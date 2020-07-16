@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Container, Button, Text, Card, CardItem, Content, Right } from 'native-base'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect } from 'react-redux';
@@ -13,22 +13,24 @@ class CommunityScreen extends Component {
         return (
             <Container>
                 <Content>
-                    <CardItem style={{ marginBottom: -10 }} >
-                        <Card style={{ margin: 50, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
-                            <CardItem style={{ marginLeft: 15 }}>
-                                <Button onPress={() => this.props.navigation.navigate('CreateCommunity')} style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65} >
-                                    <MaterialCommunityIcons
-                                        name='plus'
-                                        color="white"
-                                        size={30}
-                                    />
-                                </Button>
-                                <Text style={{ marginLeft: 15, fontWeight: 'bold', fontSize: 25 }}>Create a Group</Text>
-                            </CardItem>
-                            <Right>
-                            </Right>
-                        </Card>
-                    </CardItem>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateCommunity')}>
+                        <CardItem style={{ marginBottom: -10 }} >
+                            <Card style={{ margin: 50, borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
+                                <CardItem style={{ marginLeft: 15 }}>
+                                    <Button style={{ borderRadius: 100, alignItems: 'center', justifyContent: 'center' }} height={65} width={65} >
+                                        <MaterialCommunityIcons
+                                            name='plus'
+                                            color="white"
+                                            size={30}
+                                        />
+                                    </Button>
+                                    <Text style={{ marginLeft: 15, fontWeight: 'bold', fontSize: 25 }}>Create a Group</Text>
+                                </CardItem>
+                                <Right>
+                                </Right>
+                            </Card>
+                        </CardItem>
+                    </TouchableOpacity>
                     <FlatList
                         data={this.state.dummyData}
                         keyExtractor={(item, index) => index.toString()}
