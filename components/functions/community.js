@@ -1,7 +1,7 @@
 import {db,storage} from '../../config'
 // check git
 
-export const createGroup = (name , admin , desc , closed = true) => {
+export const createGroup = (name , admin , desc , closed = true) => {   //done
     return db.collection('groups').add({
         name ,
         desc ,
@@ -16,7 +16,7 @@ export const createGroup = (name , admin , desc , closed = true) => {
     .catch(error => console.log(error.message));
 }
 
-export const fetchGroupDetails = (group_id) => {
+export const fetchGroupDetails = (group_id) => {        //done
     return db.collection("groups")
         .doc(group_id)
         .get()
@@ -30,7 +30,7 @@ export const fetchGroupDetails = (group_id) => {
         .catch(error => console.log(error.message))
 }
 
-export const fetchGroups = (user_uid) => {
+export const fetchGroups = (user_uid) => {           //done
     // Fetch the groups a particular user is following
     return db.collection("group_member")
         .where("user_uid" , "==" , user_uid)
@@ -46,7 +46,12 @@ export const viewRequests = (group_id) => {
         .where("group_id" , "==" ,group_id)
         .where("approved" , "==" , false)
         .get()
-        .then(snapshots => snapshots.docs)
+        .then(res => {
+            arr = []
+            res.forEach(obj => {
+                arr=[...arr,obj.data()]
+            })
+        })
         .catch(err => console.log(err.message))
 }
 
@@ -104,7 +109,7 @@ export const createRequest = (group_id , user_uid) => {
         .then(() => uid)
 }
 
-export const joinGroup = (group_id , user_uid) => {
+export const joinGroup = (group_id , user_uid) => {              
     // For requesting a particular group by a particular user
     var doc = {
         group_id,

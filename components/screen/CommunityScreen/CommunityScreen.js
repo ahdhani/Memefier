@@ -19,8 +19,6 @@ class CommunityScreen extends Component {
         fetchGroups(this.props.user.uid)
             .then(groups => {
                 groups.forEach(group => {
-                    // var data = group.data()
-                    // console.log(data.group_id)
                     this.setState({ groups: [...this.state.groups, group.data().group_id] })
                 })
             });
@@ -54,8 +52,7 @@ class CommunityScreen extends Component {
                         data={this.state.groups}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunityFeed')}>
-                                {/* <Text>{item}</Text> */}
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('CommunityFeed',{ group_id: item, })}>
                                 <CommunityCard group_id={item} />
                             </TouchableOpacity>
 
@@ -72,19 +69,11 @@ class CommunityScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    // isAuthenticated: state.auth.isAuthenticated,
-    // userDetails: state.auth.userDetails,
-    // userPosts: state.post.posts,
-    // following: state.auth.following,
     user: state.auth.user
 })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // logoutUser: () => dispatch(logoutUser()),
-        // unfollow: (user_id) => dispatch(unfollow_user(user_id)),
-        // follow: (user_id) => dispatch(follow_user(user_id)),
-        // fetchPosts: () => dispatch(fetchPosts()),
 
     }
 }

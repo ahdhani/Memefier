@@ -11,7 +11,7 @@ import { fetchUserDetails } from '../../functions/user'
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested',
-    'H1 should have only string or number', // TODO: Remove when fixed
+    // 'H1 should have only string or number', // TODO: Remove when fixed
   ])
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
@@ -149,14 +149,15 @@ class ProfileScreen extends Component {
                             alignItems: 'flex-end', marginTop: 20,
                         }}>
                             <View style={{ paddingLeft: 40 }}>
-                                <H1 style={{ color: colors.color3 }}>
+                                <Text style={{ color: colors.color3,fontSize: 26 }}>
                                     {this.state.userDetails.firstname} {this.state.userDetails.lastname}
                                     {uuid && uuid != this.props.user.uid &&
-                                        <Text onPress={() => this.toggleFollow(uuid)}>
-                                            {(this.props.following.includes(uuid)) ? ' Unfollow ' : ' Follow'}
+                                        <Text style={{ color: colors.color3,fontSize: 16 }} 
+                                        onPress={() => this.toggleFollow(uuid)}>
+                                            {(this.props.following.includes(uuid)) ? '  Unfollow ' : '  Follow'}
                                         </Text>
                                     }
-                                </H1>
+                                </Text>
                                 <Text note>{this.state.userDetails.bio}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', marginRight: 40, }}>

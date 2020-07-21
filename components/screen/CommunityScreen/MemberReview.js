@@ -2,12 +2,18 @@ import React, { Component, useEffect, useState } from 'react';
 import { Card, Thumbnail, CardItem, Left, Body, Right, Button, Icon } from 'native-base'
 import { View, FlatList, Text,TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { viewRequests ,acceptRequest,deleteRequest} from '../../functions/community'
 
 const MemberReview = props => {
 
     const navigation = useNavigation();
     const [members, setMembers] = useState()
     useEffect(() => {
+        viewRequests(props.group_id)
+            .then(res => {
+                // setMembers(res)
+                console.log('ViewRequest : ', res)
+            });
         setMembers(
             [{
                 userId: 'Kudu',
@@ -30,7 +36,8 @@ const MemberReview = props => {
             data={members}
             renderItem={({ item }) => (
                 <Card>
-                    <TouchableOpacity style={{position: 'absolute',top: 5,right: 5}}>
+                    <TouchableOpacity style={{position: 'absolute',top: 5,right: 5}}
+                        onPress={() => deleteRequest(props.group_id,item.userId)}>
                         <Icon active name="close" style={{fontSize: 18}}/>
                     </TouchableOpacity>
 
@@ -52,7 +59,7 @@ const MemberReview = props => {
                             backgroundColor: 'green', borderRadius: 5,
                             height: 35 ,
                         }}
-                        // onPress={ }
+                        onPress={() => acceptRequest(props.group_id,item.userId)}
                         >
                             <Text>Accept</Text>
                         </Button>

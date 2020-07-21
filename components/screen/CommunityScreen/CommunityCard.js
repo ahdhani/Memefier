@@ -14,7 +14,7 @@ const CommunityCard = props => {
         fetchGroupDetails(props.group_id)
             .then(res => {
                 setGroup(res)
-                console.log(res)
+                // console.log(res)
             });
 
     }, []);
