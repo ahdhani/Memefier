@@ -98,7 +98,9 @@ export default class TrendingScreen extends Component {
                                 value={this.state.searchText}
                                 underlineColorAndroid="transparent"
                             />
+                            <Button onPress={()=> this.props.navigation.navigate('SearchScreen')}>
                             <Icon name="ios-people" />
+                            </Button>
                         </Item>
                     </Body>
                 </Header>

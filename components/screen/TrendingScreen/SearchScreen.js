@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
-import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Tab, Tabs, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
+import SearchComponent from './SearchComponent'
+import colors from '../../../constants/colors'
+import { db } from '../../../config';
+import { algoliaTest, algoliaSearch } from '../../functions/algolia'
 
 export default class SearchScreen extends Component {
 
@@ -8,8 +12,7 @@ export default class SearchScreen extends Component {
         searchText: '',
         searchResult: [],
         searchLoading: false,
-        trendingPosts: [
-        ],
+
     }
 
     onChangeTextSearch = (text) => {
@@ -25,7 +28,7 @@ export default class SearchScreen extends Component {
                 .then(snapshot => {
                     snapshot.docs.forEach(doc => {
                         if (doc.data().firstname.includes(text) || doc.data().lastname.includes(text)) {
-                            search_list = [...search_list,{ ...doc.data(),uuid: doc.id}]
+                            search_list = [...search_list, { ...doc.data(), uuid: doc.id }]
 
                         }
                     })
@@ -45,50 +48,6 @@ export default class SearchScreen extends Component {
         }
     }
 
-    toggleFollow = (index) => {
-        let trendingPosts = this.state.trendingPosts;
-        trendingPosts[index].isFollow = !trendingPosts[index].isFollow;
-        this.setState({
-            trendingPosts: trendingPosts,
-        })
-    }
-
-    fetchPosts = async () => {
-
-        // console.log("USER.UID , ", this.props.user.uid)
-        await db.collection('posts')
-            // .where('created_by', 'in', [...this.props.following, this.props.user.uid])
-            .get()
-            .then(async snapshot => {
-                var arr = []
-                await snapshot.docs.forEach(doc => {
-                    arr = [{ ...doc.data(), post_id: doc.id }, ...arr]
-                })
-
-                await this.setState({
-                    trendingPosts: arr
-                })
-
-                // console.log("trending Posts\n" , this.state.trendingPosts)
-            }).
-            catch(error => console.log("ERR : ", error.message))
-
-    }
-
-    // fetchUser = async (user_uid) => {
-    //     db.collection("userDetails")
-    //         .doc(user_uid)
-    //         .get()
-    //         .then(user => {
-    //             return user.data().userId
-    //         }).catch(error => console.log(error.message))
-
-    // }
-
-    componentDidMount = () => {
-        this.fetchPosts()
-    }
-
     render() {
         return (
             <Container>
@@ -101,89 +60,37 @@ export default class SearchScreen extends Component {
                                 value={this.state.searchText}
                                 underlineColorAndroid="transparent"
                                 autoFocus
-                                // onBlur={() => this.setState({
-                                //     searchResult: [],
-                                //     searchText: '',
-                                // })}
-                                 />
+                            // onBlur={() => this.setState({
+                            //     searchResult: [],
+                            //     searchText: '',
+                            // })}
+                            />
                             <Icon name="ios-people" />
                         </Item>
                     </Body>
                 </Header>
+                <Content>
+                    <Tabs tabBarPosition='top' locked
+                        tabBarUnderlineStyle={{ backgroundColor: 'black', height: 2 }}>
+                        <Tab heading="Members" tabStyle={{ backgroundColor: colors.color5 }}
+                            activeTabStyle={{ backgroundColor: '#142116' }}
+                            activeTextStyle={{ color: colors.color1, fontSize: 20 }}
+                            textStyle={{ color: colors.color3, fontSize: 18 }}>
+                            <SearchComponent list={this.state.searchResult} searchLoading={this.state.searchLoading} />
+                            {/* <MemberReview group_id={this.props.route.params.group_id}
+                        userId={this.props.user.uid} /> */}
+                        </Tab>
+                        <Tab heading="Post" tabStyle={{ backgroundColor: colors.color5 }}
+                            activeTabStyle={{ backgroundColor: '#142116' }}
+                            activeTextStyle={{ color: colors.color1, fontSize: 20 }}
+                            textStyle={{ color: colors.color3, fontSize: 18 }}>
+                            <SearchComponent list={this.state.searchResult} searchLoading={this.state.searchLoading} />
 
-                <FlatList
-                    style={{
-                        position: 'absolute', top: 60,
-                        elevation: 2, zIndex: 2,
-                        backgroundColor: '#fffffff0',
-                        width: '100%', borderBottomLeftRadius: 5,
-                        elevation: 5
-                    }}
-                    ListFooterComponent={() =>
-                        this.state.searchLoading &&
-                        <View style={{ paddingVertical: 20 }}>
-                            <ActivityIndicator animating={this.state.searchLoading} size="small" />
-                        </View>
-                    }
-                    data={this.state.searchResult}
-                    renderItem={({ item }) => (
-                        <Item onPress={() => this.props.navigation.push('ProfileStack', {
-                                screen: 'ProfileScreen',
-                                params: { uuid: item.uuid }
-                            })
-                        }
-                            style={{ flexDirection: 'row', padding: 4 }}>
-                            <Thumbnail source={require('../../../assets/profile.jpeg')} />
-                            <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
-                        </Item>
-                    )}
-                    enableEmptySections={true}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-
-                <FlatList
-                    data={this.state.trendingPosts}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (
-                        <Item onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                            post: this.state.trendingPosts,
-                            index: index,
-                        })}>
-                            <ImageBackground resizeMode='contain' source={{ uri: item.img }}
-                                style={{
-                                    width: cardWidth, height: cardHeight,
-                                    elevation: 5, zIndex: 5
-                                }}>
-                                <View style={{ flexDirection: 'row', top: 200 }}>
-                                    <Left>
-                                        <Text style={{
-                                            margin: 20, color: '#fff',
-                                            shadowColor: '#111', textShadowColor: '#111',
-                                            textShadowRadius: 10, fontWeight: '800',
-                                        }}>{item.userId}</Text>
-                                    </Left>
-                                    <Right>
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                this.toggleFollow(index)
-                                            }}
-                                        >
-                                            <Text style={{
-                                                margin: 20, color: '#fff',
-                                                shadowColor: '#111', textShadowColor: '#111',
-                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                            }}>{item.isFollow ? 'Follow' : 'Unfollow'}</Text>
-                                        </TouchableOpacity>
-
-                                    </Right>
-                                </View>
-                            </ImageBackground>
-                        </Item>
-                    )}
-                    numColumns={2}
-                // enableEmptySections={true}
-                />
-
+                            {/* <PostReview group_id={this.props.route.params.group_id} 
+                        userId={this.props.user.uid} /> */}
+                        </Tab>
+                    </Tabs>
+                </Content>
             </Container>
         )
     }
