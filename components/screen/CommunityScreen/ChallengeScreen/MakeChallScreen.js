@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Container, Content, CardItem, Card, Button } from 'native-base';
 import { addChallenge } from './../../../functions/challenges';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
-import * as Animatable from 'react-native-animatable'
 
 class MakeChallScreen extends Component {
 
@@ -15,9 +14,7 @@ class MakeChallScreen extends Component {
         dateBool: false,
         buttonDisplay: 'Deadline',
         buttonTextColor: 'white',
-        deadline: 0,
-        nameError: false,
-        descError: false
+        deadline: 0
     };
 
     hideDatePicker = () => {
@@ -51,22 +48,12 @@ class MakeChallScreen extends Component {
                             <CardItem >
                                 <TextInput onChangeText={(text) => this.setState({ chalName: text })} style={styles.challName} placeholder="Challenge Name"></TextInput>
                             </CardItem>
-                            {this.state.nameError ?
-                                <Animatable.View animation='fadeIn' duration={500}>
-                                    <Text style={{ color: 'red', fontSize: 12 }}>      *Challenge Name must not be empty</Text>
-                                </Animatable.View> : null
-                            }
 
                             <CardItem>
                                 <Card style={styles.challDesc} >
                                     <TextInput onChangeText={(text) => this.setState({ chalDesc: text })} style={{ fontSize: 16 }} multiline placeholder="Description"></TextInput>
                                 </Card>
                             </CardItem>
-                            {this.state.descError ?
-                                <Animatable.View animation='fadeIn' duration={500}>
-                                    <Text style={{ color: 'red', fontSize: 12 }}>      *Description must not be empty</Text>
-                                </Animatable.View> : null
-                            }
 
                             <CardItem style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 }}>
                                 <Button style={{ height: 40, width: 230, padding: 23, borderRadius: 8 }} onPress={this.showDatePicker} >
@@ -88,36 +75,9 @@ class MakeChallScreen extends Component {
                     </CardItem>
                     <CardItem style={{ flexDirection: 'column' }}>
                         <Button onPress={() => {
-                            if (this.state.chalName.length != 0 && this.state.chalDesc.length != 0 && this.state.deadline != 0) {
-                                this.setState({
-                                    nameError: false,
-                                    descError: false
-                                });
-                                addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid,
-                                    this.state.deadline).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)));
-                            }
-                            else if (this.state.chalName.length != 0 && this.state.chalDesc.length != 0 && this.state.deadline == 0) {
-                                Alert.alert('OOPS!', 'You haven\'t selected the deadline yet.')
-                            }
-                            else {
-                                if (this.state.chalName.length == 0)
-                                    this.setState({
-                                        nameError: true
-                                    });
-                                else
-                                    this.setState({
-                                        nameError: false
-                                    });
-                                if (this.state.chalDesc.length == 0)
-                                    this.setState({
-                                        descError: true
-                                    });
-                                else
-                                    this.setState({
-                                        descError: false
-                                    });
-                            }
-
+                            console.log(this.state.deadline)
+                            addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid,
+                                this.state.deadline).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
                         }}
                             block >
                             <Text style={{ color: "white", fontSize: 18 }}>Post</Text>
