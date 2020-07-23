@@ -76,7 +76,13 @@ class CreateCommunity extends Component {
                                             nameError: false,
                                             idError: false
                                         });
-                                        createGroup(this.state.name,this.props.user.uid,this.state.bio);
+                                        createGroup(this.state.name,this.props.user.uid,this.state.bio)
+                                            .then(id => {
+                                                // SUCCESS AND REDIRECT TO PREV SCREEN -- @hani
+                                            })
+                                            .catch(error => {
+                                                // SHOW FAILED MSG -- @hani
+                                            })
                                     }
                                     else {
                                         if (this.state.name.length == 0 && this.state.id.length != 0)

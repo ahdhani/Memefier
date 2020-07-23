@@ -268,6 +268,7 @@ export const updateUserDetails = (updatedUserdetails) => {
 
         return userDetailsRef.update(updatedUserdetails)
             .then(() => {
+                algoliaUpdate(getState().auth.user.uid , updateUserDetails)
                 console.log("UserDetails Updated successfully!")
                 dispatch({
                     type: UPDATE_USER_DETAILS,
