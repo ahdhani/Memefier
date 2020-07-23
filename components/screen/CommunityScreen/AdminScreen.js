@@ -4,6 +4,7 @@ import { Container, Tab, Tabs, Right, H3, H2, DatePicker, Title, Thumbnail } fro
 import MemberReview from './MemberReview';
 import PostReview from './PostReview';
 import colors from '../../../constants/colors'
+import { connect } from 'react-redux';
 
 class AdminScreen extends Component {
 
@@ -17,13 +18,15 @@ class AdminScreen extends Component {
                         activeTabStyle={{ backgroundColor: '#142116' }}
                         activeTextStyle={{ color: colors.color1,fontSize: 20 }}
                         textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <MemberReview />
+                        <MemberReview group_id={this.props.route.params.group_id}
+                        userId={this.props.user.uid} />
                     </Tab>
                     <Tab heading="Post" tabStyle={{ backgroundColor: colors.color5 }}
                         activeTabStyle={{ backgroundColor: '#142116' }}
                         activeTextStyle={{ color: colors.color1,fontSize: 20 }}
                         textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <PostReview />
+                        <PostReview group_id={this.props.route.params.group_id} 
+                        userId={this.props.user.uid} />
                     </Tab>
                 </Tabs>
             </Container>
@@ -32,5 +35,15 @@ class AdminScreen extends Component {
 
 }
 
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+})
 
-export default AdminScreen
+const mapDispatchToProps = (dispatch) => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminScreen)
+
+// export default 
