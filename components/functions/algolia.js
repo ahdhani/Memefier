@@ -4,6 +4,8 @@ const algoliasearch = require("algoliasearch");
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_API_KEY);
 
 const user = client.initIndex("users");
+const group = client.initIndex("groups");
+
 
 export const algoliaPopulateUser = (user_id, user_details) => {
   const objects = [
@@ -22,6 +24,30 @@ export const algoliaPopulateUser = (user_id, user_details) => {
     .catch(err => {
       console.log(err);
     });
+}
+
+export const algoliaPopulateGroup = (group_id, user_details) => {
+  const objects = [
+    {
+      objectID: group_id,
+      ...group_details
+    }
+  ];
+
+  return group
+    .saveObjects(objects)
+    .then(({ objectIDs }) => {
+      console.log(objectIDs);
+      // return true
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+export const algoliaSearchGroup = (query) => {
+  return group
+    .search(query)
 }
 
 export const algoliaSearch = (query) => {
