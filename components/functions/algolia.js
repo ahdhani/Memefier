@@ -26,7 +26,7 @@ export const algoliaPopulateUser = (user_id, user_details) => {
     });
 }
 
-export const algoliaPopulateGroup = (group_id, user_details) => {
+export const algoliaPopulateGroup = (group_id, group_details) => {
   const objects = [
     {
       objectID: group_id,
@@ -37,7 +37,7 @@ export const algoliaPopulateGroup = (group_id, user_details) => {
   return group
     .saveObjects(objects)
     .then(({ objectIDs }) => {
-      console.log(objectIDs);
+      console.log("Success algolia");
       // return true
     })
     .catch(err => {

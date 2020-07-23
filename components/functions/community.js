@@ -1,9 +1,10 @@
 import {db,storage} from '../../config'
+import {algoliaPopulateGroup} from './algolia'
 // check git
 
 export const createGroup = (name , admin , desc , closed = true) => {
     const DP_URL = "https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fillumminati.jpg?alt=media&token=cd3c6612-8c0d-45b4-b3f5-3b3e684083ca"
-    return db.collection('groups').add({
+    var data = {
         name ,
         desc ,
         admin ,
@@ -11,8 +12,14 @@ export const createGroup = (name , admin , desc , closed = true) => {
         closed ,
         dp : DP_URL ,
         members : 0
-    }).then( ref => {
-        console.log(ref)
+    }
+    
+    return db.collection('groups').add(data).then( ref => {
+        
+        // console.log(ref)
+        // console.log("ref" , data)
+        algoliaPopulateGroup(ref.id , data)
+            .catch(err=>console.log(err.message))
         return ref.id
     })
     .catch(error => console.log(error.message));

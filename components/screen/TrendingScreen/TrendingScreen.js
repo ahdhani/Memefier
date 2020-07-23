@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { db } from '../../../config';
-import { algoliaTest, algoliaSearch } from '../../functions/algolia'
+import { algoliaTest, algoliaSearch , algoliaSearchGroup} from '../../functions/algolia'
 
 const cardWidth = Dimensions.get('window').width / 2;
 const cardHeight = cardWidth * 1.25;
