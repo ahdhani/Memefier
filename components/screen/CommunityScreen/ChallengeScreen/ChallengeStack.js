@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import JoinChallScreen from './JoinChallScreen';
 import ChallengeScreen from './ChallengeScreen';
 import MakeChallScreen from './MakeChallScreen';
+import ChallengeFeed from './ChallengeFeed';
 
 // const screens = {
 //     ChallengeScreen: {
@@ -75,6 +76,13 @@ export default class ChallengeStack extends Component {
                         component={MakeChallScreen}
                         options={{
                             title: 'Make a Challenge'
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ChallengeFeed"
+                        component={ChallengeFeed}
+                        options={{
+                            title: 'Titanic Challenge'
                         }}
                     />
 

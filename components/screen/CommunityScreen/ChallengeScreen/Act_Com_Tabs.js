@@ -63,7 +63,8 @@ export default class Act_Com_Tabs extends React.Component {
         let ComChall = [];                               //Completed Challenges array
 
         ActiveChall.push(
-            <Card style={{ padding: 0, borderRadius: 8 }}>
+            <TouchableOpacity onPress={() => navigate('ChallengeFeed')}>
+            <Card style={{ padding: 0, borderRadius: 8 }}> 
                 <CardItem>
                     <View>
                         <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
@@ -71,12 +72,14 @@ export default class Act_Com_Tabs extends React.Component {
                     </View>
                     <Right>
                         <Text >Ends in 5hrs</Text>
-                        <Button height={30} width={75} onPress={() => navigate('JoinChallScreen')}>
+                        {/* <Button height={30} width={75} onPress={() => navigate('JoinChallScreen')}>
                             <Text style={{ color: "white", fontSize: 17 }}>     Join</Text>
-                        </Button>
+                        </Button> */}
                     </Right>
                 </CardItem>
             </Card>
+            </TouchableOpacity>
+            
         );
 
         ComChall.push(
