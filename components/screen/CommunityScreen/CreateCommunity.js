@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button, Text, Card, CardItem, Input, Content} from 'native-base'
+import { Container, Button, Text, Card, CardItem, Input, Content,Spinner ,} from 'native-base'
 import * as Animatable from 'react-native-animatable'
 import {createGroup} from './../../functions/community';
 import { connect } from 'react-redux';
@@ -10,7 +10,8 @@ class CreateCommunity extends Component {
         nameError: false,
         bio: '',
         id: '',
-        idError: false
+        idError: false,
+        loading: false,
     }
 
     render() {
@@ -78,6 +79,8 @@ class CreateCommunity extends Component {
                                         });
                                         createGroup(this.state.name,this.props.user.uid,this.state.bio)
                                             .then(id => {
+
+                                                this.props.navigation.goBack();
                                                 // SUCCESS AND REDIRECT TO PREV SCREEN -- @hani
                                             })
                                             .catch(error => {

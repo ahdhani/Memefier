@@ -10,37 +10,10 @@ const cardHeight = cardWidth * 1.25;
 export default class TrendingScreen extends Component {
 
     state = {
-        searchText: '',
-        searchResult: [],
-        searchLoading: false,
         trendingPosts: [
         ],
     }
 
-    onChangeTextSearch = (text) => {
-
-        if (text != '') {
-            this.setState({
-                searchLoading: true,
-                searchText: text,
-            })
-            var search_list = []
-            algoliaSearch(text)
-                .then(({ hits }) => {
-                    this.setState({
-                        searchResult: hits,
-                        searchLoading: false,
-                    })
-                })
-                .catch(error => console.log(error.message))
-        }
-        else {
-            this.setState({
-                searchResult: [],
-                searchText: '',
-            })
-        }
-    }
 
     toggleFollow = (index) => {
         let trendingPosts = this.state.trendingPosts;
@@ -94,46 +67,12 @@ export default class TrendingScreen extends Component {
                         <Item>
                             <Icon name="ios-search" />
                             <Input placeholder="Search"
-                                onChangeText={text => this.onChangeTextSearch(text)}
-                                value={this.state.searchText}
+                                onFocus={()=> this.props.navigation.navigate('SearchScreen')}
                                 underlineColorAndroid="transparent"
                             />
-                            <Button onPress={()=> this.props.navigation.navigate('SearchScreen')}>
-                            <Icon name="ios-people" />
-                            </Button>
                         </Item>
                     </Body>
                 </Header>
-
-                <FlatList
-                    style={{
-                        position: 'absolute', top: 60,
-                        elevation: 2, zIndex: 2,
-                        backgroundColor: '#fffffff0',
-                        width: '100%', borderBottomLeftRadius: 5,
-                        elevation: 5
-                    }}
-                    ListFooterComponent={() =>
-                        this.state.searchLoading &&
-                        <View style={{ paddingVertical: 20 }}>
-                            <ActivityIndicator animating={this.state.searchLoading} size="small" />
-                        </View>
-                    }
-                    data={this.state.searchResult}
-                    renderItem={({ item }) => (
-                        <Item onPress={() => this.props.navigation.push('ProfileStack', {
-                            screen: 'ProfileScreen',
-                            params: { uuid: item.objectId }
-                        })
-                        }
-                            style={{ flexDirection: 'row', padding: 4 }}>
-                            <Thumbnail source={{uri: item.dp}} />
-                            <Text style={{ marginLeft: 8 }}>{item.firstname} {item.lastname}</Text>
-                        </Item>
-                    )}
-                    enableEmptySections={true}
-                    keyExtractor={(item, index) => index.toString()}
-                />
 
                 <FlatList
                     data={this.state.trendingPosts}
