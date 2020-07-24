@@ -10,6 +10,7 @@ import { addPost } from '../../../redux';
 import { connect } from 'react-redux';
 import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
+import {createUserPost} from '../../functions/posts'
 
 class UploadScreen extends Component {
     state = {
@@ -181,7 +182,7 @@ class UploadScreen extends Component {
                                         this.setState({
                                             titleError: false
                                         });
-                                        this.onPost;
+                                        this.onPost();
                                     }
                                     else {
                                         if (this.state.image == null) {
@@ -253,7 +254,7 @@ class UploadScreen extends Component {
                 const blob = await response.blob();
 
                 const uploadTask = storage.ref().child("memes/" + imageName).put(blob);
-
+                console.log("In try")
                 uploadTask.on('state_changed',
                     (snapshot) => {
                         // Progress function
@@ -267,13 +268,19 @@ class UploadScreen extends Component {
                     () => {
                         storage.ref('memes').child(imageName).getDownloadURL().then(async url => {
                             // console.log(url);
-                            await this.props.addPost(url, post_desc)
-                            this.setState({
-                                ...this.state,
-                                image: null,
-                                progress: null,
-                                postOnProgress: false,
-                            })
+                            // await this.props.addPost(url, post_desc)
+                            createUserPost(this.props.user.uid , url , post_desc)
+                                .then((ret_id) => {
+                                    console.log("UPLOAD SUCCESS ," , ret_id)
+                                    this.setState({
+                                        ...this.state,
+                                        image: null,
+                                        progress: null,
+                                        postOnProgress: false,
+                                    })
+                                })
+                                .catch(err => console.log("POST UPLOAD FAILED ,",err.message))
+                            
                             this.props.navigation.goBack()
                         })
                     })
@@ -297,6 +304,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => ({
+    user:state.auth.user ,
     userDetails: state.auth.userDetails,
     following: state.auth.following
 })

@@ -55,11 +55,12 @@ export const viewRequests = (group_id) => {
         .where("group_id" , "==" ,group_id)
         .where("approved" , "==" , false)
         .get()
-        .then(res => {
+        .then(async res => {
             arr = []
-            res.forEach(obj => {
+            await res.forEach(obj => {
                 arr=[...arr,obj.data()]
             })
+            return arr;
         })
         .catch(err => console.log(err.message))
 }
