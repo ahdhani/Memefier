@@ -142,13 +142,20 @@ export const loadUser = () => {
                         // console.log(snapshot.data())
                         console.log("USER LOADED")
 
+                        let arr = []
+
+                        // var p1 = // something
+                        // var p2 = // something else
+
+                        // Promise.all
+
                         db.collection("followers").where('followed_by', '==', user.uid)
                             .get()
                             .then(snapshot_followers => {
                                 console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
                                 // console.log(snapshot_followers.data())
                                 // console.log(snapshot_followers.docs);
-                                let arr = []
+                                
                                 snapshot_followers.docs.forEach(item => {
                                     arr = [...arr, item.data().following]
                                 })
