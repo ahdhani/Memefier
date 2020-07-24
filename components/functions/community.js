@@ -132,6 +132,21 @@ export const joinGroup = (group_id , user_uid) => {
         .then(() => uid)
 }
 
+export const checkRequestStatus = (group_id , user_uid) => {
+    var uid =  group_id + '_' + user_uid
+
+    return db.collection("group_member")
+        .doc(uid)
+        .get()
+        .then(doc => {
+            if (!doc.exists) {
+                return null;
+            }
+            // console.log(doc)
+            return doc.data().approved;
+        })
+}
+
 /*
 Fetch the posts associated with a group
 export const fetchPostGroup = () => {
