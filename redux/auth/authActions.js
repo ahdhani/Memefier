@@ -149,7 +149,7 @@ export const loadUser = () => {
 
                         // Promise.all
 
-                        db.collection("followers").where('followed_by', '==', user.uid)
+                        var p1 = db.collection("followers").where('followed_by', '==', user.uid)
                             .get()
                             .then(snapshot_followers => {
                                 console.log("FOLLOWERS FETCH SUCCESS (LOGIN)");
@@ -159,6 +159,24 @@ export const loadUser = () => {
                                 snapshot_followers.docs.forEach(item => {
                                     arr = [...arr, item.data().following]
                                 })
+                                // console.log(user)
+                            })
+                        console.log("USER-UID" , user.uid)
+                        var p2 = db.collection("group_member")
+                            .where('user_uid', '==', user.uid)
+                            .where('approved' , '==' , true)
+                            .get()
+                            .then(snapshots => {
+                                console.log("GROUPS FETCH SUCCESS (LOGIN)");
+                                
+                                snapshots.docs.forEach(item => {
+                                    arr = [...arr, item.data().group_id]
+                                })
+                                // console.log(user)
+                            })
+
+                        Promise.all([p1,p2])
+                            .then(() => {
                                 dispatch({
                                     type: USER_LOADED,
                                     payload: {
@@ -169,8 +187,9 @@ export const loadUser = () => {
                                     }
                                 })
 
-                                console.log(user)
+                                console.log(arr)
                             })
+                            .catch(error => console.log(error.message))
 
                     })
                     .catch(error => {
