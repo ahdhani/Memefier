@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, CardItem, Right, Button } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions } from "react-native";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { width } = Dimensions.get("window");
 
@@ -63,20 +64,26 @@ export default class Act_Com_Tabs extends React.Component {
         let ComChall = [];                               //Completed Challenges array
 
         ActiveChall.push(
-            <Card style={{ padding: 0, borderRadius: 8 }}>
-                <CardItem>
-                    <View>
-                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
-                        <Text style={{ fontSize: 12 }} >Offered by Coursera</Text>
-                    </View>
-                    <Right>
-                        <Text >Ends in 5hrs</Text>
-                        <Button height={30} width={75} onPress={() => navigate('JoinChallScreen')}>
-                            <Text style={{ color: "white", fontSize: 17 }}>     Join</Text>
-                        </Button>
-                    </Right>
-                </CardItem>
-            </Card>
+            <TouchableOpacity onPress={() => navigate('ChallengeFeed')}>
+                <Card style={{ padding: 0, borderRadius: 8 }}>
+                    <CardItem>
+                        <View>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
+                            <Text style={{ fontSize: 12 }} >Offered by Coursera</Text>
+                        </View>
+
+                        <View style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center", paddingLeft: 25
+                        }}>
+                            <Text style={{ color: 'green' }}>Ends in 5hrs</Text>
+                            <MaterialCommunityIcons name="timer-sand" color='green' size={20} />
+                        </View>
+
+                    </CardItem>
+                </Card>
+            </TouchableOpacity>
         );
 
         ComChall.push(
@@ -86,9 +93,14 @@ export default class Act_Com_Tabs extends React.Component {
                         <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'grey' }}>Corona Challenge</Text>
                         <Text style={{ fontSize: 12, color: 'grey' }} >Offered by China</Text>
                     </View>
-                    <Right>
+                    <View style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center", paddingLeft: 25
+                    }}>
                         <Text style={{ color: 'red' }} >Ended</Text>
-                    </Right>
+                        <MaterialCommunityIcons name="timer-sand-full" color='red' size={20} />
+                    </View>
                 </CardItem>
             </Card>
         );

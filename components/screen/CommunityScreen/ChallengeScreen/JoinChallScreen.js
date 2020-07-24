@@ -230,8 +230,8 @@ export default class JoinChallScreen extends Component {
                                     </Text>
                                 </Card>
 
-                                <Button block style={{ marginTop: 22 }} >
-                                    <Text style={{ color: "white", fontSize: 18 }}>Post</Text>
+                                <Button onPress={() => navigate('CreatePost')} block style={{ marginTop: 22 }} >
+                                    <Text style={{ color: "white", fontSize: 18 }}>Join</Text>
                                 </Button>
 
                             </Animated.View>
