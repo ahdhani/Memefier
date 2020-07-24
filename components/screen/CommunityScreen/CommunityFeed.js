@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, Dimensions, FlatList, ImageBackground, TouchableOpacity } from 'react-native'
+import { View, Text, Dimensions, FlatList, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native'
 import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item, H1 } from 'native-base'
 import { connect } from 'react-redux';
 import colors from '../../../constants/colors'
-import { fetchGroupDetails } from '../../functions/community'
+import { fetchGroupDetails, checkRequestStatus,joinGroup,createRequest, deleteRequest } from '../../functions/community'
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -12,30 +12,59 @@ class CommunityFeed extends Component {
 
     state = {
         groupDetails: {},
+        groupStatus: null,
         userPosts: [1, 2, 3, 4],
         uri: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
     }
 
     componentDidMount = async () => {
-        // console.log('param : ', this.props.route.params.group_id)
-
+        checkRequestStatus(this.props.route.params.group_id, this.props.user.uid)
+            .then(res => {
+                this.setState({ groupStatus: res })
+            });
         fetchGroupDetails(this.props.route.params.group_id)
             .then(res => {
                 this.setState({ groupDetails: res })
             });
     }
 
+    handleFollow = () => {
+        if(this.state.groupStatus==null)
+        {
+            if(this.state.groupDetails.closed)
+            {
+                createRequest(this.props.route.params.group_id, this.props.user.uid)
+                .then(
+                    this.setState({groupStatus: false})
+                )
+            }
+            else{
+                joinGroup(this.props.route.params.group_id, this.props.user.uid)
+                .then(
+                    this.setState({groupStatus: true})
+                )
+            }
+        }
+        else
+        {
+            deleteRequest(this.props.route.params.group_id, this.props.user.uid)
+            .then(
+                this.setState({groupStatus: null})
+            )
+        }
+    }
+
     render() {
 
-        const {group_id} = this.props.route.params
+        const { group_id } = this.props.route.params
         return (
             <Container>
                 <Content>
                     <Button style={{
                         position: 'absolute', top: 5, right: 5,
-                        width: 80,justifyContent: 'center'
-                    }} onPress={() => this.props.navigation.navigate('AdminScreen',{ group_id: group_id, })}>
-                        <Text style={{color: '#fff'}}>Info</Text>
+                        width: 80, justifyContent: 'center'
+                    }} onPress={() => this.props.navigation.navigate('AdminScreen', { group_id: group_id, })}>
+                        <Text style={{ color: '#fff' }}>Info</Text>
                     </Button>
                     <View style={{
                         backgroundColor: '#fff', marginTop: 50,
@@ -76,6 +105,20 @@ class CommunityFeed extends Component {
                             </ImageBackground>
 
                             <View style={{ alignItems: 'center' }}>
+                                <TouchableOpacity style={styles.button}
+                                    onPress={() => this.handleFollow()}>
+                                    <Text>
+                                        {
+                                            this.state.groupStatus == null ?
+                                                'Follow'
+                                                :
+                                                this.state.groupStatus == true ?
+                                                    'Unfollow'
+                                                    :
+                                                    'Requested'
+                                        }
+                                    </Text>
+                                </TouchableOpacity>
                                 <Text style={{ color: colors.color1, fontSize: 24 }}>
                                     {this.state.groupDetails.name}
                                     <Text style={{ fontSize: 16, color: '#000' }}>   {this.state.groupDetails.members}&nbsp;
@@ -142,12 +185,24 @@ class CommunityFeed extends Component {
 
 }
 
+const styles = StyleSheet.create({
+    button: {
+        flexDirection: 'row',
+        padding: 3,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        backgroundColor: '#eee',
+        zIndex: 3,
+        elevation: 3,
+    }
+});
+
 const mapStateToProps = (state) => ({
     // isAuthenticated: state.auth.isAuthenticated,
     // userDetails: state.auth.userDetails,
     // userPosts: state.post.posts,
     // following: state.auth.following,
-    // user: state.auth.user
+    user: state.auth.user
 })
 
 const mapDispatchToProps = (dispatch) => {

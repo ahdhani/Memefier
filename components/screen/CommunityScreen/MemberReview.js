@@ -11,23 +11,9 @@ const MemberReview = props => {
     useEffect(() => {
         viewRequests(props.group_id)
             .then(res => {
-                // setMembers(res)
+                setMembers(res)
                 console.log('ViewRequest : ', res)
             });
-        setMembers(
-            [{
-                userId: 'Kudu',
-                dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
-                firstname: 'hdjsba',
-                lastname: 'dkjkb',
-            },
-            {
-                userId: 'Kudu',
-                dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
-                firstname: 'hdjsba',
-                lastname: 'dkjkb',
-            },]
-        )
     }, []);
 
     return (
