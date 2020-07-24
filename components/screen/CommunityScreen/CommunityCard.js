@@ -21,17 +21,15 @@ const CommunityCard = props => {
 
     return (
 
-        // <CardItem style={{ marginVertical: -5}}>
         <Card style={{ borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}>
             <CardItem style={{ marginLeft: 10, width: '100%' }}>
-                <Thumbnail source={{ uri: group.dp }} style={{ zIndex: 2 }} />
+                <Thumbnail source={{ uri: group.dp }} />
                 <View style={{ marginLeft: 15 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{group.name}</Text>
-                    <Text style={{ color: 'rgba(0,0,0,0.35)' }}>{group.members} members</Text>
+                    <Text style={{ color: '#aaa' }}>{group.members} members</Text>
                 </View>
             </CardItem>
         </Card>
-        // </CardItem>
     )
 }
 

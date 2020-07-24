@@ -10,15 +10,16 @@ import CommunityCard from './CommunityCard';
 class CommunityScreen extends Component {
 
     state = {
-        dummyData: [1, 2],
         groups: [],
-        groupUid: ['NMrpYCug4AJnItPAMVYP']
+        // groupUid: ['NMrpYCug4AJnItPAMVYP']
     }
 
     componentDidMount = async () => {
         fetchGroups(this.props.user.uid)
             .then(groups => {
                 groups.forEach(group => {
+                // console.log('GroupArray: ',group)
+
                     this.setState({ groups: [...this.state.groups, group.data().group_id] })
                 })
             });
@@ -45,9 +46,9 @@ class CommunityScreen extends Component {
                             </Card>
                         </CardItem>
                     </TouchableOpacity>
-                    <Button onPress={() => joinGroup(this.state.groupUid[0], this.props.user.uid)}>
+                    {/* <Button onPress={() => joinGroup(this.state.groupUid[0], this.props.user.uid)}>
                         <Text>Join Group1</Text>
-                    </Button>
+                    </Button> */}
                     <FlatList
                         data={this.state.groups}
                         keyExtractor={(item, index) => index.toString()}

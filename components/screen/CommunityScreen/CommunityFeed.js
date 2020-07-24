@@ -17,12 +17,11 @@ class CommunityFeed extends Component {
     }
 
     componentDidMount = async () => {
-        console.log('param : ', this.props.route.params.group_id)
+        // console.log('param : ', this.props.route.params.group_id)
 
         fetchGroupDetails(this.props.route.params.group_id)
             .then(res => {
                 this.setState({ groupDetails: res })
-                console.log('GrpDetails : ', res)
             });
     }
 
