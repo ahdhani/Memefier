@@ -7,30 +7,28 @@ import colors from '../../../constants/colors'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../../redux'
 import { db } from '../../../config'
+import { fetchFeedPosts } from '../../functions/posts'
 class FeedScreen extends Component {
 
     fetchPosts = async () => {
         var arr = []
+        var snapshots_arr = []
 
-        // console.log("USER.UID , ", this.props.user.uid)
-        await db.collection('posts')
-            .where('created_by', 'in', [...this.props.following, this.props.user.uid])
-            .get()
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    arr = [{ ...doc.data() , post_id : doc.id}, ...arr]
-                    // this.state.posts = [...this.state.posts , doc.data()]
+        fetchFeedPosts([...this.props.following, this.props.user.uid])
+            .then(async snapshots => {
+
+                snapshots_arr = snapshots
+                await snapshots.forEach(doc => {
+                    arr = [...arr , { ...doc.data(), post_id: doc.id } ]
                 })
 
                 this.setState({
-                    posts: arr
+                    posts: arr ,
+                    snapshots_arr 
                 })
 
-                // console.log(this.state.posts);
-                // this.state.condition = "FETCHED"
-                // console.log(this.state.condition)
-            }).
-            catch(error => console.log("ERR : ", error.message))
+            })
+
     }
 
     componentDidMount = () => {
@@ -40,11 +38,28 @@ class FeedScreen extends Component {
 
     state = {
         posts: [],
+        snapshots_arr : [] ,
         isRefreshing: false,
     }
 
     onEndReached = ({ distanceFromEnd }) => {
         // fetch next batch CODE HERE
+        fetchFeedPosts([...this.props.following, this.props.user.uid] , this.state.snapshots_arr[this.state.snapshots_arr.length - 1])
+            .then(async snapshots => {
+                var arr = []
+                await snapshots.forEach(doc => {
+                    arr = [...arr , { ...doc.data(), post_id: doc.id } ]
+                })
+
+                console.log("First batch == " , this.state.posts)
+
+                this.setState({
+                    posts: [...this.state.posts, ...arr] ,
+                    snapshots_arr : [...this.state.snapshots_arr , ...snapshots]
+                })
+
+            })
+            .catch(err => console.log(err.message))
     }
 
     onRefresh = async () => {
@@ -64,28 +79,28 @@ class FeedScreen extends Component {
                     <Right />
                 </Header> */}
                 {/* <View style={{ flex: 1,backgroundColor: colors.color5 }}> */}
-                    <FlatList
-                        // scroll
-                        data={this.state.posts}
-                        renderItem={({ item }) => <FeedCards post={item} />}
-                        keyExtractor={(item, index) => `id_${index}`}
-                        pagingEnabled={true}
-                        decelerationRate={'fast'}
-                        // snapToInterval={400}
-                        // disableScrollViewPanResponder
-                        snapToAlignment={'center'}
-                        // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
-                        refreshing={this.state.isRefreshing}
-                        onRefresh={() => this.onRefresh()}
-                        onEndReachedThreshold={0.5}
+                <FlatList
+                    // scroll
+                    data={this.state.posts}
+                    renderItem={({ item }) => <FeedCards post={item} />}
+                    keyExtractor={(item, index) => `id_${index}`}
+                    pagingEnabled={true}
+                    decelerationRate={'fast'}
+                    // snapToInterval={400}
+                    // disableScrollViewPanResponder
+                    snapToAlignment={'center'}
+                    // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
+                    refreshing={this.state.isRefreshing}
+                    onRefresh={() => this.onRefresh()}
+                    onEndReachedThreshold={0.5}
 
-                        onEndReached={({ distanceFromEnd }) => {
-                            console.log(distanceFromEnd)
-                            console.log('reached');
-                            //   this.onEndReached()
-                        }}
-                        // ItemSeparatorComponent={() => null}
-                    />
+                    onEndReached={({ distanceFromEnd }) => {
+                        // console.log(distanceFromEnd)
+                        // console.log('reached');
+                        this.onEndReached(distanceFromEnd)
+                    }}
+                // ItemSeparatorComponent={() => null}
+                />
                 {/* </View> */}
             </Container>
         )

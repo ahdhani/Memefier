@@ -53,17 +53,33 @@ export const fetchUserPosts = (user_uid) => {
 
 }
 
-export const fetchFeedPosts = (arr) => {
+export const fetchFeedPosts = (arr , lastPost = null) => {
     // order by timestamp missing
-    return db.collection('posts')
-        .where("created_by" , "in" , arr)
-        .where("allowed" , "==" , true)
-        .get()
-        .then(snapshots => {
-            return snapshots.docs
-        })
-        .catch(err => console.log(err.message))
-
+    if (lastPost == null) {
+        return db.collection('posts')
+            .where("created_by" , "in" , arr)
+            .where("allowed" , "==" , true)
+            .orderBy("created_at", "desc")
+            .limit(2)
+            .get()
+            .then(snapshots => {
+                return snapshots.docs
+            })
+            .catch(err => console.log("Snapshots error : " , err.message))
+    } else {
+        return db.collection('posts')
+            .where("created_by" , "in" , arr)
+            .where("allowed" , "==" , true)
+            .orderBy("created_at", "desc")
+            .startAfter(lastPost)
+            .limit(2)
+            .get()
+            .then(snapshots => {
+                return snapshots.docs
+            })
+            .catch(err => console.log("Snapshots error : " , err.message))
+    }
+    
 }
 
 export const fetchGroupPosts = (group_id) => {
