@@ -23,7 +23,7 @@ const MemberReview = props => {
             renderItem={({ item }) => (
                 <Card>
                     <TouchableOpacity style={{position: 'absolute',top: 5,right: 5}}
-                        onPress={() => deleteRequest(props.group_id,item.userId)}>
+                        onPress={() => deleteRequest(props.group_id,item.user_uid)}>
                         <Icon active name="close" style={{fontSize: 18}}/>
                     </TouchableOpacity>
 
