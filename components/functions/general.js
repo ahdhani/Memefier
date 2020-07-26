@@ -1,4 +1,18 @@
 import { db , storage } from '../../config'
+import TimeAgo from 'javascript-time-ago'
+ 
+// Load locale-specific relative date/time formatting rules.
+import en from 'javascript-time-ago/locale/en'
+
+// Add locale-specific relative date/time formatting rules.
+TimeAgo.addLocale(en)
+
+// Create relative date/time formatter.
+const timeAgo = new TimeAgo('en-US')
+
+export const dateTimeProcessor = (date_time) => {
+    console.log(timeAgo.format(date_time))
+}
 
 export const fetchUser = async (user_uid) => {
     var userDetails = {}

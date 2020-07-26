@@ -4,6 +4,7 @@ import { Container, Button, Text, Card, CardItem, Content, Right } from 'native-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect } from 'react-redux';
 import { fetchGroups, joinGroup, fetchGroupDetails } from '../../functions/community'
+import {dateTimeProcessor} from '../../functions/general'
 import CommunityCard from './CommunityCard';
 
 
@@ -46,9 +47,9 @@ class CommunityScreen extends Component {
                             </Card>
                         </CardItem>
                     </TouchableOpacity>
-                    {/* <Button onPress={() => joinGroup(this.state.groupUid[0], this.props.user.uid)}>
-                        <Text>Join Group1</Text>
-                    </Button> */}
+                    <Button onPress={() => dateTimeProcessor()}>
+                        <Text>Test Time processor</Text>
+                    </Button>
                     <FlatList
                         data={this.state.groups}
                         keyExtractor={(item, index) => index.toString()}
