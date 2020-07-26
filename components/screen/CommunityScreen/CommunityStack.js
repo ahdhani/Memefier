@@ -39,17 +39,14 @@ export default class CommunityStack extends Component {
                         name="CommunityFeed"
                         component={CommunityFeed}
                         options={{
-                            title:"",
-                            headerStyle: { backgroundColor: '#3F51B5' }
+                            headerShown: false
                         }}
                     />
                     <Stack.Screen
                         name="CreatePost"
                         component={CreatePost}
                         options={{
-                            title: 'Create a Post',
-                            headerStyle: { backgroundColor: '#3F51B5' },
-                            headerTitleStyle: { color: 'white' }
+                            headerShown: false
                         }}
                     />
                     <Stack.Screen
