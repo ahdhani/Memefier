@@ -86,9 +86,10 @@ export const viewPendingPosts = (group_id) => {
 export const acceptPost = (post_id) => {
     // For accepting the request of a particular user to a particular group
     var ref = db.collection("posts").doc(post_id)
+
     return ref.get()
         .then(doc => {
-            if (doc.exists()){
+            if (doc.exists){
                 return ref.update({allowed : true})
                     .then(res => {
                         return true
@@ -96,6 +97,7 @@ export const acceptPost = (post_id) => {
             }
             return false
         })
+
 }
 
 // Deleting
@@ -103,7 +105,7 @@ export const deletePost = (post_id) => {
     var ref = db.collection("posts").doc(post_id)
     return ref.get()
         .then(doc => {
-            if (doc.exists()){
+            if (doc.exists){
                 return ref.delete()
                     .then(res => {
                         return true
