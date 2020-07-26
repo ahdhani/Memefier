@@ -75,7 +75,7 @@ export const viewPendingPosts = (group_id) => {
         .then(async res => {
             arr = []
             await res.forEach(obj => {
-                arr=[...arr,obj.data()]
+                arr=[...arr,{...obj.data(),post_id: obj.id}]
             })
             return arr;
         })

@@ -3,6 +3,7 @@ import { Card, CardItem, Button, Thumbnail, Item } from 'native-base'
 import { View, Text, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { fetchUser } from '../../functions/user'
+import { deletePost, acceptPost } from '../../functions/community'
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -55,7 +56,7 @@ const PostReviewCard = props => {
                     backgroundColor: 'red', borderRadius: 5,
                     height: 35,
                 }}
-                // onPress={ }
+                onPress={() => deletePost(props.post.post_id).then(props.spliceCard()) }
                 >
                     <Text>Reject</Text>
                 </Button>
@@ -64,7 +65,7 @@ const PostReviewCard = props => {
                     backgroundColor: 'green', borderRadius: 5,
                     height: 35,
                 }}
-                // onPress={ }
+                onPress={() => acceptPost(props.post.post_id).then(props.spliceCard()) }
                 >
                     <Text>Accept</Text>
                 </Button>
