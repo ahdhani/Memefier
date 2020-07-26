@@ -5,6 +5,7 @@ import colors from '../../../constants/colors'
 import Reaction from './Reaction'
 import PostOptions from './PostOptions'
 import { fetchAllComments, addComment } from '../../functions/comments'
+import {fetchGroupDetails} from '../../functions/community'
 
 
 import { db } from '../../../config';
@@ -55,21 +56,32 @@ const FeedCards = (props) => {
         setOptionsModal(false);
     }
 
-    const fetchUser = async (user_uid) => {
-        db.collection("userDetails")
-            .doc(user_uid)
-            .get()
-            .then(user => {
-                var name = user.data().firstname + ' ' + user.data().lastname
-                // console.log(typeof(name))
-                // return user.data().firstname
-                // console.log(user.data())
-                setName(name);
-                setDp(user.data().dp)
-            }).catch(error => console.log(error.message))
+    const fetchUser = async (user_uid , category) => {
+
+        if (category == 1) {
+            db.collection("userDetails")
+                .doc(user_uid)
+                .get()
+                .then(user => {
+                    var name = user.data().firstname + ' ' + user.data().lastname
+                    // console.log(typeof(name))
+                    // return user.data().firstname
+                    // console.log(user.data())
+                    setName(name);
+                    setDp(user.data().dp)
+                }).catch(error => console.log(error.message))
+        } else {
+            fetchGroupDetails(user_uid)
+                .then(data => {
+                    setName(data.name)
+                    setDp(data.dp)
+                })
+        }
+
+        
     }
 
-    fetchUser(props.post.created_by);
+    fetchUser(props.post.created_by , props.post.category);
 
     return (
         <Card style={{ height: cardHeight }} >
@@ -84,7 +96,7 @@ const FeedCards = (props) => {
                             params: { uuid: props.post.created_by, }
 
                         })}>{name}</Text>
-                        <Text note>category</Text>
+                        {/* <Text note>category</Text> */}
                     </Body>
                 </Left>
                 <Right>
