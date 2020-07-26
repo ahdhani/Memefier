@@ -1,4 +1,4 @@
-import { createAppContainer } from 'react-navigation';
+
 // import { createStackNavigator } from 'react-navigation-stack';
 
 import JoinChallScreen from './JoinChallScreen';
@@ -6,6 +6,8 @@ import ChallengeScreen from './ChallengeScreen';
 import MakeChallScreen from './MakeChallScreen';
 import ChallengeFeed from './ChallengeFeed';
 import CreatePost from './CreatePost';
+import colors from './../../../../constants/colors';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // const screens = {
 //     ChallengeScreen: {
@@ -41,8 +43,9 @@ import CreatePost from './CreatePost';
 
 
 import React, { Component } from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackground } from '@react-navigation/stack';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 export default class ChallengeStack extends Component {
     render() {
@@ -54,15 +57,24 @@ export default class ChallengeStack extends Component {
                     initialRouteName="ChallengeScreen"
                     screenOptions={{
                         gestureEnabled: true,
-                        headerStyle: { backgroundColor: '#3F51B5' },
-                        headerTitleStyle: { color: 'white' }
+                        headerStyle: { backgroundColor: colors.color5 },
+                        headerTitleStyle: { color: colors.color1 },
+                        headerTintColor: colors.color1
                     }}>
 
                     <Stack.Screen
                         name="ChallengeScreen"
                         component={ChallengeScreen}
                         options={{
-                            title: 'Challenges'
+                            title: 'Challenges',
+                            headerLeft: () => {
+                                return (
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>    </Text>
+                                        <MaterialCommunityIcons name="sword-cross" color={colors.color1} size={35} />
+                                    </View>
+                                )
+                            }
                         }}
                     />
                     <Stack.Screen
@@ -86,7 +98,7 @@ export default class ChallengeStack extends Component {
                             title: ''
                         }}
                     />
-                     <Stack.Screen
+                    <Stack.Screen
                         name="CreatePost"
                         component={CreatePost}
                         options={{

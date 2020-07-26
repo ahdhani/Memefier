@@ -1,9 +1,11 @@
 //Challenge Screen
 
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Left, Right, Body, Title, Button, Tab, Item, Tabs } from 'native-base';
-import Act_Com_Tabs from './Act_Com_Tabs'
+import React from 'react';
+import { View, Text,TouchableOpacity } from 'react-native';
+import { Container, Content, CardItem, Button } from 'native-base';
+import Act_Com_Tabs from './Act_Com_Tabs';
+import colors from './../../../../constants/colors';
+
 
 
 export default function ChallengeScreen({ navigation }) {
@@ -16,15 +18,17 @@ export default function ChallengeScreen({ navigation }) {
       <Content>
 
         <CardItem style={{ flexDirection: 'column' }}>
-          <Button block onPress={makeChallenge}>
-            <Text style={{ color: "white", fontSize: 18 }}>Make a Challenge</Text>
-          </Button>
+          <TouchableOpacity style={{width:'100%'}}>
+            <Button block onPress={makeChallenge} style={{ backgroundColor: colors.color5 }}>
+              <Text style={{ color: colors.color1, fontSize: 18 }}>Make a Challenge</Text>
+            </Button>
+          </TouchableOpacity>
         </CardItem>
 
         <View                                 //The line
           style={{
             marginTop: 0,
-            borderBottomColor: '#3F51B5',
+            borderBottomColor: colors.color3,
             borderBottomWidth: 4,
             marginRight: 17,
             marginLeft: 17

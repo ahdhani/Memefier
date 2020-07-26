@@ -61,10 +61,6 @@ export default class SearchScreen extends Component {
                                 value={this.state.searchText}
                                 underlineColorAndroid="transparent"
                                 autoFocus
-                            // onBlur={() => this.setState({
-                            //     userResult: [],
-                            //     searchText: '',
-                            // })}
                             />
                             <Icon name="ios-people" />
                         </Item>

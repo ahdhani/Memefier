@@ -24,10 +24,7 @@ export default class TrendingScreen extends Component {
     }
 
     fetchPosts = async () => {
-
-        // console.log("USER.UID , ", this.props.user.uid)
         await db.collection('posts')
-            // .where('created_by', 'in', [...this.props.following, this.props.user.uid])
             .get()
             .then(async snapshot => {
                 var arr = []
@@ -38,22 +35,11 @@ export default class TrendingScreen extends Component {
                 await this.setState({
                     trendingPosts: arr
                 })
-
-                // console.log("trending Posts\n" , this.state.trendingPosts)
             }).
             catch(error => console.log("ERR : ", error.message))
 
     }
 
-    // fetchUser = async (user_uid) => {
-    //     db.collection("userDetails")
-    //         .doc(user_uid)
-    //         .get()
-    //         .then(user => {
-    //             return user.data().userId
-    //         }).catch(error => console.log(error.message))
-
-    // }
 
     componentDidMount = () => {
         this.fetchPosts()

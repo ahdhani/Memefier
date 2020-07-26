@@ -71,37 +71,21 @@ class FeedScreen extends Component {
     render() {
         return (
             <Container>
-                {/* <Header>
-                    <Left />
-                    <Body>
-                        <Title>Feed</Title>
-                    </Body>
-                    <Right />
-                </Header> */}
-                {/* <View style={{ flex: 1,backgroundColor: colors.color5 }}> */}
                 <FlatList
-                    // scroll
                     data={this.state.posts}
                     renderItem={({ item }) => <FeedCards post={item} />}
                     keyExtractor={(item, index) => `id_${index}`}
                     pagingEnabled={true}
                     decelerationRate={'fast'}
-                    // snapToInterval={400}
-                    // disableScrollViewPanResponder
                     snapToAlignment={'center'}
-                    // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
                     refreshing={this.state.isRefreshing}
                     onRefresh={() => this.onRefresh()}
                     onEndReachedThreshold={0.5}
 
                     onEndReached={({ distanceFromEnd }) => {
-                        // console.log(distanceFromEnd)
-                        // console.log('reached');
                         this.onEndReached(distanceFromEnd)
                     }}
-                // ItemSeparatorComponent={() => null}
                 />
-                {/* </View> */}
             </Container>
         )
     }

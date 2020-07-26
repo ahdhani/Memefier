@@ -198,7 +198,7 @@ class EditProfileScreen extends Component {
         return (
             <Container>
                 <LoaderModal loading={this.state.isLoading} />
-                <Header style={{ backgroundColor: '#252337' }}>
+                {/* <Header style={{ backgroundColor: '#252337' }}>
                     <Left >
                         <Icon style={{ marginLeft: 10, color: '#fff' }} name='ios-arrow-round-back'
                             onPress={() => this.props.navigation.goBack()} />
@@ -206,7 +206,7 @@ class EditProfileScreen extends Component {
                     <Body>
                         <Title>Edit Profile</Title>
                     </Body>
-                </Header>
+                </Header> */}
                 <Content style={{
                     backgroundColor: '#253237',
                 }}>

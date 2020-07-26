@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import FeedScreen from './FeedScreen'
 import CommentScreen from './CommentScreen/CommentScreen'
 import ProfileStack from '../ProfileScreen/ProfileStack'
+import colors from './../../../constants/colors';
 
 
 

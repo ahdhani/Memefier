@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
 import {createUserPost} from '../../functions/posts'
+import colors from './../../../constants/colors';
 
 class UploadScreen extends Component {
     state = {
@@ -74,17 +75,7 @@ class UploadScreen extends Component {
         let { image } = this.state;
         return (
             <Container>
-                <Header>
-                    <Left />
-                    <Body>
-                        <Title>Create</Title>
-                    </Body>
-                    <Right>
-                        {this.state.postOnProgress &&
-                            <Spinner color='#ccc' />
-                        }
-                    </Right>
-                </Header>
+                
                 <Content>
                     <Card>
 
@@ -175,7 +166,7 @@ class UploadScreen extends Component {
                         </CardItem>
 
                         <CardItem style={{ flexDirection: 'column' }}>
-                            <Button
+                            <Button style={{backgroundColor:colors.color5}}
                                 block
                                 onPress={() => {
                                     if (this.state.title.length != 0 && this.state.image != null) {
@@ -196,7 +187,7 @@ class UploadScreen extends Component {
                                 }}
                                 disabled={this.state.postOnProgress}
                             >
-                                <Text>Post</Text>
+                                <Text style={{color:colors.color1}}>Post</Text>
                             </Button>
                         </CardItem>
 

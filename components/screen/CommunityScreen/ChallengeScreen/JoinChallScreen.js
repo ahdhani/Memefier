@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Card, CardItem, Right, Button, Container } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import colors from './../../../../constants/colors';
 
 const { width } = Dimensions.get("window");
 
@@ -72,7 +73,7 @@ export default class JoinChallScreen extends Component {
                         alignItems: "center"
                     }} >
                         <Text style={{ fontWeight: 'bold', fontSize: 35, color: 'green' }}>#1</Text>
-                        <Text style={{ fontSize: 20 }}>@ahdhani</Text>
+                        <Text style={{ fontSize: 20, color: colors.color5 }}>@ahdhani</Text>
                     </View>
                     <Right>
                         <View style={{
@@ -80,16 +81,16 @@ export default class JoinChallScreen extends Component {
                             justifyContent: "space-between",
                             alignItems: "center"
                         }}>
-                            <MaterialCommunityIcons name="heart" color='#3F51B5' size={20} />
-                            <Text > 22k</Text>
+                            <MaterialCommunityIcons name="heart" color={colors.color5} size={20} />
+                            <Text style={{color: colors.color5}} > 22k</Text>
                         </View>
                         <View style={{
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center"
                         }}>
-                            <MaterialCommunityIcons name="heart-broken" color='#3F51B5' size={20} />
-                            <Text > 13k</Text>
+                            <MaterialCommunityIcons name="heart-broken" color={colors.color5} size={20} />
+                            <Text style={{color: colors.color5}}> 13k</Text>
                         </View>
                     </Right>
                 </CardItem>
@@ -131,7 +132,7 @@ export default class JoinChallScreen extends Component {
                                     height: "100%",
                                     top: 0,
                                     left: 0,
-                                    backgroundColor: "#3F51B5",
+                                    backgroundColor: colors.color5,
                                     borderRadius: 4,
                                     transform: [
                                         {
@@ -146,7 +147,7 @@ export default class JoinChallScreen extends Component {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     borderWidth: 1,
-                                    borderColor: "#3F51B5",
+                                    borderColor: colors.color5,
                                     borderRadius: 4,
                                     borderRightWidth: 0,
                                     borderTopRightRadius: 0,
@@ -165,7 +166,7 @@ export default class JoinChallScreen extends Component {
                             >
                                 <Text
                                     style={{
-                                        color: active === 0 ? "#fff" : "#3F51B5",
+                                        color: active === 0 ? colors.color1 : colors.color5,
                                         fontSize: 16
                                     }}
                                 >
@@ -178,7 +179,7 @@ export default class JoinChallScreen extends Component {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     borderWidth: 1,
-                                    borderColor: "#3F51B5",
+                                    borderColor: colors.color5,
                                     borderRadius: 4,
                                     borderLeftWidth: 0,
                                     borderTopLeftRadius: 0,
@@ -197,7 +198,7 @@ export default class JoinChallScreen extends Component {
                             >
                                 <Text
                                     style={{
-                                        color: active === 1 ? "#fff" : "#3F51B5",
+                                        color: active === 1 ? colors.color1 : colors.color5,
                                         fontSize: 16
                                     }}
                                 >
@@ -225,13 +226,13 @@ export default class JoinChallScreen extends Component {
                             >
 
                                 <Card style={styles.challDesc} >
-                                    <Text style={{ fontSize: 16 }} multiline>
+                                    <Text style={{ fontSize: 16, color: colors.color5 }} multiline>
                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only . It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                                     </Text>
                                 </Card>
 
-                                <Button onPress={() => navigate('CreatePost')} block style={{ marginTop: 22 }} >
-                                    <Text style={{ color: "white", fontSize: 18 }}>Join</Text>
+                                <Button onPress={() => navigate('CreatePost')} block style={{ marginTop: 22, backgroundColor: colors.color5 }} >
+                                    <Text style={{ color: colors.color1, fontSize: 18 }}>Join</Text>
                                 </Button>
 
                             </Animated.View>
