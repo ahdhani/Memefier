@@ -65,6 +65,23 @@ export const viewRequests = (group_id) => {
         .catch(err => console.log(err.message))
 }
 
+export const viewPendingPosts = (group_id) => {
+    // view the posts pending in the group (group_id)
+    return db.collection("posts")
+        .where("created_by" , "==" ,group_id)
+        .where("allowed" , "==" , false)
+        .where("category" , "==" , 2)
+        .get()
+        .then(async res => {
+            arr = []
+            await res.forEach(obj => {
+                arr=[...arr,obj.data()]
+            })
+            return arr;
+        })
+        .catch(err => console.log(err.message))
+}
+
 // modifying
 export const acceptRequest = (group_id , user_uid) => {
     // For accepting the request of a particular user to a particular group
