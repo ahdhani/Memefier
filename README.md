@@ -2,6 +2,7 @@
   
 # Memefy
 
+[![Generic badge](https://img.shields.io/badge/version-0.0.1-<COLOR>.svg)](https://firebase.google.com/docs)
 [![Generic badge](https://img.shields.io/badge/Firebase-7.15.0-<COLOR>.svg)](https://firebase.google.com/docs)
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
 [![Generic badge](https://img.shields.io/badge/build-pending-RED.svg)](https://firebase.google.com/docs)
@@ -60,10 +61,3 @@ Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@examp
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/yourname/github-link](https://github.com/dbader/)
-
-
-[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[license-url]: LICENSE
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[pending-url]: PENDING
