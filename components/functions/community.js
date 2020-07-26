@@ -83,6 +83,38 @@ export const viewPendingPosts = (group_id) => {
 }
 
 // modifying
+export const acceptPost = (post_id) => {
+    // For accepting the request of a particular user to a particular group
+    var ref = db.collection("posts").doc(post_id)
+    return ref.get()
+        .then(doc => {
+            if (doc.exists()){
+                return ref.update({allowed : true})
+                    .then(res => {
+                        return true
+                    })
+            }
+            return false
+        })
+}
+
+// Deleting
+export const deletePost = (post_id) => {
+    var ref = db.collection("posts").doc(post_id)
+    return ref.get()
+        .then(doc => {
+            if (doc.exists()){
+                return ref.delete()
+                    .then(res => {
+                        return true
+                    })
+            }
+            return false
+        })
+}
+
+
+// modifying
 export const acceptRequest = (group_id , user_uid) => {
     // For accepting the request of a particular user to a particular group
     var doc = {
