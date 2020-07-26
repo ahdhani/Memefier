@@ -1,9 +1,10 @@
 //Active and Complete Tabs
 
 import React from "react";
-import { Card, CardItem, Right, Button } from 'native-base';
+import { Card, CardItem } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import colors from './../../../../constants/colors'
 
 const { width } = Dimensions.get("window");
 
@@ -68,8 +69,8 @@ export default class Act_Com_Tabs extends React.Component {
                 <Card style={{ padding: 0, borderRadius: 8 }}>
                     <CardItem>
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Titanic Challenge</Text>
-                            <Text style={{ fontSize: 12 }} >Offered by Coursera</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, color: colors.color5 }}>Titanic Challenge</Text>
+                            <Text style={{ fontSize: 12, color: colors.color5 }} >Offered by Coursera</Text>
                         </View>
 
                         <View style={{
@@ -140,7 +141,7 @@ export default class Act_Com_Tabs extends React.Component {
                                 height: "100%",
                                 top: 0,
                                 left: 0,
-                                backgroundColor: "#3F51B5",
+                                backgroundColor: colors.color5,
                                 borderRadius: 4,
                                 transform: [
                                     {
@@ -155,7 +156,7 @@ export default class Act_Com_Tabs extends React.Component {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 borderWidth: 1,
-                                borderColor: "#3F51B5",
+                                borderColor: colors.color5,
                                 borderRadius: 4,
                                 borderRightWidth: 0,
                                 borderTopRightRadius: 0,
@@ -174,7 +175,7 @@ export default class Act_Com_Tabs extends React.Component {
                         >
                             <Text
                                 style={{
-                                    color: active === 0 ? "#fff" : "#3F51B5",
+                                    color: active === 0 ? colors.color1 : colors.color5,
                                     fontSize: 16
                                 }}
                             >
@@ -187,7 +188,7 @@ export default class Act_Com_Tabs extends React.Component {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 borderWidth: 1,
-                                borderColor: "#3F51B5",
+                                borderColor: colors.color5,
                                 borderRadius: 4,
                                 borderLeftWidth: 0,
                                 borderTopLeftRadius: 0,
@@ -206,7 +207,7 @@ export default class Act_Com_Tabs extends React.Component {
                         >
                             <Text
                                 style={{
-                                    color: active === 1 ? "#fff" : "#3F51B5",
+                                    color: active === 1 ? colors.color1 : colors.color5,
                                     fontSize: 16
                                 }}
                             >
