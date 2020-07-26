@@ -4,6 +4,7 @@ import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item, H1
 import { connect } from 'react-redux';
 import colors from '../../../constants/colors'
 import { fetchGroupDetails, checkRequestStatus, joinGroup, createRequest, deleteRequest } from '../../functions/community'
+import { fetchGroupPosts } from '../../functions/posts'
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -13,7 +14,7 @@ class CommunityFeed extends Component {
     state = {
         groupDetails: {},
         groupStatus: null,
-        userPosts: [1, 2, 3, 4],
+        groupPosts: null,
         uri: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
     }
 
@@ -25,6 +26,10 @@ class CommunityFeed extends Component {
         fetchGroupDetails(this.props.route.params.group_id)
             .then(res => {
                 this.setState({ groupDetails: res })
+            });
+        fetchGroupPosts(this.props.route.params.group_id)
+            .then(res => {
+                this.setState({ groupPosts: res })
             });
     }
 
@@ -144,17 +149,17 @@ class CommunityFeed extends Component {
                             </CardItem>
                             <CardItem cardBody>
                                 <FlatList
-                                    data={this.state.userPosts}
+                                    data={this.state.groupPosts}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item, index }) => (
                                         <Item
                                         //  onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                                        //     post: this.state.userPosts,
+                                        //     post: this.state.groupPosts,
                                         //     index: index,
                                         // })}
                                         >
                                             <ImageBackground resizeMode='contain' source={{
-                                                uri: this.state.uri
+                                                uri: item.img
                                             }}
                                                 style={{
                                                     // flex: 1,width: '100%',
@@ -168,8 +173,8 @@ class CommunityFeed extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
-                                                4
+                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 16,textAlign: 'center' }} />
+                                                            {item.dislikeCount}
                                             </Text>
                                                     </Left>
                                                     <Right>
@@ -178,8 +183,8 @@ class CommunityFeed extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
-                                                54
+                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 16, textAlign: 'center'}} />
+                                                {item.likeCount}
                                             </Text>
                                                     </Right>
                                                 </View>

@@ -3,7 +3,7 @@ import { Card, Thumbnail, CardItem, Left, Body, Right, Button, Icon } from 'nati
 import { View, FlatList, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostReviewCard from './PostReviewCard';
-import { fetchGroupPostsForReview} from '../../functions/posts'
+import { viewPendingPosts } from '../../functions/community'
 
 const screenWidth = Dimensions.get('window').width;
 const postHeight = screenWidth * 1.25;
@@ -12,30 +12,24 @@ const PostReview = props => {
 
     const navigation = useNavigation();
     const [post, setPost] = useState()
+
     useEffect(() => {
-        fetchGroupPostsForReview(props.group_id)
-        .then(res => console.log('result: ', res)
-            
-        )
-        // setPost(
-        //     [{
-        //         userId: 'Kudu',
-        //         dp: 'https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2FR5EGajrkyahxpXuizmSlZWt5Frq1?alt=media&token=b1b8d45a-d297-407b-bb87-d6b2ab1b3d61',
-        //         firstname: 'hdjsba',
-        //         lastname: 'dkjkb',
-        //     },]
-        // )
+
+        viewPendingPosts(props.group_id)
+            .then(res => setPost(res))
+
     }, []);
 
     return (
         <FlatList
-            style={{ padding: 15 }}
             data={post}
+            style={{ padding: 15 }}
             renderItem={({ item }) => (
-                <PostReviewCard />
+                <PostReviewCard post={item} />
             )}
             enableEmptySections={true}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => index.toString()
+            }
         />
     )
 }
