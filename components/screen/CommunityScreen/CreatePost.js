@@ -4,6 +4,7 @@ import { Container, Button, Card, Text, CardItem, Header,Content, Left,Body, Rig
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as ImagePicker from 'expo-image-picker'
 import * as Animatable from 'react-native-animatable'
+import { createGroupPost } from '../../functions/posts'
 
 class CreatePost extends Component {
     state = {
@@ -12,6 +13,26 @@ class CreatePost extends Component {
         description: ""
     };
 
+    handleSubmit = () => {
+        if (this.state.description.length != 0 && this.state.image != null) {
+            this.setState({
+                DescError: false
+            });
+            createGroupPost(this.props.route.params.user_uid,
+                this.props.route.params.group_id,this.state.image,this.state.description)
+            .then(this.props.navigation.goBack())
+            // this.onPost;
+        }
+        else {
+            if (this.state.image == null) {
+                Alert.alert('OOPS!', 'You haven\'t selected the image yet.')
+            }
+            else if (this.state.description.length == 0)
+                this.setState({
+                    DescError: true
+                })
+        }
+    }
     render() {
         let { image } = this.state;
         return (
@@ -47,15 +68,16 @@ class CreatePost extends Component {
                         }
 
                         <CardItem style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                            <Card style={styles.inputBox}>
+                            {/* <Card style={styles.inputBox}> */}
                                 <TextInput
                                     onChangeText={(text) => this.setState({ description: text })}
-                                    style={{ padding: 5, marginTop: 5 }}
+                                    style={{ padding: 18, marginTop: 5 ,width: '100%',maxHeight: 150}}
+                                    underlineColorAndroid='#ccc'
                                     multiline
                                     placeholder='Description...'
                                     maxLength={2200}
                                 />
-                            </Card>
+                            {/* </Card> */}
                             {this.state.DescError ?
                                 <Animatable.View animation='fadeIn' duration={500}>
                                     <Text style={{ color: 'red', fontSize: 12 }}>*Description must not be empty</Text>
@@ -66,23 +88,7 @@ class CreatePost extends Component {
                         <CardItem style={{ flexDirection: 'column' }}>
                             <Button
                                 block
-                                onPress={() => {
-                                    if (this.state.description.length != 0 && this.state.image != null) {
-                                        this.setState({
-                                            DescError: false
-                                        });
-                                        this.onPost;
-                                    }
-                                    else {
-                                        if (this.state.image == null) {
-                                            Alert.alert('OOPS!', 'You haven\'t selected the image yet.')
-                                        }
-                                        else if (this.state.description.length == 0)
-                                            this.setState({
-                                                DescError: true
-                                            })
-                                    }
-                                }}
+                                onPress={() => this.handleSubmit()}
                             >
                                 <Text>Create</Text>
                             </Button>

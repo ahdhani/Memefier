@@ -3,7 +3,7 @@ import { View, Text, Dimensions, FlatList, ImageBackground, TouchableOpacity, St
 import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item, H1 } from 'native-base'
 import { connect } from 'react-redux';
 import colors from '../../../constants/colors'
-import { fetchGroupDetails, checkRequestStatus,joinGroup,createRequest, deleteRequest } from '../../functions/community'
+import { fetchGroupDetails, checkRequestStatus, joinGroup, createRequest, deleteRequest } from '../../functions/community'
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -29,28 +29,25 @@ class CommunityFeed extends Component {
     }
 
     handleFollow = () => {
-        if(this.state.groupStatus==null)
-        {
-            if(this.state.groupDetails.closed)
-            {
+        if (this.state.groupStatus == null) {
+            if (this.state.groupDetails.closed) {
                 createRequest(this.props.route.params.group_id, this.props.user.uid)
-                .then(
-                    this.setState({groupStatus: false})
-                )
+                    .then(
+                        this.setState({ groupStatus: false })
+                    )
             }
-            else{
+            else {
                 joinGroup(this.props.route.params.group_id, this.props.user.uid)
-                .then(
-                    this.setState({groupStatus: true})
-                )
+                    .then(
+                        this.setState({ groupStatus: true })
+                    )
             }
         }
-        else
-        {
+        else {
             deleteRequest(this.props.route.params.group_id, this.props.user.uid)
-            .then(
-                this.setState({groupStatus: null})
-            )
+                .then(
+                    this.setState({ groupStatus: null })
+                )
         }
     }
 
@@ -59,7 +56,7 @@ class CommunityFeed extends Component {
         const { group_id } = this.props.route.params
         return (
             <Container>
-                <Content>
+                <Content style={{ backgroundColor: colors.color5 }}>
                     <Button style={{
                         position: 'absolute', top: 5, right: 5,
                         width: 80, justifyContent: 'center'
@@ -67,12 +64,12 @@ class CommunityFeed extends Component {
                         <Text style={{ color: '#fff' }}>Info</Text>
                     </Button>
                     <View style={{
-                        backgroundColor: '#fff', marginTop: 50,
+                        backgroundColor: '#fff', marginTop: 150,
                         borderTopLeftRadius: 30, borderTopRightRadius: 30
                     }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
-                            alignItems: 'center'
+                            alignItems: 'center', marginTop: -75,
                         }}>
 
                             <ImageBackground
@@ -104,7 +101,7 @@ class CommunityFeed extends Component {
                                 </TouchableOpacity>
                             </ImageBackground>
 
-                            <View style={{ alignItems: 'center' }}>
+                            <View style={{ alignItems: 'center', marginTop: 20 }}>
                                 <TouchableOpacity style={styles.button}
                                     onPress={() => this.handleFollow()}>
                                     <Text>
@@ -130,53 +127,72 @@ class CommunityFeed extends Component {
 
                             </View>
                         </View>
-                    </View>
-                    <FlatList
-                        data={this.state.userPosts}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item, index }) => (
-                            <Item
-                            //  onPress={() => this.props.navigation.navigate('PostScrollScreen', {
-                            //     post: this.state.userPosts,
-                            //     index: index,
-                            // })}
-                            >
-                                <ImageBackground resizeMode='contain' source={{
-                                    uri: this.state.uri
-                                }}
+                        <Card>
+                            <CardItem style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <TouchableOpacity
                                     style={{
-                                        // flex: 1,width: '100%',
-                                        width: cardWidth, height: cardHeight, margin: 1,
-                                        borderRadius: 15, justifyContent: 'flex-end'
-                                    }}>
-                                    <View style={{ flexDirection: 'row', }}>
-                                        <Left>
-                                            <Text style={{
-                                                margin: 10, color: '#fff',
-                                                shadowColor: '#111', textShadowColor: '#111',
-                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                            }}>
-                                                <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
+                                        flexDirection: 'row', backgroundColor: colors.color1,
+                                        borderRadius: 5, padding: 5,
+                                        elevation: 5, zIndex: 5,
+                                    }}
+                                    onPress={() => this.props.navigation.navigate('CreatePost',
+                                        { group_id: group_id, user_uid: this.props.user.uid })}
+                                >
+                                    <Icon name='add' style={{ textAlign: 'center' }} />
+                                    <Text>Create  </Text>
+                                </TouchableOpacity>
+                            </CardItem>
+                            <CardItem cardBody>
+                                <FlatList
+                                    data={this.state.userPosts}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item, index }) => (
+                                        <Item
+                                        //  onPress={() => this.props.navigation.navigate('PostScrollScreen', {
+                                        //     post: this.state.userPosts,
+                                        //     index: index,
+                                        // })}
+                                        >
+                                            <ImageBackground resizeMode='contain' source={{
+                                                uri: this.state.uri
+                                            }}
+                                                style={{
+                                                    // flex: 1,width: '100%',
+                                                    width: cardWidth, height: cardHeight, margin: 1,
+                                                    borderRadius: 15, justifyContent: 'flex-end'
+                                                }}>
+                                                <View style={{ flexDirection: 'row', }}>
+                                                    <Left>
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
                                                 4
                                             </Text>
-                                        </Left>
-                                        <Right>
-                                            <Text style={{
-                                                margin: 10, color: '#fff',
-                                                shadowColor: '#111', textShadowColor: '#111',
-                                                textShadowRadius: 5, fontWeight: '600', fontSize: 12,
-                                            }}>
-                                                <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
+                                                    </Left>
+                                                    <Right>
+                                                        <Text style={{
+                                                            margin: 10, color: '#fff',
+                                                            shadowColor: '#111', textShadowColor: '#111',
+                                                            textShadowRadius: 5, fontWeight: '600', fontSize: 12,
+                                                        }}>
+                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
                                                 54
                                             </Text>
-                                        </Right>
-                                    </View>
-                                </ImageBackground>
-                            </Item>
-                        )}
-                        numColumns={2}
-                        style={{ marginTop: 20, paddingTop: 5 }}
-                    />
+                                                    </Right>
+                                                </View>
+                                            </ImageBackground>
+                                        </Item>
+                                    )}
+                                    numColumns={2}
+                                    style={{ marginTop: 20, paddingTop: 5 }}
+                                />
+                            </CardItem>
+                        </Card>
+                    </View>
+
                 </Content>
             </Container>
 
@@ -194,6 +210,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         zIndex: 3,
         elevation: 3,
+        marginBottom: 10
     }
 });
 

@@ -20,38 +20,9 @@ class UploadScreen extends Component {
         postOnProgress: false,
         progress: null,
         titleError: false,
-
         title: '',
         description: "",
         hashtags: [],
-
-
-        post: {                 // NEED TO BE CHANGED TO THIS STATE FROM ABOVE
-            id: 0,
-            username: '@arjyou',
-            profileImage: null,
-            category: 'Fukru Roasting',
-            memeImage: null,
-            error: '',
-            likes: 3,
-            dislikes: 4,
-            about: 'Pwoli Saanam',
-            comment: '2',
-            isReactions: false,
-            reactions: [
-                {
-                    index: 0,
-                    Reactioncount: 1,
-                },
-                {
-                    index: 1,
-                    Reactioncount: 1,
-                },
-            ],
-            hashtags: [
-
-            ]
-        },
     };
 
     addTag = (text) => {                                  //adds the tag input to state array
