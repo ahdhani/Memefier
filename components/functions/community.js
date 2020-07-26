@@ -111,7 +111,7 @@ export const deletePost = (post_id) => {
                         return true
                     })
             }
-            return false
+            return false 
         })
 }
 

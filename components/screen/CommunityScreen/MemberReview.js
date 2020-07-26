@@ -18,12 +18,34 @@ const MemberReview = props => {
     }, []);
 
     return (
+
+        <View>
+            <Button onPress={() => {
+                console.log('Before splice: ',members)
+                // var splicedData = members
+                // splicedData.splice(0)
+                // setMembers(splicedData)
+                members.splice(0)
+                console.log('After splice: ',members)
+                }}>
+                <Text>
+                    clickf
+                </Text>
+            </Button>
+            <Button onPress={() => {
+                console.log('Bmm: ',members)
+                
+                }}>
+                <Text>
+                    member
+                </Text>
+            </Button>
         <FlatList
             style={{ padding: 15 }}
             data={members}
             renderItem={({ item,index }) => (
                 <MemberReviewCard group_id= {props.group_id} user_uid={item.user_uid} 
-                    cardHandled = {(index) => this.setState({members: members.splice(index)})}/>
+                    cardHandled = {() => setMembers(members.splice(index))}/>
                 // <Card>
                 //     <TouchableOpacity style={{position: 'absolute',top: 5,right: 5}}
                 //         onPress={() => deleteRequest(props.group_id,item.user_uid)}>
@@ -58,6 +80,7 @@ const MemberReview = props => {
             enableEmptySections={true}
             keyExtractor={(item, index) => index.toString()}
         />
+        </View>
     )
 }
 
