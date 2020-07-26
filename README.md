@@ -52,8 +52,12 @@ This project was built with :
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-### Expo Installation - Manual
+### Prerequisites
+* node.js
+* npm
+* firebase cli tools
+* expo-cli
+#### Expo Installation - Manual
 You can use [Expo](https://expo.io/) to install :
 
 ```console
@@ -66,7 +70,7 @@ memefy@memefy:~$ expo install
 memefy@memefy:~$ expo start
 ```
 
-### APK Installation
+#### APK Installation
 
 Download the applicaiton from link [URL](https://expo.io/)  
 
