@@ -52,6 +52,8 @@ This project was built with :
 
 <!-- GETTING STARTED -->
 ## Getting Started
+### APK Installation
+Download the applicaiton from [link](https://expo.io/)  
 ### Prerequisites
 * npm
 * node
@@ -67,9 +69,11 @@ memefy@memefy:~$ git clone https://github.com/ahdhani/Memefier
 memefy@memefy:~$ expo install
 ```
 #### Set-up Algolia
-Step 1 : Create Algolia account
-Step 2 : Create an application
-Step 3 : Copy the Admin API key , APP id and Client API key
+Step 1 : **Create Algolia account**
+</br>
+Step 2 : **Create an application**
+</br>
+Step 3 : **Copy the Admin API key , APP id and Client API key**
 #### Set-up Firebase
 Step 1 : <b>Login to firebase console</b>
 </br>
@@ -84,7 +88,7 @@ Step 4 : <b>Copy the CDN</b>
 </br>
 </br>
 Step 5 : <b>Create a .env file in root directory(fill the blanks) </b>
-```bash
+```console
 ALGOLIA_ADMIN_API_KEY = 
 ALGOLIA_APP_ID = 
 ALGOLIA_CLIENT_API_KEY = 
@@ -97,24 +101,6 @@ FIREBASE_MESSAGING_SENDER_ID =
 FIREBASE_APP_ID = 
 FIREBASE_MEASUREMENT_ID = 
 ```
-
-#### Expo Installation - Manual
-You can use [Expo](https://expo.io/) to install :
-
-```console
-memefy@memefy:~$ git clone https://github.com/ahdhani/Memefier
-```
-```console
-memefy@memefy:~$ expo install
-```
-```console
-memefy@memefy:~$ expo start
-```
-
-#### APK Installation
-
-Download the applicaiton from link [URL](https://expo.io/)  
-
 ## Features
 
 - [x] Authentication
