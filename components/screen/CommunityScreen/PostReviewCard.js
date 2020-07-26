@@ -1,8 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Card, CardItem, Button, Thumbnail } from 'native-base'
-import { View, Text, } from 'react-native';
+import { Card, CardItem, Button, Thumbnail, Item } from 'native-base'
+import { View, Text, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { fetchUser } from '../../functions/user'
+import { deletePost, acceptPost } from '../../functions/community'
+
+
+const screenWidth = Dimensions.get('window').width;
+const postHeight = screenWidth * 1.25;
 
 const PostReviewCard = props => {
 
@@ -11,7 +16,7 @@ const PostReviewCard = props => {
 
     useEffect(() => {
 
-        fetchUser(props.user_uid)
+        fetchUser(props.post.group_member)
             .then(res => {
                 setUser(res)
             });
@@ -21,53 +26,51 @@ const PostReviewCard = props => {
     return (
 
         <Card>
-
-                    <View style={{
-                        flexDirection: 'row', padding: 10,
-                        justifyContent: 'space-between', alignItems: 'center'
-                    }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Thumbnail source={{ uri: item.dp }} />
-                            <View style={{ marginLeft: 10 }}>
-                                <Text onPress={() => navigation.navigate('ProfileStack', {
-                                    screen: 'ProfileScreen',
-                                    params: { uuid: item.userId }   //Change later
-
-                                })}>fgjxdgh</Text>
-                                <Text note> fh </Text>
-                            </View>
-                        </View>
-
-                        
+            <View style={{
+                flexDirection: 'row', padding: 10,
+                justifyContent: 'space-between', alignItems: 'center'
+            }}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Thumbnail source={{ uri: user.dp }} />
+                    <View style={{ marginLeft: 10 }}>
+                        <Text
+                            onPress={() => navigation.navigate('ProfileStack', {
+                                screen: 'ProfileScreen',
+                                params: { uuid: props.post.group_member }
+                            })}
+                            style={{ fontSize: 18}}>@{user.userId}</Text>
+                        <Text style={{ color: '#888' }}>{user.firstname} {user.lastname}</Text>
                     </View>
-                    <CardItem cardBody>
-                        <Image resizeMode='contain'
-                            source={{ uri: item.dp }}
-                            style={{ width: screenWidth, height: postHeight }} />
-                    </CardItem>
-                    <CardItem style={{justifyContent: 'space-around',}}>
-                        <Button style={{
-                            padding: 8,paddingHorizontal: 15,
-                            backgroundColor: 'red', borderRadius: 5,
-                            height: 35 ,
-                        }}
-                        // onPress={ }
-                        >
-                            <Text>Reject</Text>
-                        </Button>
-                        <Button style={{
-                            padding: 8,paddingHorizontal: 15,
-                            backgroundColor: 'green', borderRadius: 5,
-                            height: 35 ,
-                        }}
-                        // onPress={ }
-                        >
-                            <Text>Accept</Text>
-                        </Button>
-                    </CardItem>
+                </View>
 
-                    
-                </Card>
+
+            </View>
+            <CardItem cardBody>
+                <Image resizeMode='contain'
+                    source={{ uri: props.post.img }}
+                    style={{ width: screenWidth, height: postHeight }} />
+            </CardItem>
+            <CardItem style={{ justifyContent: 'space-around', }}>
+                <Button style={{
+                    padding: 8, paddingHorizontal: 15,
+                    backgroundColor: 'red', borderRadius: 5,
+                    height: 35,
+                }}
+                onPress={() => deletePost(props.post.post_id).then(props.spliceCard()) }
+                >
+                    <Text>Reject</Text>
+                </Button>
+                <Button style={{
+                    padding: 8, paddingHorizontal: 15,
+                    backgroundColor: 'green', borderRadius: 5,
+                    height: 35,
+                }}
+                onPress={() => acceptPost(props.post.post_id).then(props.spliceCard()) }
+                >
+                    <Text>Accept</Text>
+                </Button>
+            </CardItem>
+        </Card>
     )
 }
 

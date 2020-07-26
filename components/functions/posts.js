@@ -88,8 +88,13 @@ export const fetchGroupPosts = (group_id) => {
         .where("created_by" , "==" , group_id)
         .where("allowed" , "==" , true)
         .get()
-        .then(snapshots => {
-            return snapshots.docs
+        .then
+        (res => {
+            arr = []
+            res.forEach(obj => {
+                arr=[...arr,obj.data()]
+            })
+            return arr;
         })
         .catch(err => console.log(err.message))
 

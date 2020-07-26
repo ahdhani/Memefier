@@ -75,9 +75,14 @@ class FeedScreen extends Component {
                     data={this.state.posts}
                     renderItem={({ item }) => <FeedCards post={item} />}
                     keyExtractor={(item, index) => `id_${index}`}
-                    pagingEnabled={true}
-                    decelerationRate={'fast'}
-                    snapToAlignment={'center'}
+
+                    // pagingEnabled={true}
+                    // decelerationRate={'fast'}
+                    // snapToInterval={400}
+                    // disableScrollViewPanResponder
+                    // snapToAlignment={'center'}
+                    // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
+
                     refreshing={this.state.isRefreshing}
                     onRefresh={() => this.onRefresh()}
                     onEndReachedThreshold={0.5}
