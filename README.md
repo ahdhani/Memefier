@@ -1,7 +1,5 @@
-
-# Memefy
 <center>
-
+  
 # Memefy
 
 [![Generic badge](https://img.shields.io/badge/Firebase-7.15.0-<COLOR>.svg)](https://firebase.google.com/docs)
@@ -13,6 +11,7 @@
 <br>
 
 > Short description about the application
+
 </center>
 
 ## Features
