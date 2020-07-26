@@ -1,7 +1,5 @@
-
-# Memefy
 <center>
-
+  
 # Memefy
 
 [![Build Status][travis-image]][pending-url]
@@ -9,6 +7,7 @@
 [![License][license-image]][license-url]
 <br>
 > Short description about the application
+
 </center>
 
 ## Features
