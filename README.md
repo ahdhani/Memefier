@@ -4,10 +4,14 @@
 
 # Memefy
 
-[![Build Status][travis-image]][pending-url]
+[![Generic badge](https://img.shields.io/badge/Firebase-7.15.0-<COLOR>.svg)](https://firebase.google.com/docs)
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
-[![License][license-image]][license-url]
+[![Generic badge](https://img.shields.io/badge/build-pending-RED.svg)](https://firebase.google.com/docs)
+[![Generic badge](https://img.shields.io/badge/License-MIT-BLUE.svg)](LICENSE)
+[![Generic badge](https://img.shields.io/badge/platform-Android-BLUE.svg)]()
+
 <br>
+
 > Short description about the application
 </center>
 
