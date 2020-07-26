@@ -55,12 +55,9 @@ class CreatePost extends Component {
                         })
                     })
             } catch (error) {
-                // Make a state variable error and append the `error.message` from here to it
                 console.log(error.message);
             }
 
-
-            // this.onPost;
         }
         else {
             if (this.state.image == null) {

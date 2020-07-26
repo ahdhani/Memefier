@@ -1,5 +1,5 @@
 import React, { Component, } from 'react'
-import { View, Text, Dimensions, FlatList, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Dimensions, FlatList, ImageBackground, TouchableOpacity, StyleSheet, TouchableOpacityBase } from 'react-native'
 import { Container, Button, Card, CardItem, Content, Right, Icon, Left, Item, H1 } from 'native-base'
 import { connect } from 'react-redux';
 import colors from '../../../constants/colors'
@@ -61,20 +61,21 @@ class CommunityFeed extends Component {
         const { group_id } = this.props.route.params
         return (
             <Container>
-                <Content style={{ backgroundColor: colors.color5 }}>
-                    <Button style={{
-                        position: 'absolute', top: 5, right: 5,
-                        width: 80, justifyContent: 'center'
+                <Content>
+                    <View style={{ backgroundColor: colors.color5, height: 150 }} />
+                    <TouchableOpacity style={{
+                        position: 'absolute', top: 15, right: 20,
+                        justifyContent: 'center'
                     }} onPress={() => this.props.navigation.navigate('AdminScreen', { group_id: group_id, })}>
-                        <Text style={{ color: '#fff' }}>Info</Text>
-                    </Button>
+                        <Icon name='menu' style={{ fontSize: 20, color: '#fff' }} />
+                    </TouchableOpacity>
                     <View style={{
-                        backgroundColor: '#fff', marginTop: 150,
+                        backgroundColor: '#fff', marginTop: -35,
                         borderTopLeftRadius: 30, borderTopRightRadius: 30
                     }}>
                         <View style={{
                             flexDirection: 'row', justifyContent: 'space-around',
-                            alignItems: 'center', marginTop: -75,
+                            alignItems: 'center', marginTop: -60,
                         }}>
 
                             <ImageBackground
@@ -106,7 +107,21 @@ class CommunityFeed extends Component {
                                 </TouchableOpacity>
                             </ImageBackground>
 
-                            <View style={{ alignItems: 'center', marginTop: 20 }}>
+                            <View style={{ alignItems: 'center', marginTop: 60 }}>
+
+                                <Text style={{ color: colors.color5, fontSize: 24 }}>
+                                    {this.state.groupDetails.name}
+                                    <Text style={{ fontSize: 16, color: '#000' }}>   {this.state.groupDetails.members}&nbsp;
+                                        <Icon name='people' style={{ fontSize: 14 }} />
+                                    </Text>
+                                </Text>
+
+                                <Text style={{ color: colors.color3 }}>{this.state.groupDetails.desc}</Text>
+
+                            </View>
+                        </View>
+                        <Card>
+                            <CardItem style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <TouchableOpacity style={styles.button}
                                     onPress={() => this.handleFollow()}>
                                     <Text>
@@ -121,25 +136,8 @@ class CommunityFeed extends Component {
                                         }
                                     </Text>
                                 </TouchableOpacity>
-                                <Text style={{ color: colors.color1, fontSize: 24 }}>
-                                    {this.state.groupDetails.name}
-                                    <Text style={{ fontSize: 16, color: '#000' }}>   {this.state.groupDetails.members}&nbsp;
-                                        <Icon name='people' style={{ fontSize: 14 }} />
-                                    </Text>
-                                </Text>
-
-                                <Text note>{this.state.groupDetails.desc}</Text>
-
-                            </View>
-                        </View>
-                        <Card>
-                            <CardItem style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity
-                                    style={{
-                                        flexDirection: 'row', backgroundColor: colors.color1,
-                                        borderRadius: 5, padding: 5,
-                                        elevation: 5, zIndex: 5,
-                                    }}
+                                    style={styles.button}
                                     onPress={() => this.props.navigation.navigate('CreatePost',
                                         { group_id: group_id, user_uid: this.props.user.uid })}
                                 >
@@ -173,9 +171,9 @@ class CommunityFeed extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 16,textAlign: 'center' }} />
+                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 16, textAlign: 'center' }} />
                                                             {item.dislikeCount}
-                                            </Text>
+                                                        </Text>
                                                     </Left>
                                                     <Right>
                                                         <Text style={{
@@ -183,9 +181,9 @@ class CommunityFeed extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 16, textAlign: 'center'}} />
-                                                {item.likeCount}
-                                            </Text>
+                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 16, textAlign: 'center' }} />
+                                                            {item.likeCount}
+                                                        </Text>
                                                     </Right>
                                                 </View>
                                             </ImageBackground>
@@ -215,7 +213,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         zIndex: 3,
         elevation: 3,
-        marginBottom: 10
+        marginBottom: 10,
+        height: 30,
     }
 });
 
