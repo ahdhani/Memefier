@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button, Card, Text, CardItem, Input, Header, Spinner, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, Form } from 'native-base'
+import { Container, Button, Card, Text, CardItem, Input, Content, Left, Body, Right, Thumbnail} from 'native-base'
 import { Image, View, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,6 +10,7 @@ import { addPost } from '../../../../redux';
 import { connect } from 'react-redux';
 import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
+import colors from './../../../../constants/colors';
 
 class CreatePost extends Component {
     state = {
@@ -82,7 +83,6 @@ class CreatePost extends Component {
                                 <Thumbnail resizeMode='cover' source={{ uri: this.props.userDetails.dp }} />
                                 <Body>
                                     <Text style={{ color: 'rgba(0,0,0,0.6)', fontSize: 21, fontWeight: '500' }}>@{this.props.userDetails.userId}</Text>
-                                    {/* <Text note>Roasting fukru</Text> */}
                                 </Body>
                             </Left>
                             <Right >
@@ -138,11 +138,11 @@ class CreatePost extends Component {
                                     {this.state.hashtags.map((hashtag, index) => {
                                         return (
                                             <TouchableOpacity style={styles.tag} onPress={() => { this.refreshTag(index) }}>
-                                                <Text style={{ color: 'white' }}>{hashtag}</Text>
+                                                <Text style={{ color: colors.color1 }}>{hashtag}</Text>
                                                 <MaterialCommunityIcons
-                                                    style={{ backgroundColor: 'white', borderRadius: 8, marginLeft: 5 }}
+                                                    style={{ backgroundColor:colors.color1, borderRadius: 8, marginLeft: 5 }}
                                                     name="close"
-                                                    color="#3F51B5"
+                                                    color={colors.color5}
                                                     size={15}
                                                 />
                                             </TouchableOpacity>
@@ -166,6 +166,7 @@ class CreatePost extends Component {
                         <CardItem style={{ flexDirection: 'column' }}>
                             <Button
                                 block
+                                style={{backgroundColor:colors.color5}}
                                 onPress={() => {
                                     if (this.state.title.length != 0 && this.state.image != null) {
                                         this.setState({
@@ -185,7 +186,7 @@ class CreatePost extends Component {
                                 }}
                                 disabled={this.state.postOnProgress}
                             >
-                                <Text>Post</Text>
+                                <Text style={{color:colors.color1}}>Post</Text>
                             </Button>
                         </CardItem>
 
@@ -219,8 +220,6 @@ class CreatePost extends Component {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-
-            // console.log(result);
         } catch (E) {
             console.log(E);
         }
@@ -233,11 +232,8 @@ class CreatePost extends Component {
                 ...this.state,
                 postOnProgress: true,
             })
-            // console.log("Image present and upload clicked")
-            // Hard Coded post description and image_name
             const imageName = uuid()
             var post_desc = this.state.description
-            // console.log("IMAGE_URI : ", this.state.image)
             try {
                 const response = await fetch(this.state.image);
                 const blob = await response.blob();
@@ -256,7 +252,6 @@ class CreatePost extends Component {
                     },
                     () => {
                         storage.ref('memes').child(imageName).getDownloadURL().then(async url => {
-                            // console.log(url);
                             await this.props.addPost(url, post_desc)
                             this.setState({
                                 ...this.state,
@@ -271,8 +266,6 @@ class CreatePost extends Component {
                 // Make a state variable error and append the `error.message` from here to it
                 console.log(error.message);
             }
-
-            // return ref.put(response)
 
         } else {
             console.log("Image uri not present Raise Error")
@@ -305,7 +298,7 @@ const styles = StyleSheet.create(
             margin: 1,
             padding: 5,
             borderRadius: 6,
-            backgroundColor: '#3F51B5'
+            backgroundColor: colors.color5
         }
     }
 );

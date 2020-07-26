@@ -8,6 +8,7 @@ import UploadScreen from '../UploadScreen/UploadScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import colors from './../../../constants/colors'
 
 
 export default class ProfileStack extends Component {
@@ -24,7 +25,10 @@ export default class ProfileStack extends Component {
 
                     initialRouteName="ProfileScreen"
                     screenOptions={{
-                        gestureEnabled: true
+                        gestureEnabled: true,
+                        headerStyle: { backgroundColor: colors.color5 },
+                        headerTitleStyle: { color: colors.color1 },
+                        headerTintColor: colors.color1
                     }}>
 
                     <Stack.Screen
@@ -46,7 +50,7 @@ export default class ProfileStack extends Component {
                         name="EditProfileScreen"
                         component={EditProfileScreen}
                         options={{
-                            headerShown: false
+                            title:'Edit Profile'
                         }}
                     />
                     <Stack.Screen
@@ -60,7 +64,7 @@ export default class ProfileStack extends Component {
                         name="UploadScreen"
                         component={UploadScreen}
                         options={{
-                            headerShown: false
+                            title:'Create'
                         }}
                     />
                 </Stack.Navigator>

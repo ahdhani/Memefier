@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet,Alert } from 'react-native';
 import { Container, Content, CardItem, Card, Button } from 'native-base';
 import { addChallenge } from './../../../functions/challenges';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
+import colors from './../../../../constants/colors';
+import * as Animatable from 'react-native-animatable';
 
 class MakeChallScreen extends Component {
 
     state = {
+        nameError: false,
         chalName: '',
         chalDesc: '',
         dateBool: false,
         buttonDisplay: 'Deadline',
-        buttonTextColor: 'white',
+        buttonTextColor: colors.color1,
         deadline: 0
     };
 
@@ -48,6 +51,11 @@ class MakeChallScreen extends Component {
                             <CardItem >
                                 <TextInput onChangeText={(text) => this.setState({ chalName: text })} style={styles.challName} placeholder="Challenge Name"></TextInput>
                             </CardItem>
+                            {this.state.nameError ?
+                                <Animatable.View animation='fadeIn' duration={500}>
+                                    <Text style={{ color: 'red', fontSize: 12 }}>     *Challenge Name must not be empty</Text>
+                                </Animatable.View> : null
+                            }
 
                             <CardItem>
                                 <Card style={styles.challDesc} >
@@ -56,7 +64,7 @@ class MakeChallScreen extends Component {
                             </CardItem>
 
                             <CardItem style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 }}>
-                                <Button style={{ height: 40, width: 230, padding: 23, borderRadius: 8 }} onPress={this.showDatePicker} >
+                                <Button style={{ height: 40, width: 230, padding: 23, borderRadius: 8, backgroundColor: colors.color5 }} onPress={this.showDatePicker} >
                                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                                         <Text style={{ color: this.state.buttonTextColor, fontSize: 14 }}>{this.state.buttonDisplay}</Text>
                                     </View>
@@ -74,13 +82,26 @@ class MakeChallScreen extends Component {
                         </Card>
                     </CardItem>
                     <CardItem style={{ flexDirection: 'column' }}>
-                        <Button onPress={() => {
-                            console.log(this.state.deadline)
-                            addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid,
-                                this.state.deadline).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
+                        <Button style={{ backgroundColor: colors.color5 }} onPress={() => {
+                            if (this.state.chalName.length != 0 && this.state.deadline != 0) {
+                                this.setState({
+                                    nameError: false
+                                });
+                                addChallenge(this.state.chalName, this.state.chalDesc, this.props.user.uid,
+                                    this.state.deadline).then((ref) => console.log("ref = ", ref).catch(error => console.error(error)))
+                            }
+                            else {
+                                if (this.state.deadline == 0) {
+                                    Alert.alert('OOPS!', 'You haven\'t selected the deadline yet.')
+                                }
+                                else if (this.state.chalName.length == 0)
+                                    this.setState({
+                                        nameError: true
+                                    })
+                            }
                         }}
                             block >
-                            <Text style={{ color: "white", fontSize: 18 }}>Post</Text>
+                            <Text style={{ color: colors.color1, fontSize: 18 }}>Post</Text>
                         </Button>
                     </CardItem>
                 </Content>
@@ -94,7 +115,7 @@ const styles = StyleSheet.create(
         challName: {
             width: '100%',
             height: 42,
-            borderBottomColor: '#3F51B5',
+            borderBottomColor: colors.color5,
             borderBottomWidth: 3,
             paddingBottom: 0,
             fontSize: 18,
