@@ -199,8 +199,8 @@ class ProfileScreen extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-down' style={{ color: '#fff', fontSize: 20 }} />
-                                                              4</Text>
+                                                            <Icon name='thumbs-down' style={{ color: '#fff', fontSize: 20 }} />
+                                                            {item.dislikeCount}</Text>
                                                     </Left>
                                                     <Right>
                                                         <Text style={{
@@ -208,8 +208,8 @@ class ProfileScreen extends Component {
                                                             shadowColor: '#111', textShadowColor: '#111',
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
-                                                            <Icon name='trending-up' style={{ color: '#fff', fontSize: 20 }} />
-                                                              54</Text>
+                                                            <Icon name='thumbs-up' style={{ color: '#fff', fontSize: 20 }} />
+                                                              {item.likeCount}</Text>
                                                     </Right>
                                                 </View>
                                             </ImageBackground>

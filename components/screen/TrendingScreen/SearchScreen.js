@@ -36,7 +36,6 @@ export default class SearchScreen extends Component {
                         groupResult: hits,
                         searchLoading: false,
                     })
-                    // console.log('Result : ',hits)
                 })
                 .catch(error => console.log(error.message))
         }

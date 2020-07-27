@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Dimensio
 import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import { db } from '../../../config';
 import { algoliaTest, algoliaSearch , algoliaSearchGroup} from '../../functions/algolia'
+import { fetchUserId} from '../../functions/user'
 
 const cardWidth = Dimensions.get('window').width / 2;
 const cardHeight = cardWidth * 1.25;
@@ -31,7 +32,7 @@ export default class TrendingScreen extends Component {
                 await snapshot.docs.forEach(doc => {
                     arr = [{ ...doc.data(), post_id: doc.id }, ...arr]
                 })
-
+                console.log('Resultttt : ',arr)
                 await this.setState({
                     trendingPosts: arr
                 })
@@ -79,7 +80,8 @@ export default class TrendingScreen extends Component {
                                             margin: 20, color: '#fff',
                                             shadowColor: '#111', textShadowColor: '#111',
                                             textShadowRadius: 10, fontWeight: '800',
-                                        }}>{item.userId}</Text>
+                                        }}>{item.created_by}</Text>
+                                    {/* }}>{fetchUserId(item.created_by)}</Text> */}
                                     </Left>
                                     <Right>
                                         <TouchableOpacity
