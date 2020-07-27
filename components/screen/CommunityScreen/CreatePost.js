@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable'
 import uuid from 'react-uuid'
 import { createGroupPost } from '../../functions/posts'
 import { storage } from '../../../config';
+import AlertModal from '../AlertModal'
 
 class CreatePost extends Component {
     state = {
@@ -23,7 +24,6 @@ class CreatePost extends Component {
                 DescError: false,
                 postOnProgress: true
             });
-            Alert.alert('OOPS.')
             const imageName = uuid()
             try {
                 const response = await fetch(this.state.image);
@@ -42,15 +42,18 @@ class CreatePost extends Component {
                         console.error(error.message);
                     },
                     () => {
-                        storage.ref('memes').child(imageName).getDownloadURL().then( url => {
+                        storage.ref('memes').child(imageName).getDownloadURL().then(url => {
 
                             createGroupPost(this.props.route.params.user_uid,
                                 this.props.route.params.group_id, url, this.state.description)
-                            .then(() => {
-                                this.setState({ postOnProgress: false });
-                                this.props.navigation.goBack()
-                            })
-                            .catch(err => console.log("POST UPLOAD FAILED ,", err.message))
+                                .then(() => {
+                                    setTimeout(() => {
+                                        this.setState({ postOnProgress: false });
+                                        this.props.navigation.goBack()
+                                    }, 500)
+
+                                })
+                                .catch(err => console.log("POST UPLOAD FAILED ,", err.message))
 
                         })
                     })
@@ -78,13 +81,15 @@ class CreatePost extends Component {
                     <Body>
                         <Title>Create</Title>
                     </Body>
-                    <Right>
+                    {/* <Right>
                         {this.state.postOnProgress &&
                             <Spinner color='#ccc' />
                         }
-                    </Right>
+                    </Right> */}
                 </Header>
                 <Content>
+                    <AlertModal text='Success' iconName='checkmark-circle-outline'
+                        progress={this.state.progress} loading={this.state.postOnProgress} />
                     <Card>
 
                         {this.state.image == null ?
