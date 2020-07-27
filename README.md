@@ -7,7 +7,7 @@
 
 <p align="center">
   
-  <h1 align="center">Memefy</h1>
+  <h1 align="center">Danko</h1>
   <p align="center">
       Short description of the project
       <br />
