@@ -7,7 +7,7 @@
 
 <p align="center">
   
-  <h1 align="center">Memefy</h1>
+  <h1 align="center">Danko</h1>
   <p align="center">
       Short description of the project
       <br />
@@ -52,8 +52,14 @@ This project was built with :
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-### Expo Installation - Manual
+### APK Installation
+Download the applicaiton from [link](https://expo.io/)  
+### Prerequisites
+* npm
+* node
+* expo cli
+* firebase cli tools
+#### Cloning and installing dependencies
 You can use [Expo](https://expo.io/) to install :
 
 ```console
@@ -62,14 +68,39 @@ memefy@memefy:~$ git clone https://github.com/ahdhani/Memefier
 ```console
 memefy@memefy:~$ expo install
 ```
+#### Set-up Algolia
+Step 1 : **Create Algolia account**
+</br>
+Step 2 : **Create an application**
+</br>
+Step 3 : **Copy the Admin API key , APP id and Client API key**
+#### Set-up Firebase
+Step 1 : <b>Login to firebase console</b>
+</br>
+Step 2 : <b>Create an applicaiton</b>
+</br>
+Step 3 : <b>Select the Project Settings </b>
+<img src="https://github.com/Sarathcani999/Memefier/blob/master/readme/screenshots/firebase_1.JPG" alt="Firebase 1" height="320">
+</br>
+</br>
+Step 4 : <b>Copy the CDN</b>
+<img src="https://github.com/Sarathcani999/Memefier/blob/master/readme/screenshots/firebase_2.JPG" alt="Firebase 2" height="400">
+</br>
+</br>
+Step 5 : <b>Create a .env file in root directory(fill the blanks) </b>
 ```console
-memefy@memefy:~$ expo start
+ALGOLIA_ADMIN_API_KEY = 
+ALGOLIA_APP_ID = 
+ALGOLIA_CLIENT_API_KEY = 
+FIREBASE_API_KEY = 
+FIREBASE_AUTH_DOMAIN = 
+FIREBASE_DATABASE_URL = 
+FIREBASE_PROJECT_ID = 
+FIREBASE_STORAGE_BUCKET = 
+FIREBASE_MESSAGING_SENDER_ID = 
+FIREBASE_APP_ID = 
+FIREBASE_MEASUREMENT_ID = 
 ```
-
-### APK Installation
-
-Download the applicaiton from link [URL](https://expo.io/)  
-
 ## Features
 
 - [x] Authentication
