@@ -38,7 +38,7 @@ const MemberReviewCard = props => {
                     <View style={{ marginLeft: 10 }}>
                         <Text onPress={() => navigation.navigate('ProfileStack', {
                             screen: 'ProfileScreen',
-                            params: { uuid: user.userId }   //Change later
+                            params: { uuid: props.user_uid }   
 
                         })} style={{ fontSize: 18 }}>@{user.userId}</Text>
                         <Text style={{ color: '#aaa' }}>{user.firstname} {user.lastname}</Text>
