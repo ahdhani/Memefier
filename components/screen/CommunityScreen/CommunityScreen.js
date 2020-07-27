@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, FlatList } from 'react-native'
+import {  TouchableOpacity, FlatList } from 'react-native'
 import { Container, Button, Text, Card, CardItem, Content, Right } from 'native-base'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { connect } from 'react-redux';
-import { fetchGroups, joinGroup, fetchGroupDetails } from '../../functions/community'
-import {dateTimeProcessor} from '../../functions/general'
+import { fetchGroups } from '../../functions/community'
 import CommunityCard from './CommunityCard';
 
 
@@ -47,9 +46,9 @@ class CommunityScreen extends Component {
                             </Card>
                         </CardItem>
                     </TouchableOpacity>
-                    <Button onPress={() => dateTimeProcessor()}>
+                    {/* <Button onPress={() => dateTimeProcessor()}>
                         <Text>Test Time processor</Text>
-                    </Button>
+                    </Button> */}
                     <FlatList
                         data={this.state.groups}
                         keyExtractor={(item, index) => index.toString()}

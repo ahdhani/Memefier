@@ -73,7 +73,7 @@ export default class TrendingScreen extends Component {
                                     width: cardWidth, height: cardHeight,
                                     elevation: 5, zIndex: 5
                                 }}>
-                                <View style={{ flexDirection: 'row', top: 200 }}>
+                                {/* <View style={{ flexDirection: 'row', top: 200 }}>
                                     <Left>
                                         <Text style={{
                                             margin: 20, color: '#fff',
@@ -95,7 +95,7 @@ export default class TrendingScreen extends Component {
                                         </TouchableOpacity>
 
                                     </Right>
-                                </View>
+                                </View> */}
                             </ImageBackground>
                         </Item>
                     )}
