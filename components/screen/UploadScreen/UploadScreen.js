@@ -10,7 +10,7 @@ import { addPost } from '../../../redux';
 import { connect } from 'react-redux';
 import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
-import {createUserPost} from '../../functions/posts'
+import { createUserPost } from '../../functions/posts'
 import colors from './../../../constants/colors';
 
 class UploadScreen extends Component {
@@ -46,7 +46,7 @@ class UploadScreen extends Component {
         let { image } = this.state;
         return (
             <Container>
-                
+
                 <Content>
                     <Card>
 
@@ -111,11 +111,11 @@ class UploadScreen extends Component {
                                     {this.state.hashtags.map((hashtag, index) => {
                                         return (
                                             <TouchableOpacity style={styles.tag} onPress={() => { this.refreshTag(index) }}>
-                                                <Text style={{ color: 'white' }}>{hashtag}</Text>
+                                                <Text style={{ color: colors.color1 }}>{hashtag}</Text>
                                                 <MaterialCommunityIcons
-                                                    style={{ backgroundColor: 'white', borderRadius: 8, marginLeft: 5 }}
+                                                    style={{ backgroundColor: colors.color1, borderRadius: 8, marginLeft: 5 }}
                                                     name="close"
-                                                    color="#3F51B5"
+                                                    color={colors.color5}
                                                     size={15}
                                                 />
                                             </TouchableOpacity>
@@ -137,7 +137,7 @@ class UploadScreen extends Component {
                         </CardItem>
 
                         <CardItem style={{ flexDirection: 'column' }}>
-                            <Button style={{backgroundColor:colors.color5}}
+                            <Button style={{ backgroundColor: colors.color5 }}
                                 block
                                 onPress={() => {
                                     if (this.state.title.length != 0 && this.state.image != null) {
@@ -158,7 +158,7 @@ class UploadScreen extends Component {
                                 }}
                                 disabled={this.state.postOnProgress}
                             >
-                                <Text style={{color:colors.color1}}>Post</Text>
+                                <Text style={{ color: colors.color1 }}>Post</Text>
                             </Button>
                         </CardItem>
 
@@ -231,9 +231,16 @@ class UploadScreen extends Component {
                         storage.ref('memes').child(imageName).getDownloadURL().then(async url => {
                             // console.log(url);
                             // await this.props.addPost(url, post_desc)
-                            createUserPost(this.props.user.uid , url , post_desc)
+                            createUserPost(this.props.user.uid, url, post_desc)
                                 .then((ret_id) => {
-                                    console.log("UPLOAD SUCCESS ," , ret_id)
+                                    Alert.alert(
+                                        'SUCCESS!',
+                                        'You have successfully uploaded your meme.',
+                                        [
+                                            { text: "Go Back", onPress: () => this.props.navigation.goBack() }
+                                        ]
+                                    );
+                                    console.log("UPLOAD SUCCESS ,", ret_id)
                                     this.setState({
                                         ...this.state,
                                         image: null,
@@ -241,9 +248,18 @@ class UploadScreen extends Component {
                                         postOnProgress: false,
                                     })
                                 })
-                                .catch(err => console.log("POST UPLOAD FAILED ,",err.message))
-                            
-                            this.props.navigation.goBack()
+                                .catch(err => {
+                                    Alert.alert(
+                                        'FAILED!',
+                                        'Uploading Failed.',
+                                        [
+                                            { text: "Go Back", onPress: () => this.props.navigation.goBack() }
+                                        ]
+                                    );
+                                    console.log("POST UPLOAD FAILED ,", err.message)
+                                })
+
+                            // this.props.navigation.goBack()
                         })
                     })
             } catch (error) {
@@ -266,7 +282,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => ({
-    user:state.auth.user ,
+    user: state.auth.user,
     userDetails: state.auth.userDetails,
     following: state.auth.following
 })
@@ -285,7 +301,7 @@ const styles = StyleSheet.create(
             margin: 1,
             padding: 5,
             borderRadius: 6,
-            backgroundColor: '#3F51B5'
+            backgroundColor: colors.color5
         }
     }
 );
