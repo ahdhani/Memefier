@@ -86,7 +86,7 @@ const Comment = (props) => {
 
                             <Icon name='send' style={{ margin: 15 }} onPress={() => {
                                 console.log('Reply  : ',replyText)
-                                addReply(props.comment.comment_id, replyText, props.uuid)
+                                addReply(props.comment.comment_id, "replyText", props.uuid)
                                 setReply(
                                     [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
                                 )
