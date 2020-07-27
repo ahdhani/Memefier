@@ -6,7 +6,7 @@ import ChallengeScreen from './ChallengeScreen';
 import MakeChallScreen from './MakeChallScreen';
 import ChallengeFeed from './ChallengeFeed';
 import CreatePost from './CreatePost';
-import colors from './../../../../constants/colors';
+import colors from '../../../constants/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // const screens = {
@@ -29,7 +29,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 //         }  
 //     }
 // }
-
+ 
 // const HomeStack = createStackNavigator(screens,{
 
 //     defaultNavigationOptions:{

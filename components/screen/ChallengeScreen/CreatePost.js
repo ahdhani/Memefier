@@ -5,13 +5,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { storage } from '../../../../config';
-import { addPost } from '../../../../redux';
+import { storage } from '../../../config';
+import { addPost } from '../../../redux';
 import { connect } from 'react-redux';
 import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
-import colors from './../../../../constants/colors';
-
+import colors from '../../../constants/colors';
+ 
 class CreatePost extends Component {
     state = {
         inputTag: '',

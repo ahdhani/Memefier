@@ -1,10 +1,10 @@
 //Active and Complete Tabs
-
+ 
 import React from "react";
 import { Card, CardItem } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from './../../../../constants/colors'
+import colors from '../../../constants/colors'
 
 const { width } = Dimensions.get("window");
 

@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { Card, CardItem, Right, Button, Container } from 'native-base';
 import { View, Text, TouchableOpacity, Animated, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from './../../../../constants/colors';
+import colors from '../../../constants/colors';
 
 const { width } = Dimensions.get("window");
 
 export default class JoinChallScreen extends Component {
-
+ 
     state = {
         active: 0,
         xTabOne: 0,

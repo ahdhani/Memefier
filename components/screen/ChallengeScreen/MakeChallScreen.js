@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet,Alert } from 'react-native';
 import { Container, Content, CardItem, Card, Button } from 'native-base';
-import { addChallenge } from './../../../functions/challenges';
+import { addChallenge } from '../../functions/challenges';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { connect } from 'react-redux';
-import colors from './../../../../constants/colors';
+import colors from '../../../constants/colors';
 import * as Animatable from 'react-native-animatable';
 
 class MakeChallScreen extends Component {

@@ -155,7 +155,7 @@ const FeedCards = (props) => {
                                 setCommentOpen(false);
                             })
                         }
-                        // onBlur={() => setCommentOpen(false)}
+                        onBlur={() => setCommentOpen(false)}
                         style={{ color: '#fff' }}
                         placeholder='Comment...'
                         onChangeText={(text) => setComment(text)}

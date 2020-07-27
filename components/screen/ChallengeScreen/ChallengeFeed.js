@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, Dimensions, FlatList, ImageBackground } from 'react-native'
 import { Container, Button,CardItem, Content, Right, Icon, Left, Item } from 'native-base'
-import colors from '../../../../constants/colors'
-
+import colors from '../../../constants/colors'
+ 
 const cardWidth = (Dimensions.get('window').width) - 4;
 const cardHeight = cardWidth * 1.25;
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { View, Text,TouchableOpacity } from 'react-native';
 import { Container, Content, CardItem, Button } from 'native-base';
 import Act_Com_Tabs from './Act_Com_Tabs';
-import colors from './../../../../constants/colors';
+import colors from '../../../constants/colors';
 
 
 
@@ -16,7 +16,7 @@ export default function ChallengeScreen({ navigation }) {
   return (
     <Container>
       <Content>
-
+ 
         <CardItem style={{ flexDirection: 'column' }}>
           <TouchableOpacity style={{width:'100%'}}>
             <Button block onPress={makeChallenge} style={{ backgroundColor: colors.color5 }}>
