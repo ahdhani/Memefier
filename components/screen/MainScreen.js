@@ -8,7 +8,8 @@ import TrendingStack from './TrendingScreen/TrendingStack'
 // import CommunityScreen from './CommunityScreen/CommunityScreen'
 import CommunityStack from './CommunityScreen/CommunityStack'
 import ProfileStack from './ProfileScreen/ProfileStack'
-import ChallengeStack from './CommunityScreen/ChallengeScreen/ChallengeStack'
+import ChallengeStack from './ChallengeScreen/ChallengeStack'
+import NotificationStack from './NotificationScreen/NotificationStack'
 // import ChallengeScreen from './CommunityScreen/ChallengeScreen/ChallengeScreen';
 // import CommentScreen from './FeedScreen/CommentScreen'
 
@@ -42,12 +43,12 @@ function MainScreen() {
             
             
             <Tab.Screen
-                name="ChallengeStack"
-                component={ChallengeStack}
+                name="NotificationStack"
+                component={NotificationStack}
                 options={{
-                    tabBarLabel: 'Challenge',
+                    tabBarLabel: 'Notification',
                     tabBarIcon: ({ color, focused }) => (
-                        <MaterialCommunityIcons name="account-multiple" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
+                        <MaterialCommunityIcons name="bell-outline" color={color} size={27} style={{ bottom: focused ? 3 : 0 }} />
                     ),
                 }}
             />
