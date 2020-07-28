@@ -81,7 +81,7 @@ export default class TrendingScreen extends Component {
                                             shadowColor: '#111', textShadowColor: '#111',
                                             textShadowRadius: 10, fontWeight: '800',
                                         }}>{item.created_by}</Text>
-                                    {/* }}>{fetchUserId(item.created_by)}</Text> */}
+                                        }}>{fetchUserId(item.created_by)}</Text> 
                                     </Left>
                                     <Right>
                                         <TouchableOpacity
