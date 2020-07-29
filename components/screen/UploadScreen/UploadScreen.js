@@ -12,6 +12,7 @@ import uuid from 'react-uuid'
 import * as Animatable from 'react-native-animatable'
 import { createUserPost } from '../../functions/posts'
 import colors from './../../../constants/colors';
+import AlertModal from '../AlertModal'
 
 class UploadScreen extends Component {
     state = {
@@ -19,6 +20,7 @@ class UploadScreen extends Component {
         hashLength: 0,
         image: null,
         postOnProgress: false,
+        // postUploaded: false,
         progress: null,
         titleError: false,
         title: '',
@@ -48,6 +50,9 @@ class UploadScreen extends Component {
             <Container>
 
                 <Content>
+                    <AlertModal text='Success' iconName='checkmark-circle-outline'
+                        progress={this.state.progress} visible={this.state.postOnProgress} />
+
                     <Card>
 
                         <CardItem>
@@ -233,21 +238,18 @@ class UploadScreen extends Component {
                             // await this.props.addPost(url, post_desc)
                             createUserPost(this.props.user.uid, url, post_desc)
                                 .then((ret_id) => {
-                                    Alert.alert(
-                                        'SUCCESS!',
-                                        'You have successfully uploaded your meme.',
-                                        [
-                                            { text: "Go Back", onPress: () => this.props.navigation.goBack() }
-                                        ]
-                                    );
-                                    console.log("UPLOAD SUCCESS ,", ret_id)
+                                    setTimeout(() => {
+                                        this.setState({ postOnProgress: false });
+                                        this.props.route.params.onGoBack()
+                                        this.props.navigation.goBack()
+                                    }, 500)
                                     this.setState({
                                         ...this.state,
                                         image: null,
                                         progress: null,
                                         postOnProgress: false,
                                     })
-                                    
+
                                 })
                                 .catch(err => {
                                     Alert.alert(

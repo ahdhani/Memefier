@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Dimensions, ImageBackground } from 'react-native'
-import { Container, Button, Card, Text, Item,Header, Left, Icon, Body, Right,CardItem } from 'native-base'
+import { Container, Button, Card, Text, Item, Header, Left, Icon, Body, Right, CardItem } from 'native-base'
 import colors from '../../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
@@ -36,7 +36,7 @@ class ProfileScreen extends Component {
     }
 
     componentDidMount = async () => {
-        
+
         if (this.props.route.params.uuid != null) {
             const user = await fetchUserDetails(this.props.route.params.uuid)
             this.setState({ userDetails: user },
@@ -162,7 +162,11 @@ class ProfileScreen extends Component {
                                     flexDirection: 'row', backgroundColor: colors.color1,
                                     borderRadius: 5, padding: 5,
                                     elevation: 5, zIndex: 5,
-                                }} onPress={() => this.props.navigation.navigate('UploadScreen')}>
+                                }} onPress={() => this.props.navigation.navigate('UploadScreen', 
+                                        {
+                                            onGoBack: () => this.fetchUserPosts(this.props.user.uid),
+                                        }
+                                )}>
                                     <Icon name='add' style={{ textAlign: 'center' }} />
                                     <Text>Create  </Text>
                                 </TouchableOpacity>

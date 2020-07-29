@@ -11,7 +11,7 @@ import colors from '../../constants/colors'
 
 const AlertModal = props => {
     const {
-        loading,
+        visible,
         text,
         progress,
         iconName,
@@ -22,19 +22,22 @@ const AlertModal = props => {
         <Modal
             transparent={true}
             animationType={'none'}
-            visible={loading}
+            visible={visible}
             onRequestClose={() => { console.log('close modal') }}>
             <View style={styles.modalBackground}>
                 <View style={styles.activityIndicatorWrapper}>
-                    {progress != 100 ?
-                        <ActivityIndicator
-                            animating={loading}
-                            color='#672b78'
-                            size={35} />
+                    {progress !=100 ?
+                        <View>
+                            <ActivityIndicator
+                                animating={visible}
+                                color='#672b78'
+                                size={35} />
+                                <Text style={{color: '#fff',fontWeight: 'bold'}}>{progress}%</Text>
+                        </View>
                         :
                         <View>
                             <Text style={{ color: '#fff', fontSize: 22 }}>{text} {'  '}
-                                <Icon name={iconName} style={{ color: '#fff',color: 'green' }} />
+                                <Icon name={iconName} style={{ color: '#fff', color: 'green' }} />
                             </Text>
                         </View>
                     }

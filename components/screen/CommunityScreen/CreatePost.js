@@ -89,7 +89,7 @@ class CreatePost extends Component {
                 </Header>
                 <Content>
                     <AlertModal text='Success' iconName='checkmark-circle-outline'
-                        progress={this.state.progress} loading={this.state.postOnProgress} />
+                        progress={this.state.progress} visible={this.state.postOnProgress} />
                     <Card>
 
                         {this.state.image == null ?
