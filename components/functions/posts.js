@@ -46,7 +46,6 @@ export const fetchUserPosts = (user_uid) => {
         .where("created_by" , "==" , user_uid)
         .where("allowed" , "==" , true)
         .orderBy("created_at", "desc")
-        .limit(2)
         .get()
         .then(snapshots => {
             return snapshots.docs

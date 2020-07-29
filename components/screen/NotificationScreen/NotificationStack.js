@@ -41,16 +41,16 @@ export default class NotificationStack extends Component {
                      <Stack.Screen
                         name="CommentScreen"
                         component={CommentScreen}
-                        options={{
-                            headerShown: false
-                        }}
+                        // options={{
+                        //     headerShown: false
+                        // }}
                     />
                     <Stack.Screen
                         name="PostScrollScreen"
                         component={PostScrollScreen}
-                        options={{
-                            headerShown: false
-                        }}
+                        // options={{
+                        //     headerShown: false
+                        // }}
                     />
 
                 </Stack.Navigator>

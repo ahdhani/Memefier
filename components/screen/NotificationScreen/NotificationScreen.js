@@ -104,18 +104,20 @@ function NotificationScreen(props, { navigation }) {
             renderItem={({ item }) => (
               <ListItem
                 onPress={() => {
-                  if (item.oper == 'comment') {
-                    var post = 
-                    this.props.navigation.navigate('PostScrollScreen', {
+                  if (item.type == 1) {
+                    var data = item.event
+                    var post = [data]
+                    props.navigation.navigate('PostScrollScreen', {
                       screen: 'CommentScreen',
-                      params: { post: post,index: 0 }
+                      params: { post: post,index: 0 },
+                      // post: post,
+                      // index: 0
                   
                   })
                   }
-                  else if (item.oper == 'group') {
-                    navigation.push('GroupScreen');
+                  else {
+                    // navigation.push('GroupScreen');
                   }
-                  // DO NAVIGATION HERE
                 }}
                 title={`@${item.userId} ${item.msg}`}
                 subtitle={item.timeAgo}

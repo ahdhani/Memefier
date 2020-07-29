@@ -9,16 +9,13 @@ class PostScrollScreen extends Component {
 
     state = {
         posts: [],
-        isRefreshing: false,
     }
 
     onEndReached = ({ distanceFromEnd }) => {
     }
 
-    onRefresh = async () => {
-        this.setState({ isRefreshing: true });
-        await this.fetchPosts()
-        this.setState({ isRefreshing: false });
+    componentDidMount = () => {
+        console.log(this.props.route.params.post)
     }
 
     render() {
@@ -45,8 +42,8 @@ class PostScrollScreen extends Component {
                         initialScrollIndex={index}
                         snapToAlignment={'top'}
                         viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
-                        refreshing={this.state.isRefreshing}
-                        onRefresh={() => this.onRefresh()}
+                        // refreshing={this.state.isRefreshing}
+                        // onRefresh={() => this.onRefresh()}
                         onEndReachedThreshold={0.5}
 
                         onEndReached={({ distanceFromEnd }) => {
