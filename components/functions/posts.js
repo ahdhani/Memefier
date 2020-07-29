@@ -114,3 +114,11 @@ export const fetchGroupPostsForReview = (group_id) => {
         .catch(err => console.log(err.message))
 
 }
+
+export const fetchPostDetails = (post_id) => {
+    return db.collection('posts')
+        .doc(post_id)
+        .get()
+        .then(doc => doc.data())
+        .catch(err => console.log(err.message))
+}
