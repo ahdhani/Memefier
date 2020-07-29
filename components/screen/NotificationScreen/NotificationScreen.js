@@ -56,6 +56,12 @@ function NotificationScreen(props, { navigation }) {
 
   }
 
+//   onPress={() => navigation.navigate('ProfileStack', {
+//     screen: 'ProfileScreen',
+//     params: { uuid: props.post.created_by, }
+
+// })}
+
   const onEndReached = (distanceFromEnd) => {
     console.log("END REACHED")
     // console.log("LAST DOC" , snapshots_arr[snapshots_arr.length - 1])
@@ -98,12 +104,17 @@ function NotificationScreen(props, { navigation }) {
             renderItem={({ item }) => (
               <ListItem
                 onPress={() => {
-                  // if (item.oper == 'comment') {
-                  //   navigation.push('CommentScreen');
-                  // }
-                  // else if (item.oper == 'group') {
-                  //   navigation.push('GroupScreen');
-                  // }
+                  if (item.oper == 'comment') {
+                    var post = 
+                    this.props.navigation.navigate('PostScrollScreen', {
+                      screen: 'CommentScreen',
+                      params: { post: post,index: 0 }
+                  
+                  })
+                  }
+                  else if (item.oper == 'group') {
+                    navigation.push('GroupScreen');
+                  }
                   // DO NAVIGATION HERE
                 }}
                 title={`@${item.userId} ${item.msg}`}

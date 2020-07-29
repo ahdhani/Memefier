@@ -4,8 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../../../constants/colors';
 import NotificationScreen from './NotificationScreen';
-import CommentScreen from './CommentScreen';
-import GroupScreen from './GroupScreen'
+import CommentScreen from '../FeedScreen/CommentScreen/CommentScreen';
+import PostScrollScreen from '../PostScrollScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class NotificationStack extends Component {
@@ -42,30 +42,16 @@ export default class NotificationStack extends Component {
                         name="CommentScreen"
                         component={CommentScreen}
                         options={{
-                            title: ''
+                            headerShown: false
                         }}
                     />
                     <Stack.Screen
-                        name="GroupScreen"
-                        component={GroupScreen}
+                        name="PostScrollScreen"
+                        component={PostScrollScreen}
                         options={{
-                            title: ''
+                            headerShown: false
                         }}
                     />
-                    {/*<Stack.Screen
-                        name="ChallengeFeed"
-                        component={ChallengeFeed}
-                        options={{
-                            title: ''
-                        }}
-                    />
-                    <Stack.Screen
-                        name="CreatePost"
-                        component={CreatePost}
-                        options={{
-                            title: 'Join Titanic Challenge'
-                        }}
-                    /> */}
 
                 </Stack.Navigator>
             </NavigationContainer>
