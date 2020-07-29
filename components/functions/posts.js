@@ -45,6 +45,8 @@ export const fetchUserPosts = (user_uid) => {
     return db.collection('posts')
         .where("created_by" , "==" , user_uid)
         .where("allowed" , "==" , true)
+        .orderBy("created_at", "desc")
+        .limit(2)
         .get()
         .then(snapshots => {
             return snapshots.docs
@@ -52,7 +54,7 @@ export const fetchUserPosts = (user_uid) => {
         .catch(err => console.log(err.message))
 
 }
-
+ 
 export const fetchFeedPosts = (arr , lastPost = null) => {
     // order by timestamp missing
     if (lastPost == null) {

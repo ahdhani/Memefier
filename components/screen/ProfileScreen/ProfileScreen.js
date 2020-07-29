@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { logoutUser, unfollow_user, follow_user, } from '../../../redux';
 
 import { db } from '../../../config';
-import { fetchUserDetails } from '../../functions/user'
+import { fetchDetails } from '../../functions/user'
+import { fetchUserPosts } from '../../functions/posts'
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -19,37 +20,48 @@ class ProfileScreen extends Component {
         userDetails: [],
     }
 
-    fetchUserPosts = async (uuid) => {
-        var arr = []
-        await db.collection('posts')
-            .where('created_by', '==', uuid)   //KUDU please check this statement
-            .get()
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    arr = [doc.data(), ...arr]
-                })
-                this.setState({
-                    userPosts: arr
-                })
-            }).
-            catch(error => console.log("ERR : ", error.message))
-    }
-
     componentDidMount = async () => {
+<<<<<<< HEAD
         
+=======
+        // console.log(this.props.userPosts)
+>>>>>>> ...
         if (this.props.route.params.uuid != null) {
-            const user = await fetchUserDetails(this.props.route.params.uuid)
-            this.setState({ userDetails: user },
-                () => this.fetchUserPosts(this.props.route.params.uuid))
+            // const user = await fetchUserDetails(this.props.route.params.uuid)
+            fetchDetails(this.props.route.params.uuid)
+                .then(userDetails => {
+                    this.setState({
+                        userDetails
+                    })
+                })
+            fetchUserPosts(this.props.route.params.uuid)
+                .then(async snapshots => {
+                    var arr = []
+                    await snapshots.forEach(doc => {
+                        arr = [...arr , doc.data()]
+                    })
+
+                    this.setState({
+                        userPosts : arr
+                    })
+                })
         }
         else {
-            this.setState({ userDetails: this.props.userDetails },
-                () => this.fetchUserPosts(this.props.user.uid)
-                // async () => {
-                // await this.props.fetchPosts()
-                // this.setState({ userPosts: this.props.userPosts })
-                // }
+            this.setState({ 
+                userDetails: this.props.userDetails }
             )
+
+            fetchUserPosts(this.props.user.uid)
+                .then(async snapshots => {
+                    var arr = []
+                    await snapshots.forEach(doc => {
+                        arr = [...arr , doc.data()]
+                    })
+
+                    this.setState({
+                        userPosts : arr
+                    })
+                })
         }
     }
 
