@@ -5,7 +5,6 @@ import SignUpScreen from './components/screen/AuthenticationScreen/SignUpScreen'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import {AppLoading} from "expo";
-// import MainScreen from './components/screen/MainScreen'
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -51,13 +50,6 @@ RootStack = () => {
             headerShown: false
           }}
         />
-        {/* <Stack.Screen
-          name="MainScreen"
-          component={MainScreen}
-          options={{
-            headerShown: false
-          }}
-        /> */}
 
       </Stack.Navigator>
     </NavigationContainer>

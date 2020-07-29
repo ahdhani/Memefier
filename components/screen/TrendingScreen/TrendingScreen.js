@@ -4,6 +4,7 @@ import { Container, Button, Card, Text, Item, Input, Header, Content, Left, Pick
 import { db } from '../../../config';
 import { algoliaTest, algoliaSearch , algoliaSearchGroup} from '../../functions/algolia'
 import { fetchUserId} from '../../functions/user'
+import colors from '../../../constants/colors'
 
 const cardWidth = Dimensions.get('window').width / 2;
 const cardHeight = cardWidth * 1.25;
@@ -49,7 +50,7 @@ export default class TrendingScreen extends Component {
     render() {
         return (
             <Container>
-                <Header searchBar rounded>
+                <Header searchBar rounded style={{backgroundColor: colors.color5}}>
                     <Body>
                         <Item>
                             <Icon name="ios-search" />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, FlatList } from 'react-native'
+import { View, Image, FlatList, StatusBar } from 'react-native'
 import { Container, Button, Card, Text, CardItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail } from 'native-base'
 import FeedCards from './FeedCards'
 import colors from '../../../constants/colors'
@@ -70,18 +70,12 @@ class FeedScreen extends Component {
 
     render() {
         return (
-            <Container>
+            <Container >
+                <StatusBar barStyle="light-content" backgroundColor={colors.color5}/>
                 <FlatList
                     data={this.state.posts}
                     renderItem={({ item }) => <FeedCards post={item} />}
                     keyExtractor={(item, index) => `id_${index}`}
-
-                    // pagingEnabled={true}
-                    // decelerationRate={'fast'}
-                    // snapToInterval={400}
-                    // disableScrollViewPanResponder
-                    // snapToAlignment={'center'}
-                    // viewabilityConfig={{ itemVisiblePercentThreshold: 90 }}
 
                     refreshing={this.state.isRefreshing}
                     onRefresh={() => this.onRefresh()}

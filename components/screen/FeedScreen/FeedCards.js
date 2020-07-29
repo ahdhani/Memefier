@@ -5,6 +5,7 @@ import colors from '../../../constants/colors'
 import Reaction from './Reaction'
 import PostOptions from './PostOptions'
 import { fetchAllComments, addComment } from '../../functions/comments'
+import { dateTimeProcessor } from '../../functions/general'
 
 
 import { db } from '../../../config';
@@ -43,14 +44,13 @@ const FeedCards = (props) => {
     const navigation = useNavigation();
     const commentInput = useRef();
     const [name, setName] = useState('')
+    // const [name, setName] = useState('')
     const [optionsModal, setOptionsModal] = useState(false)
     const [userComment, setComment] = useState('')
     const [commentOpen, setCommentOpen] = useState(false)
     const [dp, setDp] = useState('https://firebasestorage.googleapis.com/v0/b/memefier-rest-api.appspot.com/o/dp%2Fdefault.png?alt=media&token=b848e1ca-2c36-42cb-932a-049fe6dceeb9')
 
-    // useEffect(() => {
 
-    // }, []);
     const closePostOptions = () => {
         setOptionsModal(false);
     }
@@ -60,10 +60,7 @@ const FeedCards = (props) => {
             .doc(user_uid)
             .get()
             .then(user => {
-                var name = user.data().firstname + ' ' + user.data().lastname
-                // console.log(typeof(name))
-                // return user.data().firstname
-                // console.log(user.data())
+                var name = user.data().userId
                 setName(name);
                 setDp(user.data().dp)
             }).catch(error => console.log(error.message))
@@ -83,7 +80,7 @@ const FeedCards = (props) => {
                             screen: 'ProfileScreen',
                             params: { uuid: props.post.created_by, }
 
-                        })}>{name}</Text>
+                        })}>@{name}</Text>
                         <Text note>category</Text>
                     </Body>
                 </Left>
@@ -124,17 +121,24 @@ const FeedCards = (props) => {
                         userDp: props.userDetails.dp,
                     })
                 }}>
-                    <Text style={{ alignContent: 'space-between' }}>
-                        {props.post.caption} {'  '}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text>
+                            {props.post.caption}
+                        </Text>
+                        <Text>
+                            {dateTimeProcessor(props.post.created_at)}
+                        </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text>
+                            More Comments
+                        </Text>
                         {props.post.commentCount > 1 &&
-                            <Text style={{ fontSize: 12 }}>{props.post.commentCount} Comments</Text>
+                            <Text style={{ fontSize: 12 }}>{props.post.commentCount} Comments
+                                <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
+                            </Text>
                         }
-                        {props.post.commentCount > 1 &&
-                            <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
-                        }
-
-                    </Text>
-                    <Text >More Comments</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
             {
@@ -148,12 +152,12 @@ const FeedCards = (props) => {
                         autoFocus
                         blurOnSubmit
                         returnKeyType='send'
-                        onSubmitEditing={() => 
+                        onSubmitEditing={() =>
                             addComment(props.post.post_id, userComment, props.user.uid)
-                            .then(() => {
-                                setComment('');
-                                setCommentOpen(false);
-                            })
+                                .then(() => {
+                                    setComment('');
+                                    setCommentOpen(false);
+                                })
                         }
                         onBlur={() => setCommentOpen(false)}
                         style={{ color: '#fff' }}
@@ -167,7 +171,7 @@ const FeedCards = (props) => {
                                     setComment('');
                                     setCommentOpen(false);
                                 })
-                            }} />
+                        }} />
                 </View>
             }
 

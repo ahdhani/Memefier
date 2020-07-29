@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native'
+import { View, StyleSheet, ImageBackground, Dimensions, StatusBar } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Root, Container, Button, Form, Label, Item, Input, Header, Content, Text, Left, Toast, Body, Right, Title, Image } from 'native-base'
 import MainScreen from '../MainScreen'
 import LoaderModal from '../LoaderModal'
 import { AppLoading } from "expo";
+import colors from '../../../constants/colors'
 
 import { loginUser } from '../../../redux'
 import { connect } from "react-redux";
@@ -63,8 +64,8 @@ class LoginScreen extends Component {
             await this.props.signInUser(user)
         }
         setTimeout(() => {
-            this.setState({isLoading: false});
-          }, 500);
+            this.setState({ isLoading: false });
+        }, 500);
     }
 
     onSignUpClick = () => {
@@ -80,9 +81,10 @@ class LoginScreen extends Component {
         else
             return (
                 <Container>
+                    <StatusBar barStyle="light-content" backgroundColor={colors.color5} />
                     <LoaderModal loading={this.state.isLoading} />
                     <Content>
-                        <ImageBackground resizeMode='cover' source={require('../../../assets/bgImage.png')} style={{height: screenHeight}}>
+                        <ImageBackground resizeMode='cover' source={require('../../../assets/bgImage.png')} style={{ height: screenHeight }}>
                             <Animatable.Image
                                 animation="bounceIn"
                                 // duration= {2000}
@@ -96,27 +98,27 @@ class LoginScreen extends Component {
                                 <Form>
                                     <Item stackedLabel error={this.state.emailError}>
                                         <Label>Username</Label>
-                                        <Input style={{color: '#fff'}} keyboardType='email-address' error="#f99"
+                                        <Input style={{ color: '#fff' }} keyboardType='email-address' error="#f99"
                                             onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
                                     <Item stackedLabel error={this.state.passwordError}>
                                         <Label>Password</Label>
-                                        <Input secureTextEntry={true} style={{color: '#fff'}} onChangeText={(text) => this.setState({ password: text })}
+                                        <Input secureTextEntry={true} style={{ color: '#fff' }} onChangeText={(text) => this.setState({ password: text })}
                                             error="#f99" />
                                     </Item>
                                 </Form>
                                 <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 10 }}>
-                                    <Left> 
-                                        <Button style={{ margin: 10, zIndex: 5,elevation: 5 }}
+                                    <Left>
+                                        <Button style={{ margin: 10, zIndex: 5, elevation: 5 }}
                                             info rounded block onPress={() => this.onSignUpClick()}>
                                             <Text>Sign Up</Text>
                                         </Button>
                                     </Left>
                                     <Right>
-                                        <Button  style={{ margin: 10,zIndex: 5,elevation: 5 }}
-                                         info rounded block onPress={() => this.onSignInClick()}>
-                                        <Text>Sign In</Text>
-                                    </Button>
+                                        <Button style={{ margin: 10, zIndex: 5, elevation: 5 }}
+                                            info rounded block onPress={() => this.onSignInClick()}>
+                                            <Text>Sign In</Text>
+                                        </Button>
                                     </Right>
                                 </View>
                             </Animatable.View>

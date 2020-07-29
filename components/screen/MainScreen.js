@@ -1,36 +1,44 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import React, { Component } from 'react'
+import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import {View} from 'react-native';
+import colors from '../../constants/colors'
 
 import FeedStack from './FeedScreen/FeedStack'
 import TrendingStack from './TrendingScreen/TrendingStack'
-// import CommunityScreen from './CommunityScreen/CommunityScreen'
 import CommunityStack from './CommunityScreen/CommunityStack'
 import ProfileStack from './ProfileScreen/ProfileStack'
-import ChallengeStack from './CommunityScreen/ChallengeScreen/ChallengeStack'
-// import ChallengeScreen from './CommunityScreen/ChallengeScreen/ChallengeScreen';
-// import CommentScreen from './FeedScreen/CommentScreen'
+import ChallengeStack from './ChallengeScreen/ChallengeStack'
 
 
 const Tab = createMaterialTopTabNavigator();
 
 function MainScreen() {
     return (
-        
-        
+
+
         <Tab.Navigator
             initialRouteName="Feed"
             tabBarPosition='bottom'
             backBehavior='initialRoute'
 
             tabBarOptions={{
-                activeTintColor: '#9db4c0',  // Color of tab when pressed
-                inactiveTintColor: '#5c6b73', // Color of tab when not pressed
+                activeTintColor: colors.color1,  // Color of tab when pressed
+                inactiveTintColor: colors.color3, // Color of tab when not pressed
+                indicatorStyle: {
+                    borderBottomColor: colors.color3,
+                    borderBottomWidth: 2,
+                },
                 showIcon: true,
-                labelStyle: { fontSize: 10 },
                 showLabel: (Platform.OS !== 'android'),
-                // allowFontScaling: true,
+                labelStyle: {
+                    fontSize: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                },
+                tabStyle: {
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                },
                 style: {
                     justifyContent: 'center',
                     backgroundColor: '#253237',
@@ -39,11 +47,11 @@ function MainScreen() {
             }}
 
         >
-            
-            
+
             <Tab.Screen
                 name="ChallengeStack"
                 component={ChallengeStack}
+
                 options={{
                     tabBarLabel: 'Challenge',
                     tabBarIcon: ({ color, focused }) => (
@@ -51,8 +59,7 @@ function MainScreen() {
                     ),
                 }}
             />
-                
-            
+
             <Tab.Screen
                 name="CommunityStack"
                 component={CommunityStack}
@@ -64,6 +71,7 @@ function MainScreen() {
                     ),
                 }}
             />
+
             <Tab.Screen
                 name="Feed"
                 component={FeedStack}
@@ -74,6 +82,7 @@ function MainScreen() {
                     ),
                 }}
             />
+
             <Tab.Screen
                 name="Trending"
                 component={TrendingStack}
@@ -84,6 +93,7 @@ function MainScreen() {
                     ),
                 }}
             />
+
             <Tab.Screen
                 name="Profile"
                 component={ProfileStack}
@@ -94,8 +104,9 @@ function MainScreen() {
                     ),
                 }}
             />
+
         </Tab.Navigator>
-        
+
     );
 }
 

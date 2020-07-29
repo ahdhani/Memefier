@@ -18,8 +18,7 @@ class AdminScreen extends Component {
                         activeTabStyle={{ backgroundColor: '#142116' }}
                         activeTextStyle={{ color: colors.color1,fontSize: 20 }}
                         textStyle={{ color: colors.color3,fontSize: 18 }}>
-                        <MemberReview group_id={this.props.route.params.group_id}
-                        userId={this.props.user.uid} />
+                        <MemberReview group_id={this.props.route.params.group_id}/>
                     </Tab>
                     <Tab heading="Post" tabStyle={{ backgroundColor: colors.color5 }}
                         activeTabStyle={{ backgroundColor: '#142116' }}
