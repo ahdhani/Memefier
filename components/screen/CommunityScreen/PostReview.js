@@ -20,16 +20,13 @@ const PostReview = props => {
 
     }, []);
 
-    // spliceCard = () => {
-
-    // }
-
     return (
         <FlatList
             data={post}
             style={{ padding: 15 }}
             renderItem={({ item,index }) => (
-                <PostReviewCard post={item} spliceCard={() => setPost(post.filter((obj , ind) => index !== ind))} />
+                <PostReviewCard post={item} 
+                spliceCard={() => setPost(post.filter((obj , ind) => index !== ind))} />
             )}
             enableEmptySections={true}
             keyExtractor={(item, index) => index.toString()

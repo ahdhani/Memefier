@@ -5,41 +5,32 @@ import { useNavigation } from '@react-navigation/native';
 import { viewRequests, acceptRequest, deleteRequest } from '../../functions/community'
 import MemberReviewCard from './MemberReviewCard'
 
-class MemberReview extends Component {
+const MemberReview = props => {
 
-    state = {
-        members: null,
-    }
-
-    componentDidMount = () => {
-        viewRequests(this.props.group_id)
+    const navigation = useNavigation();
+    const [members, setMembers] = useState()
+    useEffect(() => {
+        viewRequests(props.group_id)
             .then(res => {
-                this.setState({members: res})
+                setMembers(res)
             });
-    }
+    }, []);
 
-    cardHandled = (id) => {
-        this.setState({
-            members: this.state.members.filter((item , index) => index !== id)
-           })
-    }
-    render() {
+    return (
 
-        return (
-
-                <FlatList
-                    style={{ padding: 15 }}
-                    data={this.state.members}
-                    extraData={this.state}
-                    renderItem={({ item, index }) => (
-                        <MemberReviewCard group_id={this.props.group_id} user_uid={item.user_uid}
-                            cardHandled={() => this.cardHandled(index)} />
-                    )}
-                    enableEmptySections={true}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-        )
-    }
+        <View>
+            <FlatList
+                style={{ padding: 15 }}
+                data={members}
+                renderItem={({ item, index }) => (
+                    <MemberReviewCard group_id={props.group_id} user_uid={item.user_uid}
+                        cardHandled={() => setMembers(members.filter((obj , ind) => index !== ind))} />
+                )}
+                enableEmptySections={true}
+                keyExtractor={(item, index) => index.toString()}
+            />
+        </View>
+    )
 }
 
 export default MemberReview;
