@@ -9,7 +9,7 @@
   <img src="assets/logo1.png" width=90 />
   <h1 align="center">Danko</h1>
   <p align="center">
-      Short description of the project
+      A community for memers
       <br />
       <a href="https://github.com/ahdhani/Memefier/wiki"><strong>Explore the docs »</strong></a>
       <br />
