@@ -4,6 +4,7 @@ import { View, Text, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { fetchUser } from '../../functions/user'
 import { deletePost, acceptPost } from '../../functions/community'
+import colors from '../../../constants/colors'
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -53,7 +54,7 @@ const PostReviewCard = props => {
             <CardItem style={{ justifyContent: 'space-around', }}>
                 <Button style={{
                     padding: 8, paddingHorizontal: 15,
-                    backgroundColor: 'red', borderRadius: 5,
+                    backgroundColor: colors.red, borderRadius: 5,
                     height: 35,
                 }}
                 onPress={() => deletePost(props.post.post_id).then(props.spliceCard()) }
@@ -62,7 +63,7 @@ const PostReviewCard = props => {
                 </Button>
                 <Button style={{
                     padding: 8, paddingHorizontal: 15,
-                    backgroundColor: 'green', borderRadius: 5,
+                    backgroundColor: colors.green, borderRadius: 5,
                     height: 35,
                 }}
                 onPress={() => acceptPost(props.post.post_id).then(props.spliceCard()) }

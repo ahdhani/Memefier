@@ -4,6 +4,7 @@ import { View, Text,TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { fetchUser } from '../../functions/user'
 import { deleteRequest, acceptRequest } from '../../functions/community'
+import colors from '../../../constants/colors'
 
 const MemberReviewCard = props => {
 
@@ -22,7 +23,7 @@ const MemberReviewCard = props => {
     return (
 
         <Card>
-            <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }}
+            <TouchableOpacity style={{ position: 'absolute', top: 7, right: 7 }}
                 onPress={() => deleteRequest(props.group_id, props.user_uid)
                     .then(props.cardHandled())
                 }>
@@ -46,7 +47,7 @@ const MemberReviewCard = props => {
                 </View>
                 <Button style={{
                     padding: 8, right: 20,
-                    backgroundColor: 'green', borderRadius: 5,
+                    backgroundColor: colors.green, borderRadius: 5,
                     height: 35,
                 }}
                     onPress={() => acceptRequest(props.group_id, props.user_uid)

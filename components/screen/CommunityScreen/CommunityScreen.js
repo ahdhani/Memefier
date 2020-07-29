@@ -11,15 +11,12 @@ class CommunityScreen extends Component {
 
     state = {
         groups: [],
-        // groupUid: ['NMrpYCug4AJnItPAMVYP']
     }
 
     componentDidMount = async () => {
         fetchGroups(this.props.user.uid)
             .then(groups => {
                 groups.forEach(group => {
-                // console.log('GroupArray: ',group)
-
                     this.setState({ groups: [...this.state.groups, group.data().group_id] })
                 })
             });
@@ -46,9 +43,6 @@ class CommunityScreen extends Component {
                             </Card>
                         </CardItem>
                     </TouchableOpacity>
-                    {/* <Button onPress={() => dateTimeProcessor()}>
-                        <Text>Test Time processor</Text>
-                    </Button> */}
                     <FlatList
                         data={this.state.groups}
                         keyExtractor={(item, index) => index.toString()}

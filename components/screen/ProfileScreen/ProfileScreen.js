@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Dimensions, ImageBackground,YellowBox } from 'react-native'
-import { Container, Button, Card, Text, Item, ListItem, Input, Header, Content, Left, Picker, Icon, Body, Right, H3, H2, DatePicker, Title, Thumbnail, H1, CardItem } from 'native-base'
+import { View, StyleSheet, ScrollView, TouchableOpacity, FlatList, Dimensions, ImageBackground } from 'react-native'
+import { Container, Button, Card, Text, Item,Header, Left, Icon, Body, Right,CardItem } from 'native-base'
 import colors from '../../../constants/colors'
 // imports for state management
 import { connect } from 'react-redux';
-import { logoutUser, unfollow_user, follow_user, fetchPosts } from '../../../redux';
+import { logoutUser, unfollow_user, follow_user, } from '../../../redux';
 
 import { db } from '../../../config';
 import { fetchUserDetails } from '../../functions/user'
-
-YellowBox.ignoreWarnings([
-    'VirtualizedLists should never be nested',
-    // 'H1 should have only string or number', // TODO: Remove when fixed
-  ])
 
 const cardWidth = (Dimensions.get('window').width / 2) - 4;
 const cardHeight = cardWidth * 1.25;
@@ -55,10 +50,10 @@ class ProfileScreen extends Component {
         }
         else {
             this.setState({ userDetails: this.props.userDetails },
-            () => this.fetchUserPosts(this.props.user.uid)
+                () => this.fetchUserPosts(this.props.user.uid)
                 // async () => {
-                    // await this.props.fetchPosts()
-                    // this.setState({ userPosts: this.props.userPosts })
+                // await this.props.fetchPosts()
+                // this.setState({ userPosts: this.props.userPosts })
                 // }
             )
         }
@@ -83,20 +78,20 @@ class ProfileScreen extends Component {
             <Container>
                 <ScrollView>
 
-                <Header style={{ backgroundColor: colors.color5 }}>
-                    <Left />
-                    <Body>
-                        {/* <Title>Profile</Title> */}
-                    </Body>
-                    <Right>
-                        {!uuid &&
-                            <Button transparent onPress={() => this.signOutClicked()}>
-                                <Text style={{ color: colors.color1 }} >SignOut</Text>
-                            </Button>
-                        }
+                    <Header style={{ backgroundColor: colors.color5 }}>
+                        <Left />
+                        <Body>
+                            {/* <Title>Profile</Title> */}
+                        </Body>
+                        <Right>
+                            {!uuid &&
+                                <Button transparent onPress={() => this.signOutClicked()}>
+                                    <Text style={{ color: colors.color1 }} >SignOut</Text>
+                                </Button>
+                            }
 
-                    </Right>
-                </Header>
+                        </Right>
+                    </Header>
 
                     <View style={{ backgroundColor: colors.color5, height: 180 }} />
                     <View style={{
@@ -138,9 +133,9 @@ class ProfileScreen extends Component {
                             </ImageBackground>
 
                             <View style={{ alignItems: 'center' }}>
-                                <H1 style={{ color: colors.color1 }}>
+                                <Text style={{ color: colors.color1, fontSize: 25 }}>
                                     @{this.state.userDetails.userId}
-                                </H1>
+                                </Text>
                                 <Text note>Rank 0</Text>
                             </View>
                         </View>
@@ -149,11 +144,11 @@ class ProfileScreen extends Component {
                             alignItems: 'flex-end', marginTop: 20,
                         }}>
                             <View style={{ paddingLeft: 40 }}>
-                                <Text style={{ color: colors.color3,fontSize: 26 }}>
+                                <Text style={{ color: colors.color3, fontSize: 26 }}>
                                     {this.state.userDetails.firstname} {this.state.userDetails.lastname}
                                     {uuid && uuid != this.props.user.uid &&
-                                        <Text style={{ color: colors.color3,fontSize: 16 }} 
-                                        onPress={() => this.toggleFollow(uuid)}>
+                                        <Text style={{ color: colors.color3, fontSize: 16 }}
+                                            onPress={() => this.toggleFollow(uuid)}>
                                             {(this.props.following.includes(uuid)) ? '  Unfollow ' : '  Follow'}
                                         </Text>
                                     }
@@ -161,7 +156,9 @@ class ProfileScreen extends Component {
                                 <Text note>{this.state.userDetails.bio}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', marginRight: 40, }}>
-                                <H1 style={{ alignSelf: 'center', color: colors.color3 }}>{this.state.userDetails.followers}</H1>
+                                <Text style={{ alignSelf: 'center', color: colors.color3, fontSize: 25 }}>
+                                    {this.state.userDetails.followers}
+                                </Text>
                                 <Text note>Followers</Text>
                             </View>
                         </View>
@@ -209,7 +206,7 @@ class ProfileScreen extends Component {
                                                             textShadowRadius: 5, fontWeight: '600', fontSize: 12,
                                                         }}>
                                                             <Icon name='thumbs-up' style={{ color: '#fff', fontSize: 20 }} />
-                                                              {item.likeCount}</Text>
+                                                            {item.likeCount}</Text>
                                                     </Right>
                                                 </View>
                                             </ImageBackground>

@@ -33,7 +33,6 @@ export default class TrendingScreen extends Component {
                 await snapshot.docs.forEach(doc => {
                     arr = [{ ...doc.data(), post_id: doc.id }, ...arr]
                 })
-                console.log('Resultttt : ',arr)
                 await this.setState({
                     trendingPosts: arr
                 })
