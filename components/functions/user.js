@@ -43,3 +43,12 @@ export const fetchUserId = async (user_uid) => {
     return userDetails
 
 }
+
+export const fetchDetails = (uuid) => {
+    return db.collection("userDetails")
+        .doc(uuid)
+        .get()
+        .then(user => {
+            return user.data()
+        }).catch(error => console.log(error.message))
+}

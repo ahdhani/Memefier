@@ -61,3 +61,13 @@ export const changeDisplayPicture = async (URI = "file:///data/user/0/host.exp.e
         console.log(error.message);
     }
 }
+
+export const notificationTextProcessor = (type) => {
+    
+    switch(type) {
+        case 1 :
+            return " commented on your post"
+        default :
+            return "Invalid case"
+    }
+}
