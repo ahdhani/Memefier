@@ -35,8 +35,8 @@ const Reply = (props) => {
                 defaultSource={require('../../../../assets/dp/default.png')}
                 source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} />
             <View style={{ margin: 5, flexGrow: 1 }}>
-                <Text style={{ color: '#fff' }}>@{user.userId}</Text>
-                <Text style={{ color: '#fff' }}>{props.reply.content}</Text>
+                <Text>@{user.userId}</Text>
+                <Text>{props.reply.content}</Text>
             </View>
         </View>
     )

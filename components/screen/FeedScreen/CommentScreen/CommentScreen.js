@@ -35,15 +35,15 @@ export default class CommentScreen extends Component {
         const { userDp } = this.props.route.params;
 
         return (
-            <Container style={{ backgroundColor: '#253237' }}>
-                <Header style={{ backgroundColor: '#252337' }}>
+            <Container>
+                <Header style={{ backgroundColor: colors.color5 }}>
                     <Left >
-                        <Icon style={{ marginLeft: 10, color: '#fff' }} name='ios-arrow-round-back'
+                        <Icon style={{ marginLeft: 10, color: colors.color3 }} name='ios-arrow-round-back'
                             onPress={() => this.props.navigation.goBack()}
                         />
                     </Left>
                     <Body>
-                        <Title>Comments</Title>
+                        <Title style={{color: colors.color3}}>Comments</Title>
                     </Body>
                     <Right>
                     {   this.state.loading &&
@@ -53,7 +53,6 @@ export default class CommentScreen extends Component {
 
                 </Header>
                 <View style={{
-                    backgroundColor: '#253237',
                     padding: 10,
                     flex: 1
                 }}>
@@ -65,8 +64,8 @@ export default class CommentScreen extends Component {
                             defaultSource={require('../../../../assets/dp/default.png')}
                             style={{ marginHorizontal: 5 }} small />
                         <View style={{ flex: 1 }}>
-                            <Text style={{ color: '#fff', marginLeft: 6 }}>@{userId}</Text>
-                            <Input style={{ color: '#fff', }}
+                            <Text style={{ marginLeft: 6 }}>@{userId}</Text>
+                            <Input
                                 placeholder='Add your comments...'
                                 onChangeText={(text) => this.setState({ commentText: text })}
                                 value={this.state.commentText} />
