@@ -51,8 +51,6 @@ class FeedScreen extends Component {
                     arr = [...arr , { ...doc.data(), post_id: doc.id } ]
                 })
 
-                console.log("First batch == " , this.state.posts)
-
                 this.setState({
                     posts: [...this.state.posts, ...arr] ,
                     snapshots_arr : [...this.state.snapshots_arr , ...snapshots]

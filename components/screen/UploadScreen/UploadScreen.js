@@ -216,7 +216,7 @@ class UploadScreen extends Component {
                 const blob = await response.blob();
 
                 const uploadTask = storage.ref().child("memes/" + imageName).put(blob);
-                console.log("In try")
+                // console.log("In try")
                 uploadTask.on('state_changed',
                     (snapshot) => {
                         // Progress function
@@ -247,6 +247,7 @@ class UploadScreen extends Component {
                                         progress: null,
                                         postOnProgress: false,
                                     })
+                                    
                                 })
                                 .catch(err => {
                                     Alert.alert(
