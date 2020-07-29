@@ -167,6 +167,7 @@ class EditProfileScreen extends Component {
                 gender: this.state.gender,
                 dob: this.state.dob,
             })
+            this.props.route.params.onGoBack()
             this.props.navigation.goBack();
 
         }

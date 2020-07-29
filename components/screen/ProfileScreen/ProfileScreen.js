@@ -120,7 +120,10 @@ class ProfileScreen extends Component {
                                         height: 40, width: 40,
                                         alignItems: 'center', justifyContent: 'center',
                                         zIndex: 10, elevation: 10,
-                                    }} onPress={() => this.props.navigation.navigate('EditProfileScreen')}>
+                                    }} onPress={() => this.props.navigation.navigate('EditProfileScreen',
+                                    {
+                                        onGoBack: () => this.setState({ userDetails: this.props.userDetails }),
+                                    })}>
                                         <Icon name='create' style={{ fontSize: 20, textAlign: 'center' }} />
                                     </TouchableOpacity>
                                 }
