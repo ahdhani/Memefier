@@ -78,14 +78,22 @@ const Comment = (props) => {
                                 <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
                                 <Input style={{ color: '#fff', width: 200 }}
                                     placeholder='Reply...'
-                                    onChange={event => setReplyText(event.target.value)}
+                                    // onChange={event => {
+                                    //     console.log("Set Reply Text" , event.target.value)
+                                    //     setReplyText(event.target.value)
+                                    // }}
+                                    onChangeText={(text) => {
+                                        // console.log("SET REPLY TEXT ," , text)
+                                        setReplyText(text)
+                                    }}
                                     value={replyText} 
                                     // onSubmitEditing={(text) => setReplyText(text)}
                                 />
                             </View>
 
                             <Icon name='send' style={{ margin: 15 }} onPress={() => {
-                                console.log('Reply  : ',replyText)
+                                // console.log('Reply  : ',replyText)
+                                setReplyText('')
                                 addReply(props.comment.comment_id, "replyText", props.uuid)
                                 setReply(
                                     [...reply, { content: replyText,comment_id: props.comment.comment_id, created_by: props.uuid }]
