@@ -115,7 +115,11 @@ FIREBASE_MEASUREMENT_ID =
 
 ## Demo of the Application
 
+### Authentication
 
+<img src="assets/readme/screen_01.gif" width=200 />
+
+### Algolia
 
 ## Contribute
 
