@@ -36,13 +36,7 @@ class ProfileScreen extends Component {
     }
 
     componentDidMount = async () => {
-        // this.props.navigation.addListener(
-        //     'didFocus',
-        //     payload => {
-        //       this.forceUpdate();
-        //     }
-        //   );
-        console.log(this.props.userPosts)
+        
         if (this.props.route.params.uuid != null) {
             const user = await fetchUserDetails(this.props.route.params.uuid)
             this.setState({ userDetails: user },
@@ -76,7 +70,7 @@ class ProfileScreen extends Component {
 
         return (
             <Container>
-                <ScrollView>
+                <ScrollView onScrollEndDrag={() => console.log('EndReach...')}>
 
                     <Header style={{ backgroundColor: colors.color5 }}>
                         <Left />

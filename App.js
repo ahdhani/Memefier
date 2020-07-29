@@ -24,6 +24,13 @@ console.warn = message => {
   }
 };
 
+const _console2 = _.clone(console);
+console.warn = message => {
+  if (message.indexOf('VirtualizedLists should never be nested') <= -1) {
+    _console2.warn(message);
+  }
+};
+
 RootStack = () => {
 
   const Stack = createStackNavigator();
