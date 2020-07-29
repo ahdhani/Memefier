@@ -29,7 +29,7 @@ const PostReview = props => {
             data={post}
             style={{ padding: 15 }}
             renderItem={({ item,index }) => (
-                <PostReviewCard post={item} spliceCard={() => setPost(post.splice(index))} />
+                <PostReviewCard post={item} spliceCard={() => setPost(post.filter((obj , ind) => index !== ind))} />
             )}
             enableEmptySections={true}
             keyExtractor={(item, index) => index.toString()
