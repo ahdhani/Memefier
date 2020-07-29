@@ -21,11 +21,7 @@ class ProfileScreen extends Component {
     }
 
     componentDidMount = async () => {
-<<<<<<< HEAD
         
-=======
-        // console.log(this.props.userPosts)
->>>>>>> ...
         if (this.props.route.params.uuid != null) {
             // const user = await fetchUserDetails(this.props.route.params.uuid)
             fetchDetails(this.props.route.params.uuid)
