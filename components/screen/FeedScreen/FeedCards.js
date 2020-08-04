@@ -145,11 +145,11 @@ const FeedCards = (props) => {
                         <Text>
                             More Comments
                         </Text>
-                        {/* {props.post.commentCount > 1 && */}
-                        <Text style={{ color: colors.textNote, fontSize: 12 }}>{props.post.commentCount} Comments
+                        {props.post.commentCount > 1 &&
+                            <Text style={{ color: colors.textNote, fontSize: 12 }}>{props.post.commentCount} Comments
                                 <Icon type='AntDesign' name='down' style={{ fontSize: 14 }} />
-                        </Text>
-                        {/* } */}
+                            </Text>
+                        }
                     </View>
                 </TouchableOpacity>
             </View>
@@ -171,7 +171,7 @@ const FeedCards = (props) => {
                                     setCommentOpen(false);
                                 })
                         }
-                        
+
                         onBlur={() => setCommentOpen(false)}
                         style={{ color: '#fff' }}
                         placeholder='Comment...'

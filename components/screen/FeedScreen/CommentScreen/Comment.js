@@ -50,8 +50,8 @@ const Comment = (props) => {
                 <Thumbnail small resizeMode='cover' defaultSource={require('../../../../assets/dp/default.png')}
                     source={{ uri: user.dp }} style={{ margin: 5, marginTop: 10 }} />
                 <View style={{ margin: 5 }}>
-                    <Text style={{ color: '#fff' }}>@{user.userId}</Text>
-                    <Text style={{ color: '#fff' }}>{props.comment.content}</Text>
+                    <Text>@{user.userId}</Text>
+                    <Text>{props.comment.content}</Text>
                 </View>
                 <Text style={{ position: 'absolute', right: 20, margin: 10, color: colors.color3 }}
                     onPress={() => props.setReplyIndex(props.index)}
@@ -68,15 +68,15 @@ const Comment = (props) => {
                     style={{ left: 50, width: '100%' }}
                     ListFooterComponent={() => (
                         <View style={{
-                            flexDirection: 'row', backgroundColor: '#253237',
+                            flexDirection: 'row',
                             alignItems: 'center', width: '100%'
                         }}>
                             <Thumbnail resizeMode='cover' source={{ uri: props.userDp }}
                                 defaultSource={require('../../../../assets/dp/default.png')}
                                 style={{ marginHorizontal: 5 }} small />
                             <View>
-                                <Text style={{ color: '#fff', marginLeft: 6 }}>@{props.userId}</Text>
-                                <Input style={{ color: '#fff', width: 200 }}
+                                <Text style={{ marginLeft: 6 }}>@{props.userId}</Text>
+                                <Input style={{  width: 200 }}
                                     placeholder='Reply...'
                                     // onChange={event => {
                                     //     console.log("Set Reply Text" , event.target.value)
