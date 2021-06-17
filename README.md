@@ -1,15 +1,15 @@
 [![Generic badge](https://img.shields.io/badge/version-1.0.0-<COLOR>.svg)](https://firebase.google.com/docs)
 [![Generic badge](https://img.shields.io/badge/Firebase-7.15.0-<COLOR>.svg)](https://firebase.google.com/docs)
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
-[![Generic badge](https://img.shields.io/badge/build-pending-RED.svg)](https://firebase.google.com/docs)
+[![Generic badge](https://img.shields.io/badge/build-alpha-BLUE.svg)](https://firebase.google.com/docs)
 [![Generic badge](https://img.shields.io/badge/License-MIT-BLUE.svg)](LICENSE)
 [![Generic badge](https://img.shields.io/badge/platform-Android-BLUE.svg)]()
 
 <p align="center">
-  
+  <img src="assets/logo1.png" width=90 />
   <h1 align="center">Danko</h1>
   <p align="center">
-      Short description of the project
+      A community for memers
       <br />
       <a href="https://github.com/ahdhani/Memefier/wiki"><strong>Explore the docs »</strong></a>
       <br />
@@ -115,7 +115,11 @@ FIREBASE_MEASUREMENT_ID =
 
 ## Demo of the Application
 
+### Authentication
 
+<img src="assets/readme/screen_01.gif" width=200 />
+
+### Algolia
 
 ## Contribute
 
