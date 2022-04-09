@@ -21,7 +21,7 @@
     "expo-image-picker": "~8.1.0",
     "firebase": "7.9.0",
     "javascript-time-ago": "^2.0.13",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "native-base": "^2.13.12",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
